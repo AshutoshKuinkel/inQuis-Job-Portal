@@ -3,7 +3,6 @@ import CustomError from '../middlewares/error-handler.middleware';
 import { Job } from '../models/job.model';
 import { getPagination } from '../utils/pagination.utils';
 
-//next step: add pagination to jobs list.
 
 export const createJob = async(req:Request,res:Response,next:NextFunction)=>{
   try{
@@ -114,11 +113,11 @@ export const updateJob = async(req:Request,res:Response,next:NextFunction)=>{
       throw new CustomError(`Unauthorized. Access Denied.`,403)
     }
 
-    const {title,description,location,salary,jobType} = req.body
-
-    if (!title && !description && !location && !salary && !jobType) {
+    if (!req.body || Object.keys(req.body).length === 0) {
       throw new CustomError('Nothing to update.', 400);
     }
+
+    const {title,description,location,salary,jobType} = req.body
 
     const updatedJob = await Job.findByIdAndUpdate(
       jobId,
@@ -163,4 +162,25 @@ export const deleteJob = async(req:Request,res:Response,next:NextFunction)=>{
 }
 
 
+//Public Job Listing API.
+
+//{This allows users to view jobs without being logged in. So no auth func call needed.}
+//{This part will be featured on the home page aswell.}
+//{Even though it will be featured on the home page, make sure we have a site/jobs route.}
+//{Maybe display like 10 jobs titled Our Employers are searching, check if you have what it takes to land some new roles on home page,
+//and then we have a continue searching button that guides users to /jobs route.}
+
+//now just add the pagination, filtering, sorting, search...
+export const listJobs = async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const jobs = await Job.find({})
+
+    res.status(200).json({
+      message:`All Jobs Fetched Successfully.`,
+      data:jobs
+    })
+  }catch(err){
+    next(err)
+  }
+}
 
