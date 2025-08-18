@@ -33,6 +33,11 @@ const jobSchema = new mongoose.Schema({
   }
 },{timestamps:true})
 
+// Create indexes
+jobSchema.index({ location: 1 });    // ascending index on location
+jobSchema.index({ createdAt: -1 });  // descending index on createdAt for latest first sorting
+jobSchema.index({ salary: -1 });     // descending index on salary for highest salary sorting
+
 export const Job = mongoose.model('Job',jobSchema)
 
 //just build the CRUD for this API now.

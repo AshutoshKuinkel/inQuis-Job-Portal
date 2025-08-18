@@ -169,15 +169,88 @@ export const deleteJob = async(req:Request,res:Response,next:NextFunction)=>{
 //{Even though it will be featured on the home page, make sure we have a site/jobs route.}
 //{Maybe display like 10 jobs titled Our Employers are searching, check if you have what it takes to land some new roles on home page,
 //and then we have a continue searching button that guides users to /jobs route.}
+//maybe change this to text later instead of $regex if needed.
 
-//now just add the pagination, filtering, sorting, search...
 export const listJobs = async(req:Request,res:Response,next:NextFunction)=>{
   try{
-    const jobs = await Job.find({})
+    const {currentPage,perPage, //this is for the pagination stuff
+      query,location, //This is for the filtering
+      sortBy //This is for sorting
+    } = req.query
+    
+    let filter:Record<string,any> = {}
+
+    const page = Number(currentPage) || 1
+    const limit = Number(perPage) || 15
+    const skip = (page-1) * limit
+
+    if(query){
+      filter.$or = [
+        {
+          name:{
+            $regex:query,
+            $options:'i'
+          }
+        },
+
+        {
+          description:{
+            $regex:query,
+            $options:'i'
+          }
+        }
+      ]
+    }
+
+    if(location){
+      filter.location = {
+        $regex:location,
+        $options:'i'
+      }
+    }
+
+    let sortOption = {};
+
+  switch (sortBy) {
+    case 'latest':
+      sortOption = { createdAt: -1 };
+      break;
+    case 'oldest':
+      sortOption = { createdAt: 1 };
+      break;
+    case 'highestSalary':
+      sortOption = { salary: -1 };
+      break;
+    case 'lowestSalary':
+      sortOption = { salary: 1 };
+      break;
+  }
+
+  if(!sortOption){
+    sortOption = {createdAt: -1}
+  }
+
+    let jobs = await Job.find(filter)
+    .sort(sortOption)
+    .limit(limit)
+    .skip(skip)
+    
+    let total = await Job.countDocuments(filter)
+
+    if(jobs.length === 0){
+      jobs = await Job.find({})
+      .sort(sortOption)
+      .limit(limit)
+      .skip(skip)
+
+       total = await Job.countDocuments({})
+    }
+
+    const pagination = getPagination(total,page,limit)
 
     res.status(200).json({
       message:`All Jobs Fetched Successfully.`,
-      data:jobs
+      data:jobs,pagination
     })
   }catch(err){
     next(err)
