@@ -3,6 +3,6 @@ import { listJobs } from "../controllers/job.controller";
 
 const router = express.Router()
 
-router.get('',listJobs)
+router.get('/jobs',listJobs)
 
 export default router

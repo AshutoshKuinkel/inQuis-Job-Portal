@@ -37,9 +37,9 @@ export const updateSeekerProfile = async(req:Request,res:Response,next:NextFunct
       throw new CustomError(`Unauthorised. Access Denied.`,400)
     }
 
-    const {email,password,first_name,last_name,seekerResume} = req.body
+    const {email,password,first_name,last_name} = req.body
     //The { [key: string]: any } allows for optional extra fields. E.g password etc.
-    const updatedData: { [key: string]: any } = {email,first_name,last_name,seekerResume}
+    const updatedData: { [key: string]: any } = {email,first_name,last_name}
 
     if (email){
       if(3 > email.length || email.length > 50){
@@ -82,9 +82,9 @@ export const updateEmployerProfile = async(req:Request,res:Response,next:NextFun
       throw new CustomError(`Unauthorised. Access Denied.`,400)
     }
 
-    const {email,password,first_name,last_name,companyName} = req.body
+    const {email,password,first_name,last_name} = req.body
     //The { [key: string]: any } allows for optional extra fields. E.g password etc.
-    const updatedData: { [key: string]: any } = {email,first_name,last_name,companyName}
+    const updatedData: { [key: string]: any } = {email,first_name,last_name}
 
     if (email){
       if(3 > email.length || email.length > 50){

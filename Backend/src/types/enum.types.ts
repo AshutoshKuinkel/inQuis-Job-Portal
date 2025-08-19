@@ -10,5 +10,11 @@ export enum job_type{
   CASUAL = 'Casual'
 }
 
+export enum applicationStatus{
+  PENDING = 'PENDING',
+  ACCEPTED = 'ACCEPTED',
+  REJECTED = 'REJECTED'
+}
+
 export const seeker = [Role.SEEKER]
 export const employer = [Role.EMPLOYER]

@@ -30,14 +30,6 @@ const userSchema = new mongoose.Schema({
     required:true,
   },
 
-  seekerResume:{
-    type:String,
-  },
-
-  companyName:{
-    type:String
-  },
-
 },{timestamps:true})
 
 export const User = mongoose.model('User',userSchema)

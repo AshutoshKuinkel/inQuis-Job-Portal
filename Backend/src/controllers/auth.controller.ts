@@ -32,9 +32,6 @@ export const registerUser = async(req:Request,res:Response,next:NextFunction)=>{
       throw new CustomError(`Last Name is required.`,400)
     }
 
-    if (role === Role.EMPLOYER && !companyName) {
-      throw new CustomError("Company name is required for employers.", 400);
-    }
 
     const hashedPassword = await hashPassword(password)
     const user = await User.create({
@@ -43,8 +40,6 @@ export const registerUser = async(req:Request,res:Response,next:NextFunction)=>{
       first_name,
       last_name,
       role: role === Role.EMPLOYER ? Role.EMPLOYER : undefined,
-      seekerResume: role === Role.SEEKER ? seekerResume || null:null,
-      companyName: role === Role.EMPLOYER ? companyName : null
     })
     await user.save()
 
