@@ -1,14 +1,13 @@
 
-import { Request,Response,NextFunction} from "express";
+import { Request,Response,NextFunction, application} from "express";
 import { Application } from "../models/application.model";
 import CustomError from "../middlewares/error-handler.middleware";
 import { Job } from "../models/job.model";
 import { getPagination } from "../utils/pagination.utils";
-import { uploadFile } from "../utils/cloudinary-service.utils";
+import { deleteFiles, uploadFile } from "../utils/cloudinary-service.utils";
 
 const folder_name = '/documents'
 
-//Next step: implement file handling to allow users to upload their resume & cv file,
 //Also implement node mailer so when user applies to a job they get an email,
 //and when employer changes status, the applicant also gets notified.
 export const apply = async(req:Request,res:Response,next:NextFunction)=>{
@@ -117,22 +116,32 @@ export const update = async(req:Request,res:Response,next:NextFunction)=>{
       throw new CustomError(`Job not found`,404)
     }
 
-    const {contactEmail,resume,coverLetter} = req.body
+    const {contactEmail,deletedFile} = req.body
+
+    const { resume, coverLetter } = req.files as { [fieldname: string]: Express.Multer.File[] };
+
+    let deletedFiles: string[] = [];
+    if (deletedFile) {
+      try{
+        deletedFiles = JSON.parse(deletedFile);
+      }catch{
+        throw new CustomError("Invalid format for deletedFile. Expected JSON array.", 400);
+      }
+    }
+
 
     const fetchApplication = await Application.findOne({
       job: jobId,
       applicant: req.user._id
     }) 
 
-    let newApplication;
+    let application;
 
     if(fetchApplication){
-      newApplication = await Application.findByIdAndUpdate(
+      application = await Application.findByIdAndUpdate(
         fetchApplication._id,
         {
           contactEmail,
-          resume,
-          coverLetter
         },
         {new:true, runValidators:true}
       ).populate('job')
@@ -140,9 +149,55 @@ export const update = async(req:Request,res:Response,next:NextFunction)=>{
       throw new CustomError(`Cannot update info for a job you haven't applied to.`,400)
     }
 
-    res.status(201).json({
+    if(!application){
+      throw new CustomError(`Nothing to update`,400)
+    }
+
+    // Delete files if requested
+    if (deletedFiles.includes("resume") && application.resume?.public_id) {
+      await deleteFiles([application.resume.public_id]);
+    application.resume = undefined;
+    }
+
+    if (deletedFiles.includes("coverLetter") && application.coverLetter?.public_id) {
+      await deleteFiles([application.coverLetter.public_id]);
+      application.coverLetter = undefined;
+    }
+
+    if(resume){
+      const {path, public_id} = await uploadFile(
+        resume[0].path,
+        folder_name
+      );
+      if(application.resume){
+        await deleteFiles([application.resume.public_id])
+      }
+      application.resume = {
+        path,
+        public_id
+      }
+    }
+
+    
+    if(coverLetter){
+      const {path, public_id} = await uploadFile(
+        coverLetter[0].path,
+        folder_name
+      );
+      if(application.coverLetter){
+        await deleteFiles([application.coverLetter.public_id])
+      }
+      application.coverLetter = {
+        path,
+        public_id
+      }
+    }
+
+    await application.save();
+
+    res.status(200).json({
       message: `Application Successfully updated!`,
-      data:newApplication
+      data:application
     })
 
   }catch(err){
@@ -170,6 +225,14 @@ export const withdraw = async(req:Request,res:Response,next:NextFunction)=>{
 
     if(!deletedApplication){
       throw new CustomError(`You haven't applied to this job.`, 404)
+    }
+
+    if(deletedApplication.resume){
+    await deleteFiles([deletedApplication.resume.public_id])
+    }
+
+    if(deletedApplication.coverLetter){
+    await deleteFiles([deletedApplication.coverLetter.public_id])
     }
 
     res.status(200).json({
