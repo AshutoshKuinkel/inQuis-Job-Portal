@@ -16,6 +16,9 @@ app.use(express.json());        // for JSON bodies
 app.use(express.urlencoded({ extended: true })); // for form-urlencoded bodies
 app.use(cookieParser())
 
+//serving uploads as static files:
+app.use('/uploads',express.static('uploads/'))
+
 //importing routes:
 import authRoutes from './routes/auth.routes'
 import userRoutes from './routes/user.routes'

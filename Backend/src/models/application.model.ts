@@ -14,13 +14,25 @@ const applicationSchema = new mongoose.Schema({
   },
 
   resume:{
-    type:String,
-    required:[true,`Please select a resume to apply for this job.`]
+    path:{
+      type:String,
+      required:true
+    },
+    public_id:{
+      type:String,
+      required:true
+    }
   },
 
   coverLetter:{
-    type:String,
-    required:[true,`Please select a CV to apply for this job.`]
+    path:{
+      type:String,
+      required:true
+    },
+    public_id:{
+      type:String,
+      required:true
+    }
   },
 
   status:{

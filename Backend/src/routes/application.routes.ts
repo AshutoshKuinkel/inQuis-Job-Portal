@@ -3,10 +3,12 @@ import express from 'express';
 import {apply,viewMyApplications,update,withdraw, viewApplicants,updateApplicationStatus} from '../controllers/application.controller'
 import { seeker } from '../types/enum.types';
 import { employer } from '../types/enum.types';
+import { uploader } from '../middlewares/uploader.middleware';
 
 const router = express.Router()
+const upload = uploader()
 
-router.post('/apply/:jobId',authenticate(seeker),apply)
+router.post('/apply/:jobId',authenticate(seeker),upload.fields([{name:'resume',maxCount:1},{name:'coverLetter',maxCount:1}]),apply)
 router.get('/myApplications',authenticate(seeker),viewMyApplications)
 router.put('/updateApplication/:jobId',authenticate(seeker),update)
 router.delete('/withdrawApplication/:jobId',authenticate(seeker),withdraw)

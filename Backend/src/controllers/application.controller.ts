@@ -3,12 +3,14 @@ import { Request,Response,NextFunction} from "express";
 import { Application } from "../models/application.model";
 import CustomError from "../middlewares/error-handler.middleware";
 import { Job } from "../models/job.model";
+import { getPagination } from "../utils/pagination.utils";
+import { uploadFile } from "../utils/cloudinary-service.utils";
+
+const folder_name = '/documents'
 
 //Next step: implement file handling to allow users to upload their resume & cv file,
-//add pagination to view jobs func limit it to 10. Maybe limit employer view applications
-//to 3 per page. Also implement node mailer so when user applies to a job they get an email,
+//Also implement node mailer so when user applies to a job they get an email,
 //and when employer changes status, the applicant also gets notified.
-
 export const apply = async(req:Request,res:Response,next:NextFunction)=>{
   try{
     const {jobId} = req.params
@@ -18,25 +20,53 @@ export const apply = async(req:Request,res:Response,next:NextFunction)=>{
     if(!job){
       throw new CustomError(`Job not found`,404)
     }
-    const {contactEmail,resume,coverLetter} = req.body
+    const {contactEmail} = req.body
 
     if(!contactEmail){
       throw new CustomError('Contact email required.',400)        
     }
-    if(!resume){
-      throw new CustomError('Resume required.',400)      
-      }
+    // if(!resume){
+    //   throw new CustomError('Resume required.',400)      
+    // }
 
     const existing = await Application.findOne({ job: jobId, applicant: req.user._id });
     if (existing) throw new CustomError("You have already applied to this job.", 400);
 
-    const application = await Application.create({
+     // Multer files
+    const files = req.files as {
+      resume?: Express.Multer.File[];
+      coverLetter?: Express.Multer.File[];
+    };
+
+    if (!files?.resume?.[0]) {
+      throw new CustomError("Resume file is required", 400);
+    }
+
+    // Upload resume
+    const { path: resumeUrl, public_id: resumeId } = await uploadFile(
+      files.resume[0].path,
+      folder_name
+    );
+
+    // Upload cover letter (optional)
+    let coverLetterFile = null;
+    if (files?.coverLetter?.[0]) {
+      const { path: coverUrl, public_id: coverId } = await uploadFile(
+        files.coverLetter[0].path,
+        folder_name
+      );
+      coverLetterFile = { path: coverUrl, public_id: coverId };
+    }
+
+    const application = new Application({
       job: jobId,
       contactEmail,
-      resume,
-      coverLetter,
+      resume: { path: resumeUrl, public_id: resumeId },
+      coverLetter: coverLetterFile,
       applicant: req.user._id
     })
+
+    await application.save()
 
     res.status(201).json({
       message: `Successfully applied!`,
@@ -51,12 +81,23 @@ export const apply = async(req:Request,res:Response,next:NextFunction)=>{
 //view applications for job seekers.
 export const viewMyApplications = async(req:Request,res:Response,next:NextFunction)=>{
   try{
+    const {currentPage,perPage} = req.query
+
+    const page = Number(currentPage) || 1
+    const limit = Number(perPage) || 5
+    const skip = Number(page-1) * limit
 
     const applications = await Application.find({applicant:req.user._id}).populate('job')
+    .limit(limit)
+    .skip(skip)
+
+    const total = await Application.countDocuments()
+
+    const pagination = getPagination(total,page,limit)
 
     res.status(201).json({
       message: `Applications successfully fetched`,
-      data:applications
+      data:applications,pagination
     })
 
   }catch(err){
@@ -147,7 +188,13 @@ export const withdraw = async(req:Request,res:Response,next:NextFunction)=>{
 export const viewApplicants = async(req:Request,res:Response,next:NextFunction)=>{
   try{
     
+    const {currentPage,perPage} = req.query
     const {jobId} = req.params
+
+
+    const page = Number(currentPage) || 1
+    const limit = Number(perPage) || 5
+    const skip = Number(page-1) * limit
 
     const job = await Job.findById(jobId)
 
@@ -160,10 +207,16 @@ export const viewApplicants = async(req:Request,res:Response,next:NextFunction)=
     }
 
     const applications = await Application.find({job:jobId})
+    .limit(limit)
+    .skip(skip)
+
+    const total = await Application.countDocuments({job:jobId})
+
+    const pagination = getPagination(total,page,limit)
 
     res.status(200).json({
       message: `Applications fetched.`,
-      data: applications
+      data: applications,pagination
     })
   }catch(err){
     next(err)
