@@ -1,166 +1,206 @@
-import {Request, Response, NextFunction} from 'express';
-import CustomError from '../middlewares/error-handler.middleware';
-import { Job } from '../models/job.model';
-import { getPagination } from '../utils/pagination.utils';
+import { Request, Response, NextFunction } from "express";
+import CustomError from "../middlewares/error-handler.middleware";
+import { Job } from "../models/job.model";
+import { getPagination } from "../utils/pagination.utils";
 
+export const createJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.user._id;
 
-export const createJob = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const id = req.user._id
-
-    if(!id){
-      throw new CustomError(`Unauthorized. Access denied.`,401)
+    if (!id) {
+      throw new CustomError(`Unauthorized. Access denied.`, 401);
     }
 
-    const {title,description,location,salary,jobType} = req.body
-    const postedBy = id
+    const { title, companyName, description, location, salary, jobType, contactEmail} =
+      req.body;
+    const postedBy = id;
 
-    if(!title){
-      throw new CustomError(`Please enter job title.`,400)
+    if (!title) {
+      throw new CustomError(`Please enter job title.`, 400);
     }
-     if(!description){
-      throw new CustomError(`Please enter job description.`,400)
+    if (!contactEmail) {
+      throw new CustomError(`Please enter contact email.`, 400);
     }
-     if(!location){
-      throw new CustomError(`Please enter job location.`,400)
+    if (!description) {
+      throw new CustomError(`Please enter job description.`, 400);
+    }
+    if (!location) {
+      throw new CustomError(`Please enter job location.`, 400);
+    }
+    if (!companyName) {
+      throw new CustomError(`Please enter Company Name.`, 400);
     }
 
-    const job = await Job.create({title,description,location,salary,jobType,postedBy})
+    const job = await Job.create({
+      title,
+      companyName,
+      description,
+      location,
+      salary,
+      jobType,
+      contactEmail,
+      postedBy,
+    });
 
     res.status(201).json({
       message: `New Job Successfully Posted.`,
-      data:job
-    })
-  }catch(err){
-    next(err)
+      data: job,
+    });
+  } catch (err) {
+    next(err);
   }
-}
+};
 
+export const readJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.user._id;
+    const { jobId } = req.params;
 
-export const readJob = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const id = req.user._id
-    const {jobId} = req.params
-
-    if(!id){
-      throw new CustomError(`Unauthorized. Access denied.`,401)
+    if (!id) {
+      throw new CustomError(`Unauthorized. Access denied.`, 401);
     }
 
-    const job = await Job.findById(jobId)
+    const job = await Job.findById(jobId);
 
-    if(!job){
-      throw new CustomError(`A Job with that Id does not exist.`,404)
+    if (!job) {
+      throw new CustomError(`A Job with that Id does not exist.`, 404);
     }
 
-    if(id.toString() !== job.postedBy.toString()){
-      throw new CustomError(`Unauthorized. Access denied.`,403)
+    if (id.toString() !== job.postedBy.toString()) {
+      throw new CustomError(`Unauthorized. Access denied.`, 403);
     }
 
     res.status(200).json({
       message: `Job Successfully Fetched.`,
-      data:job
-    })
-  }catch(err){
-    next(err)
+      data: job,
+    });
+  } catch (err) {
+    next(err);
   }
-}
+};
 
 //pagination successfully added.
-export const getAllJobs = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const id = req.user._id
-    const {currentPage,perPage} = req.query
+export const getAllJobs = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.user._id;
+    const { currentPage, perPage } = req.query;
 
-    const page = Number(currentPage) || 1
-    const limit = Number(perPage) || 10
-    const skip = (page-1) * limit
+    const page = Number(currentPage) || 1;
+    const limit = Number(perPage) || 10;
+    const skip = (page - 1) * limit;
 
-    if(!id){
-      throw new CustomError(`Unauthorized. Access denied.`,401)
+    if (!id) {
+      throw new CustomError(`Unauthorized. Access denied.`, 401);
     }
 
-    const jobs = await Job.find({postedBy:id}).sort({ createdAt: -1 })
-    .limit(limit)
-    .skip(skip)
+    const jobs = await Job.find({ postedBy: id })
+      .sort({ createdAt: -1 })
+      .limit(limit)
+      .skip(skip);
 
-    const total = await Job.countDocuments({ postedBy: id })
+    const total = await Job.countDocuments({ postedBy: id });
 
-    const pagination = getPagination(total,page,limit)
-
+    const pagination = getPagination(total, page, limit);
 
     res.status(200).json({
       message: `Jobs Successfully Fetched.`,
-      data:jobs
-      ,pagination
-    })
-  }catch(err){
-    next(err)
+      data: jobs,
+      pagination,
+    });
+  } catch (err) {
+    next(err);
   }
-}
+};
 
-export const updateJob = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const id = req.user._id
-    const {jobId} = req.params
+export const updateJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.user._id;
+    const { jobId } = req.params;
 
-    const job = await Job.findById(jobId)
+    const job = await Job.findById(jobId);
 
-    if(!job){
-      throw new CustomError(`No Job exists with that id.`,400)
+    if (!job) {
+      throw new CustomError(`No Job exists with that id.`, 400);
     }
 
-    if(id.toString() !== job.postedBy.toString()){
-      throw new CustomError(`Unauthorized. Access Denied.`,403)
+    if (id.toString() !== job.postedBy.toString()) {
+      throw new CustomError(`Unauthorized. Access Denied.`, 403);
     }
 
     if (!req.body || Object.keys(req.body).length === 0) {
-      throw new CustomError('Nothing to update.', 400);
+      throw new CustomError("Nothing to update.", 400);
     }
 
-    const {title,description,location,salary,jobType} = req.body
+    const { title,companyName, description, location, salary, jobType,contactEmail } = req.body;
 
     const updatedJob = await Job.findByIdAndUpdate(
       jobId,
-      {title:title,description:description,location:location,salary:salary,jobType:jobType},
-      {new:true,runValidators:true}
-    )
-
+      {
+        title: title,
+        companyName:companyName,
+        description: description,
+        location: location,
+        salary: salary,
+        contactEmail:contactEmail,
+        jobType: jobType,
+      },
+      { new: true, runValidators: true }
+    );
 
     res.status(200).json({
       message: `Job Successfully updated.`,
-      data:updatedJob
-    })
-  }catch(err){
-    next(err)
+      data: updatedJob,
+    });
+  } catch (err) {
+    next(err);
   }
-}
+};
 
-export const deleteJob = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const id = req.user._id
-    const {jobId} = req.params
+export const deleteJob = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const id = req.user._id;
+    const { jobId } = req.params;
 
-    const job = await Job.findById(jobId)
+    const job = await Job.findById(jobId);
 
-    if(!job){
-      throw new CustomError(`No Job exists with that id.`,400)
+    if (!job) {
+      throw new CustomError(`No Job exists with that id.`, 400);
     }
 
-    if(id.toString() !== job.postedBy.toString()){
-      throw new CustomError(`Unauthorized. Access Denied.`,403)
+    if (id.toString() !== job.postedBy.toString()) {
+      throw new CustomError(`Unauthorized. Access Denied.`, 403);
     }
 
-    const deletedJob = await Job.findByIdAndDelete(jobId)
+    const deletedJob = await Job.findByIdAndDelete(jobId);
 
     res.status(200).json({
       message: `Job successfully deleted.`,
-      data:deletedJob
-    })
-  }catch(err){
-    next(err)
+      data: deletedJob,
+    });
+  } catch (err) {
+    next(err);
   }
-}
-
+};
 
 //Public Job Listing API.
 
@@ -171,89 +211,90 @@ export const deleteJob = async(req:Request,res:Response,next:NextFunction)=>{
 //and then we have a continue searching button that guides users to /jobs route.}
 //maybe change this to text later instead of $regex if needed.
 
-export const listJobs = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const {currentPage,perPage, //this is for the pagination stuff
-      query,location, //This is for the filtering
-      sortBy //This is for sorting
-    } = req.query
-    
-    let filter:Record<string,any> = {}
+export const listJobs = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const {
+      currentPage,
+      perPage, //this is for the pagination stuff
+      query,
+      location, //This is for the filtering
+      sortBy, //This is for sorting
+    } = req.query;
 
-    const page = Number(currentPage) || 1
-    const limit = Number(perPage) || 15
-    const skip = (page-1) * limit
+    let filter: Record<string, any> = {};
 
-    if(query){
+    const page = Number(currentPage) || 1;
+    const limit = Number(perPage) || 15;
+    const skip = (page - 1) * limit;
+
+    if (query) {
       filter.$or = [
         {
-          name:{
-            $regex:query,
-            $options:'i'
-          }
+          name: {
+            $regex: query,
+            $options: "i",
+          },
         },
 
         {
-          description:{
-            $regex:query,
-            $options:'i'
-          }
-        }
-      ]
+          description: {
+            $regex: query,
+            $options: "i",
+          },
+        },
+      ];
     }
 
-    if(location){
+    if (location) {
       filter.location = {
-        $regex:location,
-        $options:'i'
-      }
+        $regex: location,
+        $options: "i",
+      };
     }
 
     let sortOption = {};
 
-  switch (sortBy) {
-    case 'latest':
-      sortOption = { createdAt: -1 };
-      break;
-    case 'oldest':
-      sortOption = { createdAt: 1 };
-      break;
-    case 'highestSalary':
-      sortOption = { salary: -1 };
-      break;
-    case 'lowestSalary':
-      sortOption = { salary: 1 };
-      break;
-  }
-
-  if(!sortOption){
-    sortOption = {createdAt: -1}
-  }
-
-    let jobs = await Job.find(filter)
-    .sort(sortOption)
-    .limit(limit)
-    .skip(skip)
-    
-    let total = await Job.countDocuments(filter)
-
-    if(jobs.length === 0){
-      jobs = await Job.find({})
-      .sort(sortOption)
-      .limit(limit)
-      .skip(skip)
-
-       total = await Job.countDocuments({})
+    switch (sortBy) {
+      case "latest":
+        sortOption = { createdAt: -1 };
+        break;
+      case "oldest":
+        sortOption = { createdAt: 1 };
+        break;
+      case "highestSalary":
+        sortOption = { salary: -1 };
+        break;
+      case "lowestSalary":
+        sortOption = { salary: 1 };
+        break;
     }
 
-    const pagination = getPagination(total,page,limit)
+    if (!sortOption) {
+      sortOption = { createdAt: -1 };
+    }
+
+    let jobs = await Job.find(filter).sort(sortOption).limit(limit).skip(skip);
+
+    let total = await Job.countDocuments(filter);
+
+    if (jobs.length === 0) {
+      jobs = await Job.find({}).sort(sortOption).limit(limit).skip(skip);
+
+      total = await Job.countDocuments({});
+    }
+
+    const pagination = getPagination(total, page, limit);
 
     res.status(200).json({
-      message:`All Jobs Fetched Successfully.`,
-      data:jobs,pagination
-    })
-  }catch(err){
-    next(err)
+      message: `All Jobs Fetched Successfully.`,
+      data: jobs,
+      pagination,
+    });
+  } catch (err) {
+    next(err);
   }
-}
-
+};

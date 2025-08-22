@@ -7,6 +7,11 @@ const jobSchema = new mongoose.Schema({
     required:[true,`A title for your job is required.`]
   },
 
+  companyName:{
+    type:String,
+    required:[true,`A company name for job is required.`]
+  },
+
   description:{
     type:String,
     required:[true,`Please enter a job description.`]
@@ -25,6 +30,11 @@ const jobSchema = new mongoose.Schema({
     type:String,
     enum:Object.values(job_type),
     default:job_type.FULL_TIME
+  },
+
+  contactEmail:{
+    type:String,
+    required:[true,'Please set a contact email to receive updates about your job posting.']
   },
 
   postedBy:{

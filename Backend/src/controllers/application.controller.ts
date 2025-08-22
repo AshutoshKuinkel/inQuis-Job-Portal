@@ -1,37 +1,46 @@
-
-import { Request,Response,NextFunction, application} from "express";
+import { Request, Response, NextFunction, application } from "express";
 import { Application } from "../models/application.model";
 import CustomError from "../middlewares/error-handler.middleware";
 import { Job } from "../models/job.model";
 import { getPagination } from "../utils/pagination.utils";
 import { deleteFiles, uploadFile } from "../utils/cloudinary-service.utils";
+import { sendEmail } from "../utils/nodemailer.utils";
+import { generate_confirmation_email, generate_employer_application_email, generate_status_update_email } from "../utils/email.utils";
 
-const folder_name = '/documents'
+const folder_name = "/documents";
 
 //Also implement node mailer so when user applies to a job they get an email,
 //and when employer changes status, the applicant also gets notified.
-export const apply = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const {jobId} = req.params
+export const apply = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { jobId } = req.params;
 
-    const job = await Job.findById(jobId)
+    const job = await Job.findById(jobId);
 
-    if(!job){
-      throw new CustomError(`Job not found`,404)
+    if (!job) {
+      throw new CustomError(`Job not found`, 404);
     }
-    const {contactEmail} = req.body
+    const { contactEmail } = req.body;
 
-    if(!contactEmail){
-      throw new CustomError('Contact email required.',400)        
+    if (!contactEmail) {
+      throw new CustomError("Contact email required.", 400);
     }
     // if(!resume){
-    //   throw new CustomError('Resume required.',400)      
+    //   throw new CustomError('Resume required.',400)
     // }
 
-    const existing = await Application.findOne({ job: jobId, applicant: req.user._id });
-    if (existing) throw new CustomError("You have already applied to this job.", 400);
+    const existing = await Application.findOne({
+      job: jobId,
+      applicant: req.user._id,
+    });
+    if (existing)
+      throw new CustomError("You have already applied to this job.", 400);
 
-     // Multer files
+    // Multer files
     const files = req.files as {
       resume?: Express.Multer.File[];
       coverLetter?: Express.Multer.File[];
@@ -62,237 +71,275 @@ export const apply = async(req:Request,res:Response,next:NextFunction)=>{
       contactEmail,
       resume: { path: resumeUrl, public_id: resumeId },
       coverLetter: coverLetterFile,
-      applicant: req.user._id
+      applicant: req.user._id,
+    });
+
+    await application.save();
+    const user = req.user
+
+    //sending email to let user know they've applied:
+    await sendEmail({
+      to:`${application.contactEmail}`,
+      subject: `Application to ${job?.title || 'Job'} at ${job?.companyName || 'Company'}.`,
+      html: generate_confirmation_email(application,job,user)
     })
 
-    await application.save()
+    //sending email to employer aswell to let them know they have a new application:
+    await sendEmail({
+      to:`${job.contactEmail}`,
+      subject: `New Application Received to ${job?.title || 'Job'} position.`,
+      html: generate_employer_application_email(application,job)
+    })
 
     res.status(201).json({
       message: `Successfully applied!`,
-      data:application
-    })
-
-  }catch(err){
-  next(err)
+      data: application,
+    });
+  } catch (err) {
+    next(err);
   }
-}
+};
 
 //view applications for job seekers.
-export const viewMyApplications = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const {currentPage,perPage} = req.query
+export const viewMyApplications = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { currentPage, perPage } = req.query;
 
-    const page = Number(currentPage) || 1
-    const limit = Number(perPage) || 5
-    const skip = Number(page-1) * limit
+    const page = Number(currentPage) || 1;
+    const limit = Number(perPage) || 5;
+    const skip = Number(page - 1) * limit;
 
-    const applications = await Application.find({applicant:req.user._id}).populate('job')
-    .limit(limit)
-    .skip(skip)
+    const applications = await Application.find({ applicant: req.user._id })
+      .populate("job")
+      .limit(limit)
+      .skip(skip);
 
-    const total = await Application.countDocuments()
+    const total = await Application.countDocuments();
 
-    const pagination = getPagination(total,page,limit)
+    const pagination = getPagination(total, page, limit);
 
     res.status(201).json({
       message: `Applications successfully fetched`,
-      data:applications,pagination
-    })
-
-  }catch(err){
-  next(err)
+      data: applications,
+      pagination,
+    });
+  } catch (err) {
+    next(err);
   }
-}
-
+};
 
 //update application for job seekers.
-export const update = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const {jobId} = req.params
+export const update = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { jobId } = req.params;
 
-    const job = await Job.findById(jobId)
+    const job = await Job.findById(jobId);
 
-    if(!job){
-      throw new CustomError(`Job not found`,404)
+    if (!job) {
+      throw new CustomError(`Job not found`, 404);
     }
 
-    const {contactEmail,deletedFile} = req.body
+    const { contactEmail, deletedFile } = req.body;
 
-    const { resume, coverLetter } = req.files as { [fieldname: string]: Express.Multer.File[] };
+    const { resume, coverLetter } = req.files as {
+      [fieldname: string]: Express.Multer.File[];
+    };
 
     let deletedFiles: string[] = [];
     if (deletedFile) {
-      try{
+      try {
         deletedFiles = JSON.parse(deletedFile);
-      }catch{
-        throw new CustomError("Invalid format for deletedFile. Expected JSON array.", 400);
+      } catch {
+        throw new CustomError(
+          "Invalid format for deletedFile. Expected JSON array.",
+          400
+        );
       }
     }
 
-
     const fetchApplication = await Application.findOne({
       job: jobId,
-      applicant: req.user._id
-    }) 
+      applicant: req.user._id,
+    });
 
     let application;
 
-    if(fetchApplication){
+    if (fetchApplication) {
       application = await Application.findByIdAndUpdate(
         fetchApplication._id,
         {
           contactEmail,
         },
-        {new:true, runValidators:true}
-      ).populate('job')
-    } else{
-      throw new CustomError(`Cannot update info for a job you haven't applied to.`,400)
+        { new: true, runValidators: true }
+      ).populate("job");
+    } else {
+      throw new CustomError(
+        `Cannot update info for a job you haven't applied to.`,
+        400
+      );
     }
 
-    if(!application){
-      throw new CustomError(`Nothing to update`,400)
+    if (!application) {
+      throw new CustomError(`Nothing to update`, 400);
     }
 
     // Delete files if requested
     if (deletedFiles.includes("resume") && application.resume?.public_id) {
       await deleteFiles([application.resume.public_id]);
-    application.resume = undefined;
+      application.resume = undefined;
     }
 
-    if (deletedFiles.includes("coverLetter") && application.coverLetter?.public_id) {
+    if (
+      deletedFiles.includes("coverLetter") &&
+      application.coverLetter?.public_id
+    ) {
       await deleteFiles([application.coverLetter.public_id]);
       application.coverLetter = undefined;
     }
 
-    if(resume){
-      const {path, public_id} = await uploadFile(
-        resume[0].path,
-        folder_name
-      );
-      if(application.resume){
-        await deleteFiles([application.resume.public_id])
+    if (resume) {
+      const { path, public_id } = await uploadFile(resume[0].path, folder_name);
+      if (application.resume) {
+        await deleteFiles([application.resume.public_id]);
       }
       application.resume = {
         path,
-        public_id
-      }
+        public_id,
+      };
     }
 
-    
-    if(coverLetter){
-      const {path, public_id} = await uploadFile(
+    if (coverLetter) {
+      const { path, public_id } = await uploadFile(
         coverLetter[0].path,
         folder_name
       );
-      if(application.coverLetter){
-        await deleteFiles([application.coverLetter.public_id])
+      if (application.coverLetter) {
+        await deleteFiles([application.coverLetter.public_id]);
       }
       application.coverLetter = {
         path,
-        public_id
-      }
+        public_id,
+      };
     }
 
     await application.save();
 
     res.status(200).json({
       message: `Application Successfully updated!`,
-      data:application
-    })
-
-  }catch(err){
-  next(err)
+      data: application,
+    });
+  } catch (err) {
+    next(err);
   }
-}
-
+};
 
 //withdraw application for job seekers.
-export const withdraw = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
+export const withdraw = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { jobId } = req.params;
 
-    const {jobId} = req.params
+    const job = await Job.findById(jobId);
 
-    const job = await Job.findById(jobId)
-
-    if(!job){
-      throw new CustomError(`Job not found`,404)
+    if (!job) {
+      throw new CustomError(`Job not found`, 404);
     }
 
     const deletedApplication = await Application.findOneAndDelete({
-      job:jobId,
-      applicant: req.user._id
-    })
+      job: jobId,
+      applicant: req.user._id,
+    });
 
-    if(!deletedApplication){
-      throw new CustomError(`You haven't applied to this job.`, 404)
+    if (!deletedApplication) {
+      throw new CustomError(`You haven't applied to this job.`, 404);
     }
 
-    if(deletedApplication.resume){
-    await deleteFiles([deletedApplication.resume.public_id])
+    if (deletedApplication.resume) {
+      await deleteFiles([deletedApplication.resume.public_id]);
     }
 
-    if(deletedApplication.coverLetter){
-    await deleteFiles([deletedApplication.coverLetter.public_id])
+    if (deletedApplication.coverLetter) {
+      await deleteFiles([deletedApplication.coverLetter.public_id]);
     }
 
     res.status(200).json({
-      message:`Application successfully withdrawn`,
-      data:deletedApplication
-    })
-
-  }catch(err){
-    next(err)
+      message: `Application successfully withdrawn`,
+      data: deletedApplication,
+    });
+  } catch (err) {
+    next(err);
   }
-}
-
+};
 
 //view all applications for employers & give option to choose rejected or accepted.
 
-export const viewApplicants = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    
-    const {currentPage,perPage} = req.query
-    const {jobId} = req.params
+export const viewApplicants = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { currentPage, perPage } = req.query;
+    const { jobId } = req.params;
 
+    const page = Number(currentPage) || 1;
+    const limit = Number(perPage) || 5;
+    const skip = Number(page - 1) * limit;
 
-    const page = Number(currentPage) || 1
-    const limit = Number(perPage) || 5
-    const skip = Number(page-1) * limit
+    const job = await Job.findById(jobId);
 
-    const job = await Job.findById(jobId)
-
-    if(!job){
-      throw new CustomError(`Job not found`,404)
+    if (!job) {
+      throw new CustomError(`Job not found`, 404);
     }
 
-    if(req.user._id.toString() !== job.postedBy.toString()){
-      throw new CustomError(`Unauthorized. Access Denied.`,403)
+    if (req.user._id.toString() !== job.postedBy.toString()) {
+      throw new CustomError(`Unauthorized. Access Denied.`, 403);
     }
 
-    const applications = await Application.find({job:jobId})
-    .limit(limit)
-    .skip(skip)
+    const applications = await Application.find({ job: jobId })
+      .limit(limit)
+      .skip(skip);
 
-    const total = await Application.countDocuments({job:jobId})
+    const total = await Application.countDocuments({ job: jobId });
 
-    const pagination = getPagination(total,page,limit)
+    const pagination = getPagination(total, page, limit);
 
     res.status(200).json({
       message: `Applications fetched.`,
-      data: applications,pagination
-    })
-  }catch(err){
-    next(err)
+      data: applications,
+      pagination,
+    });
+  } catch (err) {
+    next(err);
   }
-}
+};
 
-export const updateApplicationStatus = async (req: Request,res: Response,next: NextFunction) => {
+export const updateApplicationStatus = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const { applicationId, jobId } = req.params;
     const { status } = req.body;
+    const user = req.user
 
     if (!["ACCEPTED", "REJECTED"].includes(status)) {
-      throw new CustomError("Invalid status. Please enter exactly ACCEPTED or REJECTED.",400);
+      throw new CustomError(
+        "Invalid status. Please enter exactly ACCEPTED or REJECTED.",
+        400
+      );
     }
 
     // Find job for authorization
@@ -315,6 +362,13 @@ export const updateApplicationStatus = async (req: Request,res: Response,next: N
     if (!application) {
       throw new CustomError("Application not found for this job", 404);
     }
+
+    //generating email for seeker:
+    await sendEmail({
+      to: application.contactEmail,
+      subject: `Your application for ${job.title} at ${job.companyName} has been updated`,
+      html:generate_status_update_email(application, job, user),
+    });
 
     res.status(200).json({
       message: `Application status updated to ${status}.`,
