@@ -106,3 +106,23 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
     next(err)
   }
 }
+
+export const logout = async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+
+    res.clearCookie('access_token',{
+        secure:process.env.NODE_ENV === 'development' ? false:true,
+        httpOnly:true,
+        sameSite:'none'
+      })
+      .status(200).json({
+        message:`Successfully Logged out.`,
+        success:true,
+        status:'success',
+        data:null
+      })
+
+  }catch(err){
+    next(err)
+  }
+}
