@@ -25,9 +25,7 @@ const LoginCard = () => {
 
       {/* form*/}
       <LoginForm />
-
-      {/* sign in button */}
-      <button className="border bg-[#2c3e50] mt-5 w-sm text-white font-bold py-2 rounded-md hover:grayscale-60 hover:cursor-pointer">Sign In</button>
+      
     </div>
 
     <p className="text-sm text-center mt-4 text-[#2c3e50]">© 2025 inQuis. All rights reserved.</p>

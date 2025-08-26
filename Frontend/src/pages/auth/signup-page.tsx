@@ -103,7 +103,7 @@ const SignupCard = () => {
           </form>
           {/* sign in button */}
           <button className="border bg-[#2c3e50] mt-5 w-sm text-white font-bold py-2 rounded-md hover:grayscale-60 hover:cursor-pointer">
-            Sign In
+            Create Account
           </button>
         </div>
 
