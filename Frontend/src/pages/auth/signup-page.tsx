@@ -2,6 +2,7 @@ import Logo from "../../assets/logo";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { MdOutlineMail } from "react-icons/md";
 import { FiUser } from "react-icons/fi";
+import { Link } from "react-router";
 
 const SignupCard = () => {
   return (
@@ -21,12 +22,16 @@ const SignupCard = () => {
 
           {/* Sign up/Sign in buttons */}
           <div className="mt-8 bg-[#F3F3F5] w-full max-w-md rounded-xl flex justify-evenly">
-            <button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">
-              Sign In
-            </button>
-            <button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">
-              Sign Up
-            </button>
+            <Link to={"/login"}>
+              <button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">
+                Sign In
+              </button>
+            </Link>
+            <Link to={"/signup"}>
+              <button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">
+                Sign Up
+              </button>
+            </Link>
           </div>
 
           {/* form fields */}

@@ -11,6 +11,7 @@ const App = ()=>{
           <Route path='/login' element={<LoginCard/>}/>
           <Route path='/signup' element={<SignupCard/>}/>
 
+
         </Routes>
       </Router>
     </main>

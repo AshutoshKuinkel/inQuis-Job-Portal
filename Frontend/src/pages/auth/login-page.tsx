@@ -1,6 +1,7 @@
+import { Link } from "react-router"
 import Logo from "../../assets/logo"
-import { IoLockClosedOutline } from "react-icons/io5";
-import { MdOutlineMail } from "react-icons/md";
+import LoginForm from "../../components/forms/login.form"
+
 
 
 const LoginCard = () => {
@@ -18,25 +19,13 @@ const LoginCard = () => {
 
       {/* Sign up/Sign in buttons */}
       <div className="mt-8 bg-[#F3F3F5] w-full max-w-sm rounded-xl flex justify-evenly"> 
-        <button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">Sign In</button>
-        <button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">Sign Up</button>
+        <Link to={'/login'}><button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">Sign In</button></Link>
+        <Link to={'/signup'}><button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">Sign Up</button></Link>
       </div>
 
-      {/* email,password fields */}
-      <form className="mt-8 flex flex-col gap-1">
-        <label htmlFor="" className="text-[#2c3e50]">Email</label>
-        <div className="flex items-center gap-2 w-sm bg-[#F3F3F5] rounded-md px-2 py-1 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer">
-          <MdOutlineMail/>
-          <input type="text" placeholder="Enter your email" className="w-sm rounded-md outline-none" />
-        </div>
+      {/* form*/}
+      <LoginForm />
 
-        <label htmlFor="" className="text-[#2c3e50] mt-3">Password</label>
-        <div className="flex items-center rounded-md gap-2 bg-[#F3F3F5] w-sm px-2 py-1 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer">
-          <IoLockClosedOutline />
-          <input type="password" placeholder="Enter your password" className="w-sm rounded-md outline-none" />
-        </div>
-        
-      </form>
       {/* sign in button */}
       <button className="border bg-[#2c3e50] mt-5 w-sm text-white font-bold py-2 rounded-md hover:grayscale-60 hover:cursor-pointer">Sign In</button>
     </div>
