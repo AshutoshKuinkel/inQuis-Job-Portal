@@ -2,6 +2,9 @@ import './App.css'
 import LoginCard from './pages/auth/login-page'
 import {BrowserRouter as Router, Routes, Route} from 'react-router'
 import SignupCard from './pages/auth/signup-page'
+import HomePage from './pages/home'
+import AboutPage from './pages/About'
+import PageNotFound from './pages/page-not-found'
 
 const App = ()=>{
   return(
@@ -11,7 +14,11 @@ const App = ()=>{
           <Route path='/login' element={<LoginCard/>}/>
           <Route path='/signup' element={<SignupCard/>}/>
 
+          <Route path='' element={<HomePage/>} />
+          <Route path='/about' element={<AboutPage/>} />
 
+
+          <Route path='*' element={<PageNotFound/>} />
         </Routes>
       </Router>
     </main>
