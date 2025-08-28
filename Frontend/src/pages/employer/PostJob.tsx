@@ -1,7 +1,7 @@
 
 const PostJob = () => {
   return (
-    <div>
+    <div className="min-h-screen">
       <h1>Post Job</h1>
     </div>
   )

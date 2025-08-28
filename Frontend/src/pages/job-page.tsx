@@ -1,8 +1,8 @@
-import React from 'react'
+
 
 const JobPage = () => {
   return (
-    <div>
+    <div className="min-h-screen">
       <h1>Job Page</h1>
     </div>
   )

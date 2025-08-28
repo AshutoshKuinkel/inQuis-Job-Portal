@@ -1,15 +1,13 @@
-import Footer from "../components/footer"
-import Header from "../components/header"
 
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen">
-      <Header />
+    <main>
+      <div className="min-h-screen">
+          <div className="h-screen"></div>
+      </div>
+    </main>
+  );
+};
 
-      <Footer/>
-    </div>
-  )
-}
-
-export default HomePage
+export default HomePage;
