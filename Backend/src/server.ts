@@ -4,7 +4,8 @@ dotenv.config()
 import { ConnectDatabase } from "./config/db.config";
 import CustomError, { errorHandler } from "./middlewares/error-handler.middleware";
 import cookieParser from 'cookie-parser';
-
+import helmet from 'helmet';
+import cors from 'cors';
 
 const PORT = process.env.PORT
 const DB_URI = process.env.DB_URI ?? ''
@@ -12,6 +13,8 @@ ConnectDatabase(DB_URI)
 
 const app = express()
 
+app.use(helmet())
+app.use(cors())
 app.use(express.json());        // for JSON bodies
 app.use(express.urlencoded({ extended: true })); // for form-urlencoded bodies
 app.use(cookieParser())
