@@ -5,6 +5,8 @@ import SignupCard from './pages/auth/signup-page'
 import HomePage from './pages/home'
 import AboutPage from './pages/About'
 import PageNotFound from './pages/page-not-found'
+import JobPage from './pages/job-page'
+import PostJob from './pages/employer/PostJob'
 
 const App = ()=>{
   return(
@@ -16,6 +18,10 @@ const App = ()=>{
 
           <Route path='' element={<HomePage/>} />
           <Route path='/about' element={<AboutPage/>} />
+
+          <Route path='/jobs' element={<JobPage/>}/>
+
+          <Route path='/employer/createJob' element={<PostJob/>}/>
 
 
           <Route path='*' element={<PageNotFound/>} />

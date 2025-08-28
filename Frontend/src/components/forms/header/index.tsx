@@ -1,6 +1,7 @@
 import { Link } from "react-router";
 import Logo from "../../../assets/logo";
 import { FiUser } from "react-icons/fi";
+import { NavLinks } from "./nav-links";
 
 const Header = () => {
   return (
@@ -12,14 +13,8 @@ const Header = () => {
         </a>
       </div>
 
-      <div className="flex items-baseline space-x-8">
-        {/* nav links */}
-        <div className="space-x-5 text-gray-500 text-sm hover:cursor-pointer">
-          <span className="hover:text-[#2c3e50]">Find Jobs</span>
-          <span className="hover:text-[#2c3e50]">About Us</span>
-          <span className="hover:text-[#2c3e50]">Post a Job</span>
-        </div>
-      </div>
+      {/* Nav Links */}
+      <NavLinks/>
 
       {/* icon section */}
       <div className="flex space-x-6 items-center">
