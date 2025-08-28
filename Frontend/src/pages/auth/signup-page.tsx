@@ -1,8 +1,8 @@
 import Logo from "../../assets/logo";
 import { Link } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { NavLinks } from "../../components/forms/auth components/auth-form-login-register.buttons";
-import SignupForm from "../../components/forms/auth components/signup.form";
+import { NavLinks } from "../../components/auth components/auth-form-login-register.buttons";
+import SignupForm from "../../components/auth components/signup.form";
 
 const SignupCard = () => {
   return (
