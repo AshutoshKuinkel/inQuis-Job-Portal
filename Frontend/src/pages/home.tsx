@@ -1,10 +1,11 @@
+import Hero from "../components/landing/hero";
 
 
 const HomePage = () => {
   return (
     <main>
       <div className="min-h-screen">
-          <div className="h-screen"></div>
+          <Hero/>
       </div>
     </main>
   );
