@@ -2,8 +2,8 @@ import { useForm } from "react-hook-form";
 import { IoLockClosedOutline } from "react-icons/io5";
 import { MdOutlineMail } from "react-icons/md";
 import { yupResolver } from "@hookform/resolvers/yup";
-import type { ILoginData } from "../../../types/auth.types";
-import { loginSchema } from "../../../schema/auth.schema";
+import type { ILoginData } from "../../types/auth.types";
+import { loginSchema } from "../../schema/auth.schema";
 
 
 const LoginForm = () => {

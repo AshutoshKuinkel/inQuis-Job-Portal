@@ -1,5 +1,5 @@
 import { Link } from "react-router";
-import Logo from "../../../assets/logo";
+import Logo from "../../assets/logo";
 import { FiUser } from "react-icons/fi";
 import { NavLinks } from "./nav-links";
 
