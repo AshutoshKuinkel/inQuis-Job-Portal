@@ -96,7 +96,8 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
     res.cookie('inQuis_portal_accessToken',inQuis_portal_accessToken,{
       httpOnly:true,
       secure: process.env.NODE_ENV==='development' ? false : true,
-      maxAge:Number(process.env.COOKIE_EXPIRE_IN) * 24 * 60 * 60 * 1000
+      maxAge:Number(process.env.COOKIE_EXPIRE_IN) * 24 * 60 * 60 * 1000,
+      sameSite:'none'
     })
     .status(200).json({
       message:`Successfully logged in.`,
@@ -110,18 +111,37 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
 export const logout = async(req:Request,res:Response,next:NextFunction)=>{
   try{
 
-    res.clearCookie('access_token',{
+    res.clearCookie('inQuis_portal_accessToken',{
         secure:process.env.NODE_ENV === 'development' ? false:true,
         httpOnly:true,
         sameSite:'none'
       })
       .status(200).json({
         message:`Successfully Logged out.`,
-        success:true,
-        status:'success',
         data:null
       })
 
+  }catch(err){
+    next(err)
+  }
+}
+
+//check
+
+export const profile = async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const id = req.user._id
+
+    const user = await User.findById(id)
+
+    if(!user){
+      throw new CustomError(`User fetch Error.`,400)
+    }
+
+    res.status(200).json({
+      message:'Profile fetched.',
+      data:user
+    })
   }catch(err){
     next(err)
   }
