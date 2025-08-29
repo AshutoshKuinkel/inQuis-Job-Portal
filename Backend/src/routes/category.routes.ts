@@ -6,5 +6,7 @@ import { admin } from '../types/enum.types'
 const router = express.Router()
 
 router.post('/category/create',authenticate(admin),createCategory)
+router.get('/categories',fetchCategories)
+
 
 export default router

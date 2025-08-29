@@ -26,7 +26,7 @@ export const createCategory = async(req:Request,res:Response,next:NextFunction)=
 export const fetchCategories = async(req:Request,res:Response,next:NextFunction)=>{
   try{
 
-      const category = await Category.find({})
+      const category = await Category.find()
 
       if(!category){
         throw new CustomError('No Categories Registered yet. Please Add some to View.',400)
