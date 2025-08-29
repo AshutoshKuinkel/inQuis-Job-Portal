@@ -1,0 +1,281 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.updateApplicationStatus = exports.viewApplicants = exports.withdraw = exports.update = exports.viewMyApplications = exports.apply = void 0;
+const application_model_1 = require("../models/application.model");
+const error_handler_middleware_1 = __importDefault(require("../middlewares/error-handler.middleware"));
+const job_model_1 = require("../models/job.model");
+const pagination_utils_1 = require("../utils/pagination.utils");
+const cloudinary_service_utils_1 = require("../utils/cloudinary-service.utils");
+const nodemailer_utils_1 = require("../utils/nodemailer.utils");
+const email_utils_1 = require("../utils/email.utils");
+const folder_name = "/documents";
+//Also implement node mailer so when user applies to a job they get an email,
+//and when employer changes status, the applicant also gets notified.
+const apply = async (req, res, next) => {
+    try {
+        const { jobId } = req.params;
+        const job = await job_model_1.Job.findById(jobId);
+        if (!job) {
+            throw new error_handler_middleware_1.default(`Job not found`, 404);
+        }
+        const { contactEmail } = req.body;
+        if (!contactEmail) {
+            throw new error_handler_middleware_1.default("Contact email required.", 400);
+        }
+        // if(!resume){
+        //   throw new CustomError('Resume required.',400)
+        // }
+        const existing = await application_model_1.Application.findOne({
+            job: jobId,
+            applicant: req.user._id,
+        });
+        if (existing)
+            throw new error_handler_middleware_1.default("You have already applied to this job.", 400);
+        // Multer files
+        const files = req.files;
+        if (!files?.resume?.[0]) {
+            throw new error_handler_middleware_1.default("Resume file is required", 400);
+        }
+        // Upload resume
+        const { path: resumeUrl, public_id: resumeId } = await (0, cloudinary_service_utils_1.uploadFile)(files.resume[0].path, folder_name);
+        // Upload cover letter (optional)
+        let coverLetterFile = null;
+        if (files?.coverLetter?.[0]) {
+            const { path: coverUrl, public_id: coverId } = await (0, cloudinary_service_utils_1.uploadFile)(files.coverLetter[0].path, folder_name);
+            coverLetterFile = { path: coverUrl, public_id: coverId };
+        }
+        const application = new application_model_1.Application({
+            job: jobId,
+            contactEmail,
+            resume: { path: resumeUrl, public_id: resumeId },
+            coverLetter: coverLetterFile,
+            applicant: req.user._id,
+        });
+        await application.save();
+        const user = req.user;
+        //sending email to let user know they've applied:
+        await (0, nodemailer_utils_1.sendEmail)({
+            to: `${application.contactEmail}`,
+            subject: `Application to ${job?.title || 'Job'} at ${job?.companyName || 'Company'}.`,
+            html: (0, email_utils_1.generate_confirmation_email)(application, job, user)
+        });
+        //sending email to employer aswell to let them know they have a new application:
+        await (0, nodemailer_utils_1.sendEmail)({
+            to: `${job.contactEmail}`,
+            subject: `New Application Received to ${job?.title || 'Job'} position.`,
+            html: (0, email_utils_1.generate_employer_application_email)(application, job)
+        });
+        res.status(201).json({
+            message: `Successfully applied!`,
+            data: application,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.apply = apply;
+//view applications for job seekers.
+const viewMyApplications = async (req, res, next) => {
+    try {
+        const { currentPage, perPage } = req.query;
+        const page = Number(currentPage) || 1;
+        const limit = Number(perPage) || 5;
+        const skip = Number(page - 1) * limit;
+        const applications = await application_model_1.Application.find({ applicant: req.user._id })
+            .populate("job")
+            .limit(limit)
+            .skip(skip);
+        const total = await application_model_1.Application.countDocuments();
+        const pagination = (0, pagination_utils_1.getPagination)(total, page, limit);
+        res.status(201).json({
+            message: `Applications successfully fetched`,
+            data: applications,
+            pagination,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.viewMyApplications = viewMyApplications;
+//update application for job seekers.
+const update = async (req, res, next) => {
+    try {
+        const { jobId } = req.params;
+        const job = await job_model_1.Job.findById(jobId);
+        if (!job) {
+            throw new error_handler_middleware_1.default(`Job not found`, 404);
+        }
+        const { contactEmail, deletedFile } = req.body;
+        const { resume, coverLetter } = req.files;
+        let deletedFiles = [];
+        if (deletedFile) {
+            try {
+                deletedFiles = JSON.parse(deletedFile);
+            }
+            catch {
+                throw new error_handler_middleware_1.default("Invalid format for deletedFile. Expected JSON array.", 400);
+            }
+        }
+        const fetchApplication = await application_model_1.Application.findOne({
+            job: jobId,
+            applicant: req.user._id,
+        });
+        let application;
+        if (fetchApplication) {
+            application = await application_model_1.Application.findByIdAndUpdate(fetchApplication._id, {
+                contactEmail,
+            }, { new: true, runValidators: true }).populate("job");
+        }
+        else {
+            throw new error_handler_middleware_1.default(`Cannot update info for a job you haven't applied to.`, 400);
+        }
+        if (!application) {
+            throw new error_handler_middleware_1.default(`Nothing to update`, 400);
+        }
+        // Delete files if requested
+        if (deletedFiles.includes("resume") && application.resume?.public_id) {
+            await (0, cloudinary_service_utils_1.deleteFiles)([application.resume.public_id]);
+            application.resume = undefined;
+        }
+        if (deletedFiles.includes("coverLetter") &&
+            application.coverLetter?.public_id) {
+            await (0, cloudinary_service_utils_1.deleteFiles)([application.coverLetter.public_id]);
+            application.coverLetter = undefined;
+        }
+        if (resume) {
+            const { path, public_id } = await (0, cloudinary_service_utils_1.uploadFile)(resume[0].path, folder_name);
+            if (application.resume) {
+                await (0, cloudinary_service_utils_1.deleteFiles)([application.resume.public_id]);
+            }
+            application.resume = {
+                path,
+                public_id,
+            };
+        }
+        if (coverLetter) {
+            const { path, public_id } = await (0, cloudinary_service_utils_1.uploadFile)(coverLetter[0].path, folder_name);
+            if (application.coverLetter) {
+                await (0, cloudinary_service_utils_1.deleteFiles)([application.coverLetter.public_id]);
+            }
+            application.coverLetter = {
+                path,
+                public_id,
+            };
+        }
+        await application.save();
+        res.status(200).json({
+            message: `Application Successfully updated!`,
+            data: application,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.update = update;
+//withdraw application for job seekers.
+const withdraw = async (req, res, next) => {
+    try {
+        const { jobId } = req.params;
+        const job = await job_model_1.Job.findById(jobId);
+        if (!job) {
+            throw new error_handler_middleware_1.default(`Job not found`, 404);
+        }
+        const deletedApplication = await application_model_1.Application.findOneAndDelete({
+            job: jobId,
+            applicant: req.user._id,
+        });
+        if (!deletedApplication) {
+            throw new error_handler_middleware_1.default(`You haven't applied to this job.`, 404);
+        }
+        if (deletedApplication.resume) {
+            await (0, cloudinary_service_utils_1.deleteFiles)([deletedApplication.resume.public_id]);
+        }
+        if (deletedApplication.coverLetter) {
+            await (0, cloudinary_service_utils_1.deleteFiles)([deletedApplication.coverLetter.public_id]);
+        }
+        res.status(200).json({
+            message: `Application successfully withdrawn`,
+            data: deletedApplication,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.withdraw = withdraw;
+//view all applications for employers & give option to choose rejected or accepted.
+const viewApplicants = async (req, res, next) => {
+    try {
+        const { currentPage, perPage } = req.query;
+        const { jobId } = req.params;
+        const page = Number(currentPage) || 1;
+        const limit = Number(perPage) || 5;
+        const skip = Number(page - 1) * limit;
+        const job = await job_model_1.Job.findById(jobId);
+        if (!job) {
+            throw new error_handler_middleware_1.default(`Job not found`, 404);
+        }
+        if (req.user._id.toString() !== job.postedBy.toString()) {
+            throw new error_handler_middleware_1.default(`Unauthorized. Access Denied.`, 403);
+        }
+        const applications = await application_model_1.Application.find({ job: jobId })
+            .limit(limit)
+            .skip(skip);
+        const total = await application_model_1.Application.countDocuments({ job: jobId });
+        const pagination = (0, pagination_utils_1.getPagination)(total, page, limit);
+        res.status(200).json({
+            message: `Applications fetched.`,
+            data: applications,
+            pagination,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.viewApplicants = viewApplicants;
+const updateApplicationStatus = async (req, res, next) => {
+    try {
+        const { applicationId, jobId } = req.params;
+        const { status } = req.body;
+        const user = req.user;
+        if (!["ACCEPTED", "REJECTED"].includes(status)) {
+            throw new error_handler_middleware_1.default("Invalid status. Please enter exactly ACCEPTED or REJECTED.", 400);
+        }
+        // Find job for authorization
+        const job = await job_model_1.Job.findById(jobId);
+        if (!job) {
+            throw new error_handler_middleware_1.default("Job not found", 404);
+        }
+        if (req.user._id.toString() !== job.postedBy.toString()) {
+            throw new error_handler_middleware_1.default("Unauthorized. Access Denied.", 403);
+        }
+        // Update application directly
+        const application = await application_model_1.Application.findOneAndUpdate({ _id: applicationId, job: jobId }, // ensures the app belongs to the job
+        { status }, { new: true } // return updated doc
+        );
+        if (!application) {
+            throw new error_handler_middleware_1.default("Application not found for this job", 404);
+        }
+        //generating email for seeker:
+        await (0, nodemailer_utils_1.sendEmail)({
+            to: application.contactEmail,
+            subject: `Your application for ${job.title} at ${job.companyName} has been updated`,
+            html: (0, email_utils_1.generate_status_update_email)(application, job, user),
+        });
+        res.status(200).json({
+            message: `Application status updated to ${status}.`,
+            data: application,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.updateApplicationStatus = updateApplicationStatus;
