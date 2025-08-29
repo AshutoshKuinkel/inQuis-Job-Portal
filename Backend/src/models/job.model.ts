@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { job_type } from "../types/enum.types";
+import { categories, job_type } from "../types/enum.types";
 
 const jobSchema = new mongoose.Schema({
   title:{
@@ -35,6 +35,11 @@ const jobSchema = new mongoose.Schema({
   contactEmail:{
     type:String,
     required:[true,'Please set a contact email to receive updates about your job posting.']
+  },
+
+  category:{
+    type:mongoose.Schema.Types.ObjectId,
+    required: [true,'Please select a category for your job, or one that best matches.']
   },
 
   postedBy:{

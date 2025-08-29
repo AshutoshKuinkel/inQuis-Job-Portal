@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import CustomError from "../middlewares/error-handler.middleware";
 import { Job } from "../models/job.model";
 import { getPagination } from "../utils/pagination.utils";
+import { Category } from "../models/category.model";
 
 export const createJob = async (
   req: Request,
@@ -15,7 +16,7 @@ export const createJob = async (
       throw new CustomError(`Unauthorized. Access denied.`, 401);
     }
 
-    const { title, companyName, description, location, salary, jobType, contactEmail} =
+    const { title, companyName, description, location, salary, jobType, contactEmail,category} =
       req.body;
     const postedBy = id;
 
@@ -34,6 +35,14 @@ export const createJob = async (
     if (!companyName) {
       throw new CustomError(`Please enter Company Name.`, 400);
     }
+    if (!category) {
+      throw new CustomError(`Please select Category.`, 400);
+    }
+
+    const fetchCategory = await Category.findById(category)
+    if(!fetchCategory){
+      throw new CustomError(`Category not found`,400)
+    }
 
     const job = await Job.create({
       title,
@@ -44,6 +53,7 @@ export const createJob = async (
       jobType,
       contactEmail,
       postedBy,
+      category
     });
 
     res.status(201).json({
@@ -298,3 +308,28 @@ export const listJobs = async (
     next(err);
   }
 };
+
+//get job by category
+
+export const getJobByCategory = async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const { id } = req.params;
+
+    const category = await Category.findById(id);
+    if (!category) {
+      throw new CustomError(`Category not found`, 404);
+    }
+    const jobs = await Job.find({ category: id }).populate('category')
+
+    if (!jobs || jobs.length === 0) {
+      throw new CustomError(`No Jobs found for this category`, 404);
+    }
+    
+    res.status(200).json({
+      message: `Products from category fetched successfully`,
+      data: jobs,
+    });
+  }catch(err){
+    next(err)
+  }
+}

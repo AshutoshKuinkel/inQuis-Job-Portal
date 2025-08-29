@@ -11,4 +11,5 @@ router.get('/myJobs',authenticate(employer),getAllJobs)
 router.put('/myJob/update/:jobId',authenticate(employer),updateJob)
 router.delete('/myJob/delete/:jobId',authenticate(employer),deleteJob)
 
+
 export default router

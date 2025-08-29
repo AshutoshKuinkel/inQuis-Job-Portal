@@ -34,7 +34,7 @@ const Hero = () => {
             />
           </div>
 
-          <div className=" flex items-center px-10 py-2 space-x-2 bg-[#2c3e50] text-white font-semibold rounded-md">
+          <div className=" flex items-center px-10 py-2 space-x-2 bg-[#2c3e50] text-white font-semibold rounded-md hover:cursor-pointer">
             <CiSearch size={28}/>
             <button type="submit" className="text-md">Search Jobs</button>
           </div>

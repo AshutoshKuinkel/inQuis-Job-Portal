@@ -28,6 +28,7 @@ import userRoutes from './routes/user.routes'
 import jobRoutes from './routes/job.routes'
 import listJobRoutes from './routes/List-jobs.routes'
 import applicationRoutes from './routes/application.routes'
+import categoryRoutes from './routes/category.routes'
 
 app.get('/',(req:Request,res:Response)=>{
   res.status(200).json({
@@ -41,6 +42,7 @@ app.use('/user',userRoutes)
 app.use('/employer',jobRoutes)
 app.use('',listJobRoutes)
 app.use('/jobs',applicationRoutes)
+app.use('',categoryRoutes)
 
 app.all('/{*all}',(req:Request,res:Response)=>{
   const message = `Cannot ${req.method} @ ${req.originalUrl}`
