@@ -7,7 +7,7 @@ import SignupForm from "../../components/auth components/signup.form";
 const SignupCard = () => {
   return (
     <div>
-      <div className="flex flex-col justify-center items-center min-h-screen pb-10 pt-10 sm: pb-0 sm:pb-0">
+      <div className="flex flex-col justify-center items-center min-h-screen pb-10 pt-10 sm:pb-0 sm:pt-0">
         <Link to={"/"}>
           <div className="flex items-center mr-52 space-x-0.5 sm:space-x-0 sm:mr-72 hover:bg-gray-200 hover:rounded-md p-2 text-xs mb-1 hover:cursor-pointer">
             <FaArrowLeftLong className="text-[#2c3e50]" />

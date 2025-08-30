@@ -23,8 +23,11 @@ const LoginForm = () => {
   });
 
   const onSubmit = async(data: ILoginData) => {
-    console.log(data);
-    loginAPI(data)
+    try{
+    await loginAPI(data)
+    }catch(err){
+      console.log(err)
+    }
   };
 
   return (
