@@ -8,15 +8,15 @@ const LoginCard = () => {
   return (
     <div className="flex flex-col justify-center items-center h-screen">
       <Link to={"/"}>
-        <div className="flex items-center mr-72 hover:bg-gray-200 hover:rounded-md p-2 text-xs mb-1 hover:cursor-pointer">
+        <div className="flex items-center mr-52 space-x-2 sm:space-x-0 sm:mr-72 hover:bg-gray-200 hover:rounded-md p-2 text-xs mb-1 hover:cursor-pointer">
           <FaArrowLeftLong className="text-[#2c3e50]" />
-          <button className=" text-[#2c3e50] px-3 rounded-md">
+          <button className=" text-[#2c3e50] sm:px-3 rounded-md">
             Back to Home
           </button>
         </div>
       </Link>
 
-      <div className="flex flex-col justify-center items-center max-w-md p-6 rounded-md shadow-2xl">
+      <div className="flex flex-col justify-center items-center max-w-xs sm:max-w-md p-6 rounded-md shadow-2xl">
         {/* Logo */}
         <Logo />
 
@@ -28,27 +28,14 @@ const LoginCard = () => {
           </p>
         </div>
 
+        {/* Sign up sign in buttons */}
         <NavLinks />
 
-        {/* Sign up/Sign in buttons
-        <div className="mt-8 bg-[#F3F3F5] w-full max-w-sm rounded-xl flex justify-evenly">
-          <Link to={"/login"}>
-            <button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">
-              Sign In
-            </button>
-          </Link>
-          <Link to={"/signup"}>
-            <button className="text-sm text-[#2c3e50] hover:cursor-pointer hover:bg-white hover:rounded-lg px-17 py-2 scale-93">
-              Sign Up
-            </button>
-          </Link>
-        </div> */}
-
         {/* form*/}
-        <LoginForm />
+        <LoginForm/>
       </div>
 
-      <p className="text-sm text-center mt-4 text-[#2c3e50]">
+      <p className="text-xs sm:text-sm text-center mt-4 text-[#2c3e50]">
         © 2025 inQuis. All rights reserved.
       </p>
     </div>

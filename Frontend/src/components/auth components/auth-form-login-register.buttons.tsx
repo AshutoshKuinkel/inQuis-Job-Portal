@@ -15,11 +15,11 @@ export const NavLinks = ()=>{
   const location = useLocation()
   const active_path = location.pathname
   return(
-    <div className='mt-8 bg-[#F3F3F5] w-full max-w-sm rounded-xl flex justify-evenly'>
+    <div className='mt-8 bg-[#F3F3F5] w-2xs sm:w-sm rounded-xl flex justify-evenly'>
       {
         links.map((item,index)=>(
           <Link key={`${item.link}-${index}`} to={item.link} className={`${active_path === item.link && 'bg-white rounded-2xl scale-93'}`}>
-            <button className="text-sm text-[#2c3e50] hover:cursor-pointer px-17 py-2">{item.label}</button>
+            <button className="text-xs sm:text-sm text-[#2c3e50] hover:cursor-pointer px-12 sm:px-17 py-2">{item.label}</button>
           </Link>
         ))
       }

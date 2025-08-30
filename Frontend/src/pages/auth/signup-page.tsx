@@ -7,9 +7,9 @@ import SignupForm from "../../components/auth components/signup.form";
 const SignupCard = () => {
   return (
     <div>
-      <div className="flex flex-col justify-center items-center h-screen">
+      <div className="flex flex-col justify-center items-center min-h-screen pb-10 pt-10 sm: pb-0 sm:pb-0">
         <Link to={"/"}>
-          <div className="flex items-center mr-72 hover:bg-gray-200 hover:rounded-md p-2 text-xs mb-1 hover:cursor-pointer">
+          <div className="flex items-center mr-52 space-x-0.5 sm:space-x-0 sm:mr-72 hover:bg-gray-200 hover:rounded-md p-2 text-xs mb-1 hover:cursor-pointer">
             <FaArrowLeftLong className="text-[#2c3e50]" />
             <button className=" text-[#2c3e50] px-3 rounded-md">
               Back to Home
@@ -17,7 +17,7 @@ const SignupCard = () => {
           </div>
         </Link>
 
-        <div className="flex flex-col justify-center items-center max-w-md p-8 rounded-md shadow-2xl">
+        <div className="flex flex-col justify-center items-center max-w-xs sm:max-w-md p-8 rounded-md shadow-2xl">
           {/* Logo */}
           <Logo />
 
@@ -37,7 +37,7 @@ const SignupCard = () => {
           
         </div>
 
-        <p className="text-sm text-center mt-4 text-[#2c3e50]">
+        <p className="text-xs sm:text-sm text-center mt-4 text-[#2c3e50]">
           © 2025 inQuis. All rights reserved.
         </p>
       </div>

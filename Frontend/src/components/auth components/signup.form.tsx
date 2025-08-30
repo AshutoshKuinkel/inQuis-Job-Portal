@@ -52,17 +52,17 @@ const SignupForm = () => {
 
   return (
     <form
-      className="mt-8 flex flex-col gap-1"
+      className="mt-8 flex flex-col gap-1 max-w-xs sm:max-w-md"
       onSubmit={handleSubmit(onSubmit)}
     >
-      <div className="flex gap-4 mb-3">
+      <div className="flex flex-col sm:flex-row gap-4 mb-3">
         <div className="flex flex-col gap-1">
           <label className="text-[#2c3e50] text-sm">First Name</label>
           <div
             className={
               errors.first_name
-                ? "flex items-center gap-2 px-2 py-2 max-w-[14rem] bg-[#F3F3F5] rounded-md shadow-md border border-red-500 transition duration-150 hover:cursor-pointer"
-                : "flex items-center gap-2 px-2 py-2 max-w-[14rem] bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                ? "flex items-center gap-2 px-2 py-2 w-2xs sm:max-w-[14rem] bg-[#F3F3F5] rounded-md shadow-md border border-red-500 transition duration-150 hover:cursor-pointer"
+                : "flex items-center gap-2 px-2 py-2 w-2xs sm:max-w-[14rem] bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
             }
           >
             <FiUser />
@@ -82,7 +82,14 @@ const SignupForm = () => {
 
         <div className="flex flex-col gap-1">
           <label className="text-[#2c3e50] text-sm">Last Name</label>
-          <div className={ errors.last_name? "flex items-center gap-2 py-2 max-w-[9rem] bg-[#F3F3F5] rounded-md px-2 shadow-md border border-red-500 transition duration-150 hover:cursor-pointer":"flex items-center gap-2 py-2 max-w-[9rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"}>
+          <div
+            className={
+              errors.last_name
+                ? "flex items-center gap-2 py-2 w-2xs sm:max-w-[9rem] bg-[#F3F3F5] rounded-md px-2 shadow-md border border-red-500 transition duration-150 hover:cursor-pointer"
+                : "flex items-center gap-2 py-2 w-2xs sm:max-w-[9rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+            }
+          >
+            <FiUser className=" sm:hidden"/>
             <input
               id="last_name"
               {...register("last_name")}
@@ -99,7 +106,13 @@ const SignupForm = () => {
       </div>
 
       <label className="text-[#2c3e50]">Email</label>
-      <div className={ errors.email ? "flex items-center gap-2 w-sm bg-[#F3F3F5] rounded-md px-2 py-2 shadow-md border border-red-500 transition duration-150 hover:cursor-pointer":"flex items-center gap-2 w-sm bg-[#F3F3F5] rounded-md px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"}>
+      <div
+        className={
+          errors.email
+            ? "flex items-center gap-2 w-2xs sm:w-sm bg-[#F3F3F5] rounded-md px-2 py-2 shadow-md border border-red-500 transition duration-150 hover:cursor-pointer"
+            : "flex items-center gap-2 w-2xs sm:w-sm bg-[#F3F3F5] rounded-md px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+        }
+      >
         <MdOutlineMail />
         <input
           id="email"
@@ -114,7 +127,13 @@ const SignupForm = () => {
       </p>
 
       <label className="text-[#2c3e50] mt-3">Password</label>
-      <div className={ errors.password? "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-sm px-2 py-2 shadow-md border border-red-500 transition duration-150 hover:cursor-pointer":"flex items-center rounded-md gap-2 bg-[#F3F3F5] w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"}>
+      <div
+        className={
+          errors.password
+            ? "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-2xs sm:w-sm px-2 py-2 shadow-md border border-red-500 transition duration-150 hover:cursor-pointer"
+            : "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-2xs sm:w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+        }
+      >
         <IoLockClosedOutline />
         <input
           id="password"
@@ -132,7 +151,13 @@ const SignupForm = () => {
       <label id="confirm_password" className="text-[#2c3e50] mt-3">
         Confirm Password
       </label>
-      <div className={errors.confirm_password ? "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-sm px-2 py-2 shadow-md border border-red-500 transition duration-150 hover:cursor-pointer" :"flex items-center rounded-md gap-2 bg-[#F3F3F5] w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"}>
+      <div
+        className={
+          errors.confirm_password
+            ? "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-2xs sm:w-sm px-2 py-2 shadow-md border border-red-500 transition duration-150 hover:cursor-pointer"
+            : "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-2xs sm:w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+        }
+      >
         <IoLockClosedOutline />
         <input
           type="password"
@@ -148,7 +173,7 @@ const SignupForm = () => {
       </p>
 
       {/* sign in button */}
-      <button className="border bg-[#2c3e50] mt-5 w-sm text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer">
+      <button className="border bg-[#2c3e50] mt-5 w-2xs sm:w-sm text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer">
         Create Account
       </button>
     </form>
