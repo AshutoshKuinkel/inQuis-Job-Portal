@@ -14,7 +14,9 @@ ConnectDatabase(DB_URI)
 const app = express()
 
 app.use(helmet())
-app.use(cors())
+app.use(cors({
+  credentials:true
+}))
 app.use(express.json());        // for JSON bodies
 app.use(express.urlencoded({ extended: true })); // for form-urlencoded bodies
 app.use(cookieParser())
