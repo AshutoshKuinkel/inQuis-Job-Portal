@@ -101,7 +101,7 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
     })
     .status(200).json({
       message:`Successfully logged in.`,
-      data: secureUser
+      data: secureUser,inQuis_portal_accessToken
     })
   }catch(err){
     next(err)

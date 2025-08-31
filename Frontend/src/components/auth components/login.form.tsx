@@ -5,10 +5,14 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import type { ILoginData } from "../../types/auth.types";
 import { loginSchema } from "../../schema/auth.schema";
 import { loginAPI } from "../../api/auth.api";
-
-
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 const LoginForm = () => {
+
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -22,12 +26,41 @@ const LoginForm = () => {
     mode: "all",
   });
 
-  const onSubmit = async(data: ILoginData) => {
-    try{
-    await loginAPI(data)
-    }catch(err){
-      console.log(err)
-    }
+  const { mutate, isPending } = useMutation({
+    mutationFn: loginAPI,
+    onSuccess: (response) => {
+      console.log(response);
+      toast.success(response?.message ?? "Login Success", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+      localStorage.setItem('user',JSON.stringify(response.data))
+      localStorage.setItem('token',response.data.inQuis_portal_accessToken)
+      setTimeout(()=>navigate('/'),1000)
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error?.message ?? "Something went wrong", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+    },
+  });
+
+  const onSubmit = async (data: ILoginData) => {
+    mutate(data);
   };
 
   return (
@@ -80,7 +113,8 @@ const LoginForm = () => {
 
       {/* sign in button */}
       <button
-        className="border bg-[#2c3e50] mt-5 w-2xs sm:w-sm text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer"
+        disabled={isPending}
+        className="border bg-[#2c3e50] mt-5 w-2xs sm:w-sm text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer  disabled:bg-[#3a4753] disabled:cursor-not-allowed"
         type="submit"
       >
         Sign In

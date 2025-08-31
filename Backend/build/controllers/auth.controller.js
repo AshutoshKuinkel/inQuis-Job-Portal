@@ -86,7 +86,7 @@ const login = async (req, res, next) => {
         })
             .status(200).json({
             message: `Successfully logged in.`,
-            data: secureUser
+            data: secureUser, inQuis_portal_accessToken
         });
     }
     catch (err) {

@@ -11,7 +11,6 @@ export const loginAPI = async(data:ILoginData)=>{
     console.log(response)
     return response.data
   }catch(err:any){
-    console.log(err)
     throw err.response.data
   }
 }

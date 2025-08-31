@@ -8,6 +8,7 @@ import PageNotFound from "./pages/page-not-found";
 import JobPage from "./pages/job-page";
 import PostJob from "./pages/employer/PostJob";
 import ClientLayout from "./layouts/client.layout";
+import { Toaster } from "react-hot-toast";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </Router>
+      <Toaster reverseOrder={true}/>
     </main>
   );
 };
