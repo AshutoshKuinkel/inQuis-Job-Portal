@@ -25,3 +25,13 @@ export const signupAPI = async(data:ISignupData)=>{
     throw err.response.data
   }
 }
+
+
+export const logoutAPI = async()=>{
+  try{
+    const response = await api.post('/logout')
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}

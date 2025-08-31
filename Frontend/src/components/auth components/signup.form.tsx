@@ -65,7 +65,7 @@ const SignupForm = () => {
           secondary: "#FFFAEE",
         },
       });
-      setTimeout(()=>navigate('/login'),1000)
+      setTimeout(()=>navigate('/login'),500)
     },
     onError:(error)=>{
       console.log(error);

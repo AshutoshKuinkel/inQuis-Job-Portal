@@ -42,7 +42,7 @@ const LoginForm = () => {
       });
       localStorage.setItem('user',JSON.stringify(response.data))
       localStorage.setItem('token',response.inQuis_portal_accessToken)
-      setTimeout(()=>navigate('/'),1000)
+      setTimeout(()=>navigate('/'),500)
     },
     onError: (error) => {
       console.log(error);
