@@ -1,4 +1,4 @@
-import { ILoginData } from '../types/auth.types';
+import { ILoginData, ISignupData } from '../types/auth.types';
 import api from './index';
 // import axios from 'axios';
 
@@ -8,6 +8,17 @@ export const loginAPI = async(data:ILoginData)=>{
   try{
     console.log(API_URL)
     const response = await api.post('/login',data)
+    console.log(response)
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}
+
+export const signupAPI = async(data:ISignupData)=>{
+  try{
+    console.log(API_URL)
+    const response = await api.post('/signup',data)
     console.log(response)
     return response.data
   }catch(err:any){

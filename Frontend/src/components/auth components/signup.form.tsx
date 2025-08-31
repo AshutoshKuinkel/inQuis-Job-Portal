@@ -4,6 +4,10 @@ import { FiUser } from "react-icons/fi";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup/src/yup.js";
 import * as yup from "yup";
+import { useMutation } from "@tanstack/react-query";
+import { signupAPI } from "../../api/auth.api";
+import toast from "react-hot-toast";
+import { useNavigate } from "react-router";
 
 export interface ISignupData {
   first_name: string;
@@ -30,6 +34,9 @@ export const signupSchema = yup.object({
 });
 
 const SignupForm = () => {
+
+  const navigate = useNavigate()
+
   const {
     register,
     handleSubmit,
@@ -45,9 +52,39 @@ const SignupForm = () => {
     mode: "all",
   });
 
+  const {mutate,isPending} = useMutation({
+    mutationFn:signupAPI,
+    onSuccess:(response)=>{
+      toast.success(response?.message ?? "Successfully Registered", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+      setTimeout(()=>navigate('/login'),1000)
+    },
+    onError:(error)=>{
+      console.log(error);
+      toast.error(error?.message ?? "Something went wrong", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+    },
+  })
+
   const onSubmit = (data: ISignupData & { confirm_password: string }) => {
     const { confirm_password, ...formData } = data;
-    console.log(formData);
+    mutate(formData)
   };
 
   return (
@@ -173,7 +210,8 @@ const SignupForm = () => {
       </p>
 
       {/* sign in button */}
-      <button className="border bg-[#2c3e50] mt-5 w-2xs sm:w-sm text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer">
+      <button disabled={isPending} 
+      className="border bg-[#2c3e50] mt-5 w-2xs sm:w-sm text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed">
         Create Account
       </button>
     </form>

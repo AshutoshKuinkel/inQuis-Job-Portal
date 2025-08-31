@@ -30,7 +30,6 @@ const LoginForm = () => {
     mutationFn: loginAPI,
     onSuccess: (response) => {
       console.log(response);
-      console.log("Token:", response.inQuis_portal_accessToken);
       toast.success(response?.message ?? "Login Success", {
         style: {
           border: " 1px solid #2c3e50",
