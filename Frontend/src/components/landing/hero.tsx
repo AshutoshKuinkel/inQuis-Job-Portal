@@ -3,7 +3,7 @@ import { IoLocationOutline } from "react-icons/io5";
 
 const Hero = () => {
   return (
-    <div className="flex flex-col bg-[#FBFBFC] justify-center items-center pb-10">
+    <div className="flex flex-col bg-[#F9F9FA] justify-center items-center pb-10">
       {/* Ttile + Slogan section */}
       <div className="text-[#2c3e50] mt-20 text-center flex flex-col gap-6">
         <h1 className="font-bold text-5xl">Find Your Dream Job</h1>

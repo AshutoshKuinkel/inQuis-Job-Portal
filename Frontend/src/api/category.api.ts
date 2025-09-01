@@ -1,0 +1,12 @@
+
+import api from "./index";
+
+//get all categories:
+export const getCategories = async () => {
+  try {
+    const response = await api.get("/categories");
+    return response.data;
+  } catch (error:any) {
+    throw error.response.data
+  }
+};
