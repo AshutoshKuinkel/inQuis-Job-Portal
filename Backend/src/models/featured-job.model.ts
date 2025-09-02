@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import { categories, job_type } from "../types/enum.types";
 
-const jobSchema = new mongoose.Schema({
+const featuredJobSchema = new mongoose.Schema({
   title:{
     type:String,
     required:[true,`A title for your job is required.`]
@@ -48,11 +48,4 @@ const jobSchema = new mongoose.Schema({
   }
 },{timestamps:true})
 
-// Create indexes
-jobSchema.index({ location: 1 });    // ascending index on location
-jobSchema.index({ createdAt: -1 });  // descending index on createdAt for latest first sorting
-jobSchema.index({ salary: -1 });     // descending index on salary for highest salary sorting
-
-export const Job = mongoose.model('Job',jobSchema)
-
-//just build the CRUD for this API now.
+export const featuredJob = mongoose.model('featuredJob',featuredJobSchema)

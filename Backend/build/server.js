@@ -64,6 +64,7 @@ const job_routes_1 = __importDefault(require("./routes/job.routes"));
 const List_jobs_routes_1 = __importDefault(require("./routes/List-jobs.routes"));
 const application_routes_1 = __importDefault(require("./routes/application.routes"));
 const category_routes_1 = __importDefault(require("./routes/category.routes"));
+const featured_job_routes_1 = __importDefault(require("./routes/featured-job.routes"));
 app.get('/', (req, res) => {
     res.status(200).json({
         message: 'InQuis Job Portal'
@@ -76,6 +77,7 @@ app.use('/employer', job_routes_1.default);
 app.use('', List_jobs_routes_1.default);
 app.use('/jobs', application_routes_1.default);
 app.use('', category_routes_1.default);
+app.use('', featured_job_routes_1.default);
 app.all('/{*all}', (req, res) => {
     const message = `Cannot ${req.method} @ ${req.originalUrl}`;
     throw new error_handler_middleware_1.default(message, 404);

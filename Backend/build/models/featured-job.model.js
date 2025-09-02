@@ -3,10 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.Job = void 0;
+exports.featuredJob = void 0;
 const mongoose_1 = __importDefault(require("mongoose"));
 const enum_types_1 = require("../types/enum.types");
-const jobSchema = new mongoose_1.default.Schema({
+const featuredJobSchema = new mongoose_1.default.Schema({
     title: {
         type: String,
         required: [true, `A title for your job is required.`]
@@ -44,9 +44,4 @@ const jobSchema = new mongoose_1.default.Schema({
         required: [true, `Reference to employer user ID not found`]
     }
 }, { timestamps: true });
-// Create indexes
-jobSchema.index({ location: 1 }); // ascending index on location
-jobSchema.index({ createdAt: -1 }); // descending index on createdAt for latest first sorting
-jobSchema.index({ salary: -1 }); // descending index on salary for highest salary sorting
-exports.Job = mongoose_1.default.model('Job', jobSchema);
-//just build the CRUD for this API now.
+exports.featuredJob = mongoose_1.default.model('featuredJob', featuredJobSchema);
