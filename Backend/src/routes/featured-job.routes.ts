@@ -6,6 +6,6 @@ import { authenticate } from "../middlewares/auth.middleware";
 const router = express.Router()
 
 router.post('/postFeaturedJob',authenticate(admin),postFeaturedJob)
-router.get('/getFeaturedJobs',authenticate(everyone),getFeaturedJobs)
+router.get('/getFeaturedJobs',getFeaturedJobs)
 
 export default router
