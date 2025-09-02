@@ -9,5 +9,5 @@ const enum_types_1 = require("../types/enum.types");
 const auth_middleware_1 = require("../middlewares/auth.middleware");
 const router = express_1.default.Router();
 router.post('/postFeaturedJob', (0, auth_middleware_1.authenticate)(enum_types_1.admin), featured_job_controller_1.postFeaturedJob);
-router.get('/getFeaturedJobs', (0, auth_middleware_1.authenticate)(enum_types_1.admin), featured_job_controller_1.getFeaturedJobs);
+router.get('/getFeaturedJobs', (0, auth_middleware_1.authenticate)(enum_types_1.everyone), featured_job_controller_1.getFeaturedJobs);
 exports.default = router;
