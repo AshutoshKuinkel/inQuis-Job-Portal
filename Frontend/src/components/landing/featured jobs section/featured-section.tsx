@@ -5,7 +5,7 @@ import { getFeaturedJobAPI } from "../../../api/featured-job.api"
 
 const FeaturedSection = () => {
 
-  const {data,isLoading} = useQuery({
+  const {data} = useQuery({
     queryFn:getFeaturedJobAPI,
     queryKey:['featured_Job_API']
   })
