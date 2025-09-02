@@ -11,6 +11,7 @@ import {
 import React from "react";
 import { ICategory } from "../../../types/category.types";
 
+
 interface IProps{
   category:ICategory
 }

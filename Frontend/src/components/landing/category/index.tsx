@@ -3,11 +3,14 @@ import { ICategory } from "../../../types/category.types";
 import CategoryCard from "./category-card";
 import { getCategories } from "../../../api/category.api";
 
+
 const Category = () => {
-  const { data } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: getCategories,
     queryKey: ["get_all_categories"],
   });
+
+  console.log(isLoading)
 
   return (
     <div className="bg-[#FCFDFD] pb-10">
@@ -19,9 +22,18 @@ const Category = () => {
         </p>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-4 place-items-center gap-y-5 sm:px-64 mt-12">
-        {data?.data.map((category: ICategory) => (
-          <CategoryCard category={category} key={category.name} />
-        ))}
+        {isLoading ? (
+          <div className="flex justify-center items-center col-span-4 h-[300px]">
+            <h1 className="font-bold text-2xl text-[#2c3e50] text-center">Loading...</h1>
+          </div>
+        )
+        
+        :(data?.data.map((category: ICategory) => (
+          <CategoryCard category={category} key={category.name}/>
+        )))
+        }
+        
+        
       </div>
     </div>
   );
