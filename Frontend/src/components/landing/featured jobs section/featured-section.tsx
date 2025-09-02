@@ -1,6 +1,15 @@
 import FeaturedJobCard from "./featured-card"
+import { IJob } from "../../../types/job.types"
+import { useQuery } from "@tanstack/react-query"
+import { getFeaturedJobAPI } from "../../../api/featured-job.api"
 
 const FeaturedSection = () => {
+
+  const {data,isLoading} = useQuery({
+    queryFn:getFeaturedJobAPI,
+    queryKey:['featured_Job_API']
+  })
+
   return (
     <div>
       {/* Title Section */}
@@ -10,8 +19,10 @@ const FeaturedSection = () => {
       </div>
 
       {/* Card Section */}
-      <div className="sm:px-72 mt-10">
-        <FeaturedJobCard/>
+      <div className="sm:px-72 mt-6">
+        {(data?.data.map((featuredJob:IJob)=>(
+          <FeaturedJobCard featuredJob={featuredJob}/>
+        )))}
       </div>
     </div>
   )
