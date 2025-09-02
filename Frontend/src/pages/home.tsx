@@ -1,4 +1,5 @@
 import Category from "../components/landing/category";
+import FeaturedSection from "../components/landing/featured jobs section/featured-section";
 import Hero from "../components/landing/hero";
 
 
@@ -13,6 +14,7 @@ const HomePage = () => {
           <Category/>
 
         {/* Featured job section */}
+        <FeaturedSection/>
       </div>
     </main>
   );
