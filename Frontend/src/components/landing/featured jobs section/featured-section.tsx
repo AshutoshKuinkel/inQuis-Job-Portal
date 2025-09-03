@@ -11,7 +11,7 @@ const FeaturedSection = () => {
   })
 
   return (
-    <div>
+    <div className="pb-40">
       {/* Title Section */}
       <div className='flex flex-col items-start justify-center pl-72 pt-12'>
         <h1 className='text-3xl text-[#2e3c50] font-bold'>Featured Jobs</h1>
@@ -19,9 +19,9 @@ const FeaturedSection = () => {
       </div>
 
       {/* Card Section */}
-      <div className="sm:px-72 mt-6">
+      <div className="sm:px-64 mt-6 grid grid-cols-3 gap-4">
         {(data?.data.map((featuredJob:IJob)=>(
-          <FeaturedJobCard featuredJob={featuredJob}/>
+          <FeaturedJobCard featuredJob={featuredJob} key={featuredJob._id}/>
         )))}
       </div>
     </div>

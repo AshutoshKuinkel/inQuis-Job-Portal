@@ -79,7 +79,7 @@ export const getFeaturedJobs = async (
 ) => {
   try {
 
-    const featured = await featuredJob.find()
+    const featured = await featuredJob.find().populate('category')
 
     res.status(200).json({
       message: `Featured Jobs Successfully Fetched.`,
