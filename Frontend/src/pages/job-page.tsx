@@ -1,11 +1,17 @@
+import ListJobsNav from "../components/list jobs page/nav";
 
 
 const JobPage = () => {
   return (
     <div className="min-h-screen">
-      <h1>Job Page</h1>
-    </div>
-  )
-}
+      {/* Nav Section */}
+      <ListJobsNav/>
 
-export default JobPage
+      {/* list job cards */}
+
+      {/* Detail Section {include button that says like AI resume builder tailored for this job.} */}
+    </div>
+  );
+};
+
+export default JobPage;
