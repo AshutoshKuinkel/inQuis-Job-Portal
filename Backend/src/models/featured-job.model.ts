@@ -41,7 +41,7 @@ const featuredJobSchema = new mongoose.Schema({
   category:{
     type:mongoose.Schema.Types.ObjectId,
     ref:'Category',
-    required: [true,'Please select a category for your job, or one that best matches.']
+    required: [true,'Please select a category for your job, or one that best matches.'],
   },
 
   postedBy:{

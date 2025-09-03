@@ -60,7 +60,7 @@ const postFeaturedJob = async (req, res, next) => {
 exports.postFeaturedJob = postFeaturedJob;
 const getFeaturedJobs = async (req, res, next) => {
     try {
-        const featured = await featured_job_model_1.featuredJob.find();
+        const featured = await featured_job_model_1.featuredJob.find().populate('category');
         res.status(200).json({
             message: `Featured Jobs Successfully Fetched.`,
             data: featured,
