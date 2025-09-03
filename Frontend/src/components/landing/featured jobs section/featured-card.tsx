@@ -7,7 +7,19 @@ interface IProps{
   featuredJob:IJob
 }
 
+const CategoryTextColoring = {
+  Technology: 'text-blue-500',
+  Design: 'text-purple-500',
+  Marketing: 'text-green-500',
+  Sales: 'text-orange-500',
+  Mobile: 'text-pink-500',
+  Security: 'text-red-500',
+  Healthcare: 'text-teal-500',
+  Engineering: 'text-indigo-500',
+}
+
 const FeaturedJobCard:React.FC<IProps> = ({featuredJob}) => {
+  const textColor = CategoryTextColoring[featuredJob.category.name as keyof typeof CategoryTextColoring]
   return (
     <div className="flex flex-col border border-[#E9EBED] w-md gap-y-4 p-4 rounded-lg">
       {/* Job Role + Company Section */}
@@ -21,7 +33,7 @@ const FeaturedJobCard:React.FC<IProps> = ({featuredJob}) => {
 
       {/* Category Section */}
       <div className="w-24 text-center bg-[#ECEEF2] rounded-lg py-1">
-        <p className="text-sm text-[#2c3e50] font-semibold">{featuredJob.category.name}</p>
+        <p className={`text-xs ${textColor} font-semibold`}>{featuredJob.category.name}</p>
       </div>
 
       {/* Description, line clamp 2 */}

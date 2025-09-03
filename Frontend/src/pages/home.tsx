@@ -13,7 +13,7 @@ const HomePage = () => {
         {/* Browse by category section */}
           <Category/>
 
-        {/* Featured job section */}
+        {/* Featured job section. Create dynamic page next for this and category to display the job detail page and jobs by category page. */}
         <FeaturedSection/>
       </div>
     </main>
