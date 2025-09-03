@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import { categories, job_type } from "../types/enum.types";
+import { ref } from "process";
 
 const featuredJobSchema = new mongoose.Schema({
   title:{
@@ -39,6 +40,7 @@ const featuredJobSchema = new mongoose.Schema({
 
   category:{
     type:mongoose.Schema.Types.ObjectId,
+    ref:'Category',
     required: [true,'Please select a category for your job, or one that best matches.']
   },
 
