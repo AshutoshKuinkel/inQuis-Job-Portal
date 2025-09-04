@@ -9,7 +9,7 @@ const JobDisplay = () => {
         {/* Cards */}
         <div className="col-span-1">
           <div className="flex flex-col gap-3">
-            <JobCard />
+            <JobCard/>
             <JobCard />
             <JobCard />
             <JobCard />

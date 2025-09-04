@@ -3,6 +3,7 @@ import { IJob } from "../../../types/job.types";
 import { useQuery } from "@tanstack/react-query";
 import { getFeaturedJobAPI } from "../../../api/featured-job.api";
 import { Link } from "react-router";
+import {Oval} from 'react-loading-icons'
 
 const FeaturedSection = () => {
   const { data, isLoading } = useQuery({
@@ -24,9 +25,7 @@ const FeaturedSection = () => {
       <div className="sm:px-64 mt-6 grid grid-cols-3 gap-4">
         {isLoading ? (
           <div className="flex justify-center items-center col-span-4 h-[300px]">
-            <h1 className="font-bold text-2xl text-[#2c3e50] text-center">
-              Loading...
-            </h1>
+            <Oval stroke="#2c3e50" height="64" width="64" />
           </div>
         ) : (
           data?.data.map((featuredJob: IJob) => (

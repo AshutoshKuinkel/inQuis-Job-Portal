@@ -4,7 +4,7 @@ import { IoLocationOutline } from "react-icons/io5";
 const JobCard = () => {
 
   return (
-    <div className="flex flex-col border border-[#E9EBED] w-md gap-y-4 p-4 rounded-lg">
+    <div className="flex flex-col border border-[#E9EBED] w-md gap-y-4 p-4 rounded-lg hover:border hover:border-[#2e3c50] hover:cursor-pointer">
       {/* Job Role + Company Section */}
       <div className="flex flex-col space-y-1">
         <h1 className="text-xl text-[#2c3e50] font-bold">Senior Frontend Developer</h1>

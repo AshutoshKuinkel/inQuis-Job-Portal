@@ -2,6 +2,7 @@ import { CiSearch } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
 import { TbClockHour7 } from "react-icons/tb";
 import { DollarSign } from "lucide-react";
+import { BiCategoryAlt } from "react-icons/bi";
 
 const ListJobsNav = () => {
   return (
@@ -64,6 +65,25 @@ const ListJobsNav = () => {
                 </option>
                 <option>Highest</option>
                 <option>Lowest</option>
+              </select>
+            </div>
+
+            <div className="flex items-center bg-[#E9EBED] p-2 text-xs text-[#2c3e50] rounded-md">
+              <div className="flex items-center gap-1">
+                <BiCategoryAlt size={18} />
+              </div>
+              <select className="outline-none">
+                <option selected>
+                  <label> Category</label>
+                </option>
+                <option>Design</option>
+                <option>Technology</option>
+                <option>Marketing</option>
+                <option>Sales</option>
+                <option>Mobile</option>
+                <option>Security</option>
+                <option>Healthcare</option>
+                <option>Engineering</option>
               </select>
             </div>
           </form>
