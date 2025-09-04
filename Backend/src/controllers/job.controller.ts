@@ -326,10 +326,26 @@ export const getJobByCategory = async(req:Request,res:Response,next:NextFunction
     }
     
     res.status(200).json({
-      message: `Products from category fetched successfully`,
+      message: `Jobs from category fetched successfully`,
       data: jobs,
     });
   }catch(err){
     next(err)
   }
+}
+
+//get job by id:
+
+export const getJobById = async(req:Request,res:Response,next:NextFunction)=>{
+  const {id} = req.params
+
+  const job = await Job.findById(id).populate('category')
+  if(!job){
+    throw new CustomError(`Job not Found`,404)
+  }
+
+  res.status(200).json({
+    message:`Job Successfully fetched.`,
+    data:job
+  })
 }
