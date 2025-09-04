@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobByCategory = exports.listJobs = exports.deleteJob = exports.updateJob = exports.getAllJobs = exports.readJob = exports.createJob = void 0;
+exports.getJobById = exports.getJobByCategory = exports.listJobs = exports.deleteJob = exports.updateJob = exports.getAllJobs = exports.readJob = exports.createJob = void 0;
 const error_handler_middleware_1 = __importDefault(require("../middlewares/error-handler.middleware"));
 const job_model_1 = require("../models/job.model");
 const pagination_utils_1 = require("../utils/pagination.utils");
@@ -224,7 +224,7 @@ const listJobs = async (req, res, next) => {
         if (!sortOption) {
             sortOption = { createdAt: -1 };
         }
-        let jobs = await job_model_1.Job.find(filter).sort(sortOption).limit(limit).skip(skip);
+        let jobs = await job_model_1.Job.find(filter).sort(sortOption).limit(limit).skip(skip).populate('category');
         let total = await job_model_1.Job.countDocuments(filter);
         if (jobs.length === 0) {
             jobs = await job_model_1.Job.find({}).sort(sortOption).limit(limit).skip(skip);
@@ -255,7 +255,7 @@ const getJobByCategory = async (req, res, next) => {
             throw new error_handler_middleware_1.default(`No Jobs found for this category`, 404);
         }
         res.status(200).json({
-            message: `Products from category fetched successfully`,
+            message: `Jobs from category fetched successfully`,
             data: jobs,
         });
     }
@@ -264,3 +264,16 @@ const getJobByCategory = async (req, res, next) => {
     }
 };
 exports.getJobByCategory = getJobByCategory;
+//get job by id:
+const getJobById = async (req, res, next) => {
+    const { id } = req.params;
+    const job = await job_model_1.Job.findById(id).populate('category');
+    if (!job) {
+        throw new error_handler_middleware_1.default(`Job not Found`, 404);
+    }
+    res.status(200).json({
+        message: `Job Successfully fetched.`,
+        data: job
+    });
+};
+exports.getJobById = getJobById;

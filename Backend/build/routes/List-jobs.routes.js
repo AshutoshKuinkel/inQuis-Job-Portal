@@ -7,5 +7,6 @@ const express_1 = __importDefault(require("express"));
 const job_controller_1 = require("../controllers/job.controller");
 const router = express_1.default.Router();
 router.get('/jobs', job_controller_1.listJobs);
+router.get('/jobs/:id', job_controller_1.getJobById);
 router.get('/jobs/field/:id', job_controller_1.getJobByCategory);
 exports.default = router;

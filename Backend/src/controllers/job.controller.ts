@@ -287,7 +287,7 @@ export const listJobs = async (
       sortOption = { createdAt: -1 };
     }
 
-    let jobs = await Job.find(filter).sort(sortOption).limit(limit).skip(skip);
+    let jobs = await Job.find(filter).sort(sortOption).limit(limit).skip(skip).populate('category');
 
     let total = await Job.countDocuments(filter);
 
