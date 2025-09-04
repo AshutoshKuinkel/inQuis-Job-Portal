@@ -115,7 +115,9 @@ const DetailCard: React.FC<IProps> = ({ jobId }) => {
 
       {/* Job Description */}
       <div className="p-6">
-        <p>{job.description}</p>
+        {job.description.replace(/\\n/g,"\n").split("\n").map((line:any, index:any) => (
+          <p key={index}>{line}</p>
+        ))}
       </div>
     </div>
   );
