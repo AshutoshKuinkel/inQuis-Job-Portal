@@ -6,19 +6,24 @@ import { useQuery } from "@tanstack/react-query";
 import { getJobBYIdAPI } from "../../../api/job.api";
 import React from "react";
 
-interface IProps{
-  id:string | null
+interface IProps {
+  jobId: string | null;
 }
 
-const DetailCard:React.FC<IProps> = ({id}) => {
-  const {data,isLoading,error} = useQuery({
-    queryFn:()=> getJobBYIdAPI(id!),
-    queryKey:['job_id',id],
-    enabled: !!id
-  })
+const DetailCard: React.FC<IProps> = ({ jobId }) => {
+  const {
+    data: response,
+    isLoading,
+    error,
+  } = useQuery({
+    queryFn: () => getJobBYIdAPI(jobId!),
+    queryKey: ["job_id", jobId],
+    enabled: !!jobId,
+  });
 
-  
-  if (!id) return <div>Select a job to see its details.</div>;
+  const job = response?.data;
+
+  if (!jobId) return <div>Select a job to see its details.</div>;
   if (isLoading) return <div>Loading job details...</div>;
   if (error) return <div>Error loading job.</div>;
 
@@ -27,42 +32,46 @@ const DetailCard:React.FC<IProps> = ({id}) => {
       {/* Title + Location + Company + Job Type + salary + days posted ago */}
       <div>
         <div className="flex flex-col justify-center p-6 gap-1">
-          <h1 className="text-4xl font-semibold text-[#2c3e50]">
-            {data.title}
-          </h1>
-          <p className="text-2xl text-[#6c7b7f]">TechCorp Inc.</p>
+          <h1 className="text-4xl font-semibold text-[#2c3e50]">{job.title}</h1>
+          <p className="text-2xl text-[#6c7b7f]">{job.companyName}</p>
         </div>
 
         <div className="pl-6 flex flex-col gap-2 justify-center text-[#2c3e50]">
           {/* Location  */}
           <div className="flex items-center space-x-2">
             <IoLocationOutline size={18} />
-            <p>San Fransisco, CA</p>
+            <p>{job.location}</p>
           </div>
 
           {/* Category */}
           <div className="flex items-center space-x-2">
             <BiCategoryAlt />
-            <p>Technology</p>
+            <p>Category</p>
           </div>
 
           {/* Job Type */}
           <div className="flex items-center space-x-2">
             <TbClockHour7 />
-            <p>Full Time</p>
+            <p>{job.jobType}</p>
           </div>
 
           {/* Salary */}
           <div className="flex items-center space-x-2">
             <DollarSign size={18} />
-            <p>$120k - $160k</p>
+            <p>{job.salary}</p>
           </div>
         </div>
       </div>
 
       {/* Posted ago */}
       <div className="mt-6 pl-6 text-[#6c7b7f]">
-        <p>Posted 2d ago</p>
+        <p>
+          {new Date(job.createdAt).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}
+        </p>
       </div>
 
       {/* Apply + Build AI resume for Job button */}
@@ -78,76 +87,7 @@ const DetailCard:React.FC<IProps> = ({id}) => {
 
       {/* Job Description */}
       <div className="p-6">
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Mollitia nemo
-          accusantium ut ullam non amet tempore molestiae, architecto sequi
-          ratione atque quis laborum debitis nihil neque assumenda, porro quas,
-          iure consequatur aliquid voluptate? Ipsam reiciendis temporibus vel!
-          Expedita ducimus provident cumque odit repudiandae quasi officiis
-          beatae repellendus, quis voluptas blanditiis sint obcaecati? Sit iusto
-          blanditiis et est porro explicabo obcaecati adipisci, veniam nostrum
-          quidem asperiores fugiat reprehenderit a expedita ad accusamus sint
-          earum, vitae nulla quae perferendis! Quas porro architecto fuga
-          voluptatum, quia sapiente impedit dolor nostrum asperiores quasi magni
-          eum quos et delectus voluptas labore amet repudiandae. Quas sit
-          necessitatibus illo amet qui? Architecto deleniti ipsam porro,
-          molestias sint quo consectetur minima recusandae explicabo deserunt
-          voluptatum. Dignissimos nam ducimus dolores, quod in aspernatur
-          reprehenderit accusamus perferendis fugiat quis excepturi sint,
-          deserunt officiis? Obcaecati omnis facere perspiciatis enim porro
-          saepe sapiente quibusdam qui hic aliquam ut exercitationem maiores
-          sequi cupiditate quo, labore consequuntur repudiandae distinctio illum
-          sint quos voluptate, accusamus aut illo. Quidem quibusdam iste velit
-          odit id, repellendus assumenda sed illo, rerum iusto minima molestiae
-          laborum molestias soluta reiciendis nobis quam doloribus nisi
-          praesentium libero sit harum autem? Eaque labore harum eveniet commodi
-          repellat. Impedit alias est harum tenetur et enim soluta placeat. Eos
-          eveniet in cum temporibus tempore ad doloremque quo possimus sunt.
-          Minima quae ab suscipit? Voluptatibus deserunt, dolorem accusamus
-          facere perferendis ipsam cumque voluptatem reprehenderit, est porro
-          ipsum praesentium numquam aliquam, eum necessitatibus! Facilis ab,
-          minima ipsum optio quia placeat, totam provident sapiente voluptatem a
-          vel consectetur earum error mollitia consequuntur quis aliquam modi
-          rerum animi nihil eveniet. Impedit quae velit autem illo, aut omnis
-          maxime similique recusandae, exercitationem deserunt accusantium
-          quaerat, iste modi tempore nihil hic corporis ex placeat et aperiam
-          totam ducimus ipsa. Laboriosam, perferendis impedit aperiam odit dicta
-          mollitia ratione officia natus, facilis fuga alias. Obcaecati, quod.
-          Deleniti debitis sint dolorem officiis quo doloribus quibusdam, ipsam
-          iste! Architecto rem dignissimos tempora, dolorum, est consequuntur
-          soluta vitae dolor ea nobis nisi officiis quia expedita aperiam
-          excepturi commodi id qui voluptatum iste dolore unde? Quibusdam, quia
-          repudiandae itaque, eius dolores, aperiam voluptas hic reiciendis
-          magnam delectus odit provident rem incidunt. Vitae ab unde sapiente
-          labore, culpa maiores ipsam optio. Officiis hic modi totam eveniet
-          doloribus corporis praesentium atque provident maxime. Blanditiis
-          temporibus nobis, dicta modi doloremque totam nulla quaerat maiores!
-          Deserunt, eveniet, officiis nisi, vel excepturi ipsam quasi explicabo
-          maiores rem molestias temporibus fuga ullam error dolorum. Iste
-          aliquid in quod neque ex provident placeat rem sed illum? Deleniti
-          veniam magnam quos. Veritatis ipsa culpa sunt adipisci expedita
-          voluptates aspernatur illum natus! Esse, debitis atque corporis iste
-          soluta quo hic doloribus rerum ipsa harum id adipisci quas reiciendis
-          facilis fugit blanditiis quod veritatis a deleniti ducimus iure
-          distinctio, provident ea? Quaerat maxime aperiam quam officia, fugit
-          eveniet ut delectus autem, recusandae, consectetur nihil fugiat
-          impedit eum tempora! Iste consequuntur provident ipsa similique!
-          Laboriosam nulla, sed nemo, tenetur doloribus, repellat vitae in ad
-          reiciendis recusandae ab sint excepturi omnis tempore dolores libero
-          ipsum illum impedit distinctio id. Dolore quasi veritatis magnam
-          dolorum sequi animi quis. Pariatur praesentium temporibus, facere
-          reprehenderit dolores ipsam tempore laboriosam adipisci sit minus
-          accusamus unde ipsum. Vitae dolore molestias repudiandae, eaque totam
-          aperiam beatae recusandae quibusdam. Odio excepturi aliquid
-          accusantium esse maxime numquam voluptatibus optio, doloribus quasi,
-          iusto ex officia dolorem et consequuntur ut eaque labore amet tempore.
-          Amet inventore molestiae omnis. Ipsum totam praesentium, vitae quaerat
-          explicabo doloribus molestiae necessitatibus magnam quo nesciunt
-          aperiam ipsa. Possimus nostrum cumque tempora quisquam unde magni
-          consequuntur a porro, ex exercitationem dolorum dignissimos voluptatum
-          rerum esse doloribus libero aliquid harum enim! Inventore molestiae
-          totam maiores.
-        </p>
+        <p>{job.description}</p>
       </div>
     </div>
   );
