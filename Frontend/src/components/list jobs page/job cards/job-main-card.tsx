@@ -1,48 +1,53 @@
-import { Building2,DollarSign } from "lucide-react";
+import { Building2, DollarSign } from "lucide-react";
 import { IoLocationOutline } from "react-icons/io5";
+import { IJob } from "../../../types/job.types";
+import React from "react";
 
-const JobCard = () => {
-
+interface IProps {
+  job: IJob;
+  onClick: (id: string) => void;
+}
+const JobCard: React.FC<IProps> = ({ job, onClick }) => {
   return (
-    <div className="flex flex-col border border-[#E9EBED] w-md gap-y-4 p-4 rounded-lg hover:border hover:border-[#2e3c50] hover:cursor-pointer">
+    <div
+      onClick={() => onClick(job._id)}
+      className="flex flex-col border border-[#E9EBED] w-md gap-y-4 p-4 rounded-lg hover:border hover:border-[#2e3c50] hover:cursor-pointer"
+    >
       {/* Job Role + Company Section */}
       <div className="flex flex-col space-y-1">
-        <h1 className="text-xl text-[#2c3e50] font-bold">Senior Frontend Developer</h1>
+        <h1 className="text-xl text-[#2c3e50] font-bold">{job.title}</h1>
         <div className="flex space-x-1 items-center text-[#6c7b7f] text-sm">
-          <Building2 size={16}/>
-          <p>TechCorp Inc.</p>
+          <Building2 size={16} />
+          <p>{job.companyName}</p>
         </div>
       </div>
 
       {/* Category Section */}
       <div className="w-24 text-center bg-[#ECEEF2] rounded-lg py-1">
-        <p className={`text-xs text-[#2e3c50] font-semibold`}>Technology</p>
+        <p className={`text-xs text-[#2e3c50] font-semibold`}>
+          {job.category?.name || "Uncategorized"}
+        </p>
       </div>
 
       {/* Description, line clamp 2 */}
       <div className="text-[#6c7b7f] line-clamp-2 text-xs">
-        <p>
-          We're looking for a senior frontend developer to join our team and
-          help build the next generation of web applications using React,...
-        </p>
+        <p>{job.description}</p>
       </div>
 
       {/* Location + Salary Section */}
       <div className="flex space-x-3 items-center text-[#6c7b7f] text-sm">
         <div className="flex space-x-1 items-center">
           <IoLocationOutline />
-          <p>San Fransisco, CA</p>
+          <p>{job.location}</p>
         </div>
 
         <div className="flex space-x-1 items-center">
-          <DollarSign size={16}/>
-          <p>$120k - $160k</p>
+          <DollarSign size={16} />
+          <p>{job.salary}</p>
         </div>
       </div>
-
-
     </div>
   );
 };
 
-export default JobCard
+export default JobCard;

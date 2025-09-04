@@ -2,15 +2,33 @@ import { IoLocationOutline } from "react-icons/io5";
 import { BiCategoryAlt } from "react-icons/bi";
 import { TbClockHour7 } from "react-icons/tb";
 import { DollarSign } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { getJobBYIdAPI } from "../../../api/job.api";
+import React from "react";
 
-const DetailCard = () => {
+interface IProps{
+  id:string | null
+}
+
+const DetailCard:React.FC<IProps> = ({id}) => {
+  const {data,isLoading,error} = useQuery({
+    queryFn:()=> getJobBYIdAPI(id!),
+    queryKey:['job_id',id],
+    enabled: !!id
+  })
+
+  
+  if (!id) return <div>Select a job to see its details.</div>;
+  if (isLoading) return <div>Loading job details...</div>;
+  if (error) return <div>Error loading job.</div>;
+
   return (
     <div className="tracking-widest">
       {/* Title + Location + Company + Job Type + salary + days posted ago */}
       <div>
         <div className="flex flex-col justify-center p-6 gap-1">
           <h1 className="text-4xl font-semibold text-[#2c3e50]">
-            Senior Frontend Developer
+            {data.title}
           </h1>
           <p className="text-2xl text-[#6c7b7f]">TechCorp Inc.</p>
         </div>

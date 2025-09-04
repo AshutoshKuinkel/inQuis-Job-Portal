@@ -46,9 +46,7 @@ const ListJobsNav = () => {
                 <TbClockHour7 size={18} />
               </div>
               <select className="outline-none">
-                <option selected>
-                  <label> Date Posted</label>
-                </option>
+                <option defaultValue={'defaultvalue'}>Date Posted</option>
                 <option>Latest</option>
                 <option>Earlier</option>
               </select>
@@ -60,9 +58,7 @@ const ListJobsNav = () => {
                 <DollarSign size={18} />
               </div>
               <select className="outline-none">
-                <option selected>
-                  <label> Salary Range</label>
-                </option>
+                <option defaultValue={'defaultvalue'}>Salary Range</option>
                 <option>Highest</option>
                 <option>Lowest</option>
               </select>
@@ -73,9 +69,7 @@ const ListJobsNav = () => {
                 <BiCategoryAlt size={18} />
               </div>
               <select className="outline-none">
-                <option selected>
-                  <label> Category</label>
-                </option>
+                <option defaultValue={'defaultvalue'}>Category</option>
                 <option>Design</option>
                 <option>Technology</option>
                 <option>Marketing</option>
