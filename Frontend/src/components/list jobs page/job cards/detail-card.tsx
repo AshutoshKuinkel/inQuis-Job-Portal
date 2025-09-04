@@ -2,6 +2,8 @@ import { IoLocationOutline } from "react-icons/io5";
 import { BiCategoryAlt } from "react-icons/bi";
 import { TbClockHour7 } from "react-icons/tb";
 import { DollarSign } from "lucide-react";
+import { BsArrowLeft } from "react-icons/bs";
+import {Oval} from 'react-loading-icons'
 import { useQuery } from "@tanstack/react-query";
 import { getJobBYIdAPI } from "../../../api/job.api";
 import React from "react";
@@ -23,9 +25,34 @@ const DetailCard: React.FC<IProps> = ({ jobId }) => {
 
   const job = response?.data;
 
-  if (!jobId) return <div>Select a job to see its details.</div>;
-  if (isLoading) return <div>Loading job details...</div>;
-  if (error) return <div>Error loading job.</div>;
+  if (!jobId) {
+    return (
+      <div className="text-[#2c3e50] pt-12 bg-[#FCFDFD]flex flex-col gap-3 p-6">
+        <div className="flex items-center space-x-2">
+          <BsArrowLeft size={24} />
+          <h1 className="font-bold text-2xl">Select a Job</h1>
+        </div>
+        <p className="text-sm max-w-2xl text-[#6C7B7F] pl-8 mt-1">
+          Display details here
+        </p>
+      </div>
+    );
+  }
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center col-span-4 h-[300px]">
+        <Oval stroke="#2c3e50" height="64" width="64" />
+      </div>
+    );
+  }
+    if (error) {
+    return (
+      <div className="flex justify-center items-center col-span-4 h-[300px] flex-col">
+        <h1 className="font-bold text-2xl text-[#2c3e50]">Error Loading that Job :(</h1>
+        <p className="text-sm max-w-2xl text-[#6C7B7F]">Something Went Wrong. Please Try Again With a Different ID.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="tracking-widest">
@@ -46,7 +73,7 @@ const DetailCard: React.FC<IProps> = ({ jobId }) => {
           {/* Category */}
           <div className="flex items-center space-x-2">
             <BiCategoryAlt />
-            <p>Category</p>
+            <p>{job.category?.name || "Uncategorised"}</p>
           </div>
 
           {/* Job Type */}
@@ -66,6 +93,7 @@ const DetailCard: React.FC<IProps> = ({ jobId }) => {
       {/* Posted ago */}
       <div className="mt-6 pl-6 text-[#6c7b7f]">
         <p>
+          Posted:{" "}
           {new Date(job.createdAt).toLocaleDateString("en-US", {
             year: "numeric",
             month: "long",
