@@ -9,11 +9,13 @@ import JobPage from "./pages/job-page";
 import PostJob from "./pages/employer/PostJob";
 import ClientLayout from "./layouts/client.layout";
 import { Toaster } from "react-hot-toast";
+import ScrollToTop from "./providers/scroll-to-top";
 
 const App = () => {
   return (
     <main className="h-full tracking-wider">
       <Router>
+        <ScrollToTop/>
         <Routes>
           <Route path="/login" element={<LoginCard />} />
           <Route path="/signup" element={<SignupCard />} />

@@ -12,21 +12,21 @@ const FeaturedSection = () => {
   });
 
   return (
-    <div className="pb-20">
+    <div className="pb-20 px-4 sm:px-6 md:px-12 lg:px-20">
       {/* Title Section */}
-      <div className="flex flex-col items-start justify-center pl-72 pt-12">
+      <div className="flex flex-col items-start justify-center  pt-12">
         <h1 className="text-3xl text-[#2e3c50] font-bold">Featured Jobs</h1>
         { isLoading ? '':
-        <p className="text-sm text-[#6C7B7F]">6 jobs found</p>
+        <p className="text-sm text-[#6C7B7F] mt-1">6 jobs found</p>
         }
       </div>
 
       {/* Card Section */}
-      <div className="sm:px-64 mt-6 grid grid-cols-3 gap-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 ">
         {isLoading ? (
-          <div className="flex justify-center items-center col-span-4 h-[300px]">
+          <div className="flex justify-center items-center col-span-full h-[300px]">
             <Oval stroke="#2c3e50" height="64" width="64" />
-          </div>
+          </div> 
         ) : (
           data?.data.map((featuredJob: IJob) => (
             <FeaturedJobCard featuredJob={featuredJob} key={featuredJob._id} />

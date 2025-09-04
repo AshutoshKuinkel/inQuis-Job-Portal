@@ -20,7 +20,7 @@ const Category = () => {
           perfect match for your skills and interests.
         </p>
       </div>
-      <div className="grid grid-cols-2 sm:grid-cols-4 place-items-center gap-y-5 sm:px-64 mt-12">
+      <div className="grid grid-cols-2 sm:grid-cols-4 place-items-center gap-y-5 mt-12">
         {isLoading ? (
           <div className="flex justify-center items-center col-span-4 h-[300px]">
             <Oval stroke="#2c3e50" height="64" width="64" />
