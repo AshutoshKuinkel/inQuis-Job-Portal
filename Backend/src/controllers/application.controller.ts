@@ -67,7 +67,7 @@ export const apply = async (
     }
 
     const application = new Application({
-      job: jobId,
+      job: jobId, 
       contactEmail,
       resume: { path: resumeUrl, public_id: resumeId },
       coverLetter: coverLetterFile,
