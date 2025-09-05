@@ -44,7 +44,7 @@ export const createJob = async (
       throw new CustomError(`Category not found`,400)
     }
 
-    const job = await Job.create({
+    let job = await Job.create({
       title,
       companyName,
       description,
@@ -54,7 +54,9 @@ export const createJob = async (
       contactEmail,
       postedBy,
       category
-    });
+    })
+
+    job = await job.populate('category')
 
     res.status(201).json({
       message: `New Job Successfully Posted.`,
@@ -78,7 +80,7 @@ export const readJob = async (
       throw new CustomError(`Unauthorized. Access denied.`, 401);
     }
 
-    const job = await Job.findById(jobId);
+    const job = await Job.findById(jobId).populate('category')
 
     if (!job) {
       throw new CustomError(`A Job with that Id does not exist.`, 404);
@@ -115,10 +117,11 @@ export const getAllJobs = async (
       throw new CustomError(`Unauthorized. Access denied.`, 401);
     }
 
-    const jobs = await Job.find({ postedBy: id })
+    const jobs = await Job.find({ postedBy: id }).populate('category')
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip(skip);
+      
 
     const total = await Job.countDocuments({ postedBy: id });
 
@@ -171,7 +174,7 @@ export const updateJob = async (
         jobType: jobType,
       },
       { new: true, runValidators: true }
-    );
+    ).populate('category')
 
     res.status(200).json({
       message: `Job Successfully updated.`,
@@ -291,7 +294,7 @@ export const listJobs = async (
     let total = await Job.countDocuments(filter);
 
     if (jobs.length === 0) {
-      jobs = await Job.find({}).sort(sortOption).limit(limit).skip(skip);
+      jobs = await Job.find({}).sort(sortOption).limit(limit).skip(skip).populate('category');
 
       total = await Job.countDocuments({});
     }

@@ -38,7 +38,7 @@ const createJob = async (req, res, next) => {
         if (!fetchCategory) {
             throw new error_handler_middleware_1.default(`Category not found`, 400);
         }
-        const job = await job_model_1.Job.create({
+        let job = await job_model_1.Job.create({
             title,
             companyName,
             description,
@@ -49,6 +49,7 @@ const createJob = async (req, res, next) => {
             postedBy,
             category
         });
+        job = await job.populate('category');
         res.status(201).json({
             message: `New Job Successfully Posted.`,
             data: job,
@@ -66,7 +67,7 @@ const readJob = async (req, res, next) => {
         if (!id) {
             throw new error_handler_middleware_1.default(`Unauthorized. Access denied.`, 401);
         }
-        const job = await job_model_1.Job.findById(jobId);
+        const job = await job_model_1.Job.findById(jobId).populate('category');
         if (!job) {
             throw new error_handler_middleware_1.default(`A Job with that Id does not exist.`, 404);
         }
@@ -94,7 +95,7 @@ const getAllJobs = async (req, res, next) => {
         if (!id) {
             throw new error_handler_middleware_1.default(`Unauthorized. Access denied.`, 401);
         }
-        const jobs = await job_model_1.Job.find({ postedBy: id })
+        const jobs = await job_model_1.Job.find({ postedBy: id }).populate('category')
             .sort({ createdAt: -1 })
             .limit(limit)
             .skip(skip);
@@ -134,7 +135,7 @@ const updateJob = async (req, res, next) => {
             salary: salary,
             contactEmail: contactEmail,
             jobType: jobType,
-        }, { new: true, runValidators: true });
+        }, { new: true, runValidators: true }).populate('category');
         res.status(200).json({
             message: `Job Successfully updated.`,
             data: updatedJob,
@@ -176,13 +177,12 @@ exports.deleteJob = deleteJob;
 //maybe change this to text later instead of $regex if needed.
 const listJobs = async (req, res, next) => {
     try {
-        const { currentPage, perPage, //this is for the pagination stuff
-        query, location, //This is for the filtering
+        const { currentPage, query, location, //This is for the filtering
         sortBy, //This is for sorting
          } = req.query;
         let filter = {};
         const page = Number(currentPage) || 1;
-        const limit = Number(perPage) || 15;
+        const limit = 15;
         const skip = (page - 1) * limit;
         if (query) {
             filter.$or = [
@@ -227,7 +227,7 @@ const listJobs = async (req, res, next) => {
         let jobs = await job_model_1.Job.find(filter).sort(sortOption).limit(limit).skip(skip).populate('category');
         let total = await job_model_1.Job.countDocuments(filter);
         if (jobs.length === 0) {
-            jobs = await job_model_1.Job.find({}).sort(sortOption).limit(limit).skip(skip);
+            jobs = await job_model_1.Job.find({}).sort(sortOption).limit(limit).skip(skip).populate('category');
             total = await job_model_1.Job.countDocuments({});
         }
         const pagination = (0, pagination_utils_1.getPagination)(total, page, limit);
