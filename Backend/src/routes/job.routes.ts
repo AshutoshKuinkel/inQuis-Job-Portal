@@ -1,5 +1,5 @@
 import  express  from "express";
-import { createJob,readJob,getAllJobs,updateJob,deleteJob } from "../controllers/job.controller";
+import { createJob,readJob,getAllJobs,updateJob,deleteJob} from "../controllers/job.controller";
 import { authenticate } from "../middlewares/auth.middleware";
 import { employer } from "../types/enum.types";
 
