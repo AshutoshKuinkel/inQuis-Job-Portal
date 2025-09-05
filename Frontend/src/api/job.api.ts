@@ -1,8 +1,14 @@
 import api from './index'
 
-export const getAllJobsAPI = async(currentPage:any)=>{
+export const getAllJobsAPI = async(currentPage:any,query:string,location:string)=>{
   try{
-  const response = await api.get(`/jobs?currentPage=${currentPage}`)
+  const response = await api.get(`/jobs`,{
+    params:{
+      currentPage,
+      query,
+      location
+    }
+  })
   return response.data
   }catch(err:any){
     throw err.response.data

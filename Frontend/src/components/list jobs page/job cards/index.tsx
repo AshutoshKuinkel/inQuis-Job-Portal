@@ -5,7 +5,6 @@ import { getAllJobsAPI } from "../../../api/job.api";
 import { IJob } from "../../../types/job.types";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { Oval } from "react-loading-icons";
-import { useState } from "react";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 const JobDisplay = () => {
@@ -13,12 +12,14 @@ const JobDisplay = () => {
   const { id: selectedJobId } = useParams();
 
   const [searchParam, setSearchParam] = useSearchParams();
-  const initialPage = Number(searchParam.get("currentPage")) || 1;
-  const [currentPage, setCurrentPage] = useState(initialPage);
+
+  const query = searchParam.get("query") || "";
+  const location = searchParam.get("location") || "";
+  const currentPage = Number(searchParam.get("currentPage")) || 1;
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getAllJobsAPI(currentPage),
-    queryKey: ["get_all_jobs", currentPage],
+    queryFn: () => getAllJobsAPI(currentPage, query, location),
+    queryKey: ["get_all_jobs", query, location, currentPage],
   });
 
   const handleJobClick = (id: string) => {
@@ -33,8 +34,12 @@ const JobDisplay = () => {
     ) {
       return;
     }
-    setCurrentPage(pageNumber);
-    setSearchParam({ currentPage: pageNumber.toString() });
+    
+    setSearchParam({
+      query,
+      location,
+      currentPage: pageNumber.toString(),
+    });
   };
 
   return (
@@ -85,7 +90,9 @@ const JobDisplay = () => {
           <div className="flex justify-between items-center pb-10 p-3">
             <div
               className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
-                currentPage === 1 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+                currentPage === 1
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
               }`}
               onClick={() => handlePage(currentPage - 1)}
             >
