@@ -3,7 +3,7 @@ import DetailCard from "./detail-card";
 import JobCard from "./job-main-card";
 import { getAllJobsAPI } from "../../../api/job.api";
 import { IJob } from "../../../types/job.types";
-import { useNavigate, useParams, useSearchParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Oval } from "react-loading-icons";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
@@ -22,8 +22,10 @@ const JobDisplay = () => {
     queryKey: ["get_all_jobs", query, location, currentPage],
   });
 
-  const handleJobClick = (id: string) => {
-    navigate(`/jobs/${id}`);
+  const handleJobClick = (
+    id: string,
+  ) => {
+    navigate(`/jobs/${id}?query=${query}&location=${location}&currentPage=${currentPage}`);
   };
 
   const handlePage = (pageNumber: number) => {
@@ -34,7 +36,7 @@ const JobDisplay = () => {
     ) {
       return;
     }
-    
+
     setSearchParam({
       query,
       location,

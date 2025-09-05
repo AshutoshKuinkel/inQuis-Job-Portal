@@ -7,19 +7,27 @@ import {Oval} from 'react-loading-icons'
 import { useQuery } from "@tanstack/react-query";
 import { getJobBYIdAPI } from "../../../api/job.api";
 import React from "react";
+import { useSearchParams } from "react-router";
 
 interface IProps {
   jobId: string | null;
 }
 
 const DetailCard: React.FC<IProps> = ({ jobId }) => {
+
+  const [searchParams] = useSearchParams()
+
+  const query = searchParams.get('query') ?? ''
+  const location = searchParams.get('location') ?? ''
+  const currentPage = searchParams.get('currentPage') ?? '1'
+
   const {
     data: response,
     isLoading,
     error,
   } = useQuery({
-    queryFn: () => getJobBYIdAPI(jobId!),
-    queryKey: ["job_id", jobId],
+    queryFn: () => getJobBYIdAPI(jobId!,query,location,currentPage),
+    queryKey: ["job_id", jobId,query,location,currentPage],
     enabled: !!jobId,
   });
 
