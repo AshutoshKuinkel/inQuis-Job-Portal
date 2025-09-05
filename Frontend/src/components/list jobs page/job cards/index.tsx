@@ -6,29 +6,36 @@ import { IJob } from "../../../types/job.types";
 import { useNavigate, useParams, useSearchParams } from "react-router";
 import { Oval } from "react-loading-icons";
 import { useState } from "react";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 const JobDisplay = () => {
   const navigate = useNavigate();
   const { id: selectedJobId } = useParams();
 
-  const [searchParam,setSearchParam] = useSearchParams()
-  const initialPage = Number(searchParam.get('currentPage')) || 1
-  const [currentPage,setCurrentPage] = useState(initialPage)
+  const [searchParam, setSearchParam] = useSearchParams();
+  const initialPage = Number(searchParam.get("currentPage")) || 1;
+  const [currentPage, setCurrentPage] = useState(initialPage);
 
   const { data, isLoading } = useQuery({
-    queryFn: ()=>getAllJobsAPI(currentPage),
-    queryKey: ["get_all_jobs",currentPage],
+    queryFn: () => getAllJobsAPI(currentPage),
+    queryKey: ["get_all_jobs", currentPage],
   });
 
   const handleJobClick = (id: string) => {
     navigate(`/jobs/${id}`);
   };
 
-
-  const handlePage = (pageNumber:number)=>{
-    setCurrentPage(pageNumber)
-    setSearchParam({currentPage: pageNumber.toString()})
-  }
+  const handlePage = (pageNumber: number) => {
+    if (
+      pageNumber < 1 ||
+      (data?.pagination?.total_pages &&
+        pageNumber > data.pagination.total_pages)
+    ) {
+      return;
+    }
+    setCurrentPage(pageNumber);
+    setSearchParam({ currentPage: pageNumber.toString() });
+  };
 
   return (
     <div className="flex justify-center mt-16">
@@ -36,15 +43,26 @@ const JobDisplay = () => {
         {/* Cards */}
         <div className="col-span-1">
           <div className="flex flex-col gap-3">
-            {isLoading ? (
+            {isLoading && (
               <div className="flex justify-center items-center col-span-4 h-[300px]">
                 <Oval stroke="#2c3e50" height="64" width="64" />
               </div>
-            ) : (
+            )}
+            {!isLoading && data?.data.length === 0 ? (
+              <div className="text-center mt-10 text-gray-600">
+                <p>No jobs found on this page.</p>
+                <button
+                  onClick={() => handlePage(1)}
+                  className="mt-4 px-4 py-2 bg-[#2c3e50] text-white rounded"
+                >
+                  Go Back to First Page
+                </button>
+              </div>
+            ) : !isLoading ? (
               data?.data.map((job: IJob) => (
                 <JobCard job={job} key={job._id} handleClick={handleJobClick} />
               ))
-            )}
+            ) : null}
           </div>
         </div>
 
@@ -52,12 +70,55 @@ const JobDisplay = () => {
         {isLoading ? (
           ""
         ) : (
-          <div className="col-span-2 border max-w-4xl h-screen sticky top-0">
+          <div className="col-span-2 border border-gray-300 rounded-md max-w-4xl h-screen sticky top-0">
             <div
               className="h-full overflow-hidden hover:overflow-auto"
               style={{ scrollbarGutter: "stable" }}
             >
               <DetailCard jobId={selectedJobId ?? null} />
+            </div>
+          </div>
+        )}
+
+        {/* Next Previous Buttons */}
+        {!isLoading && (
+          <div className="flex justify-between items-center pb-10 p-3">
+            <div
+              className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
+                currentPage === 1 ? "opacity-50 cursor-not-allowed" : "cursor-pointer"
+              }`}
+              onClick={() => handlePage(currentPage - 1)}
+            >
+              <GoArrowLeft />
+              <button
+                className={`${
+                  currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                }`}
+              >
+                Previous
+              </button>
+            </div>
+
+            <div
+              className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
+                data?.pagination?.total_pages &&
+                currentPage >= data.pagination.total_pages
+                  ? "opacity-50 cursor-not-allowed"
+                  : "cursor-pointer"
+              }`}
+              onClick={() => handlePage(currentPage + 1)}
+            >
+              <button
+                className={`${
+                  data?.pagination?.total_pages &&
+                  currentPage >= data.pagination.total_pages
+                    ? "cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+              >
+                Next
+              </button>
+              <GoArrowRight />
             </div>
           </div>
         )}
