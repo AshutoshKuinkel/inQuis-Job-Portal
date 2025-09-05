@@ -3,21 +3,32 @@ import DetailCard from "./detail-card";
 import JobCard from "./job-main-card";
 import { getAllJobsAPI } from "../../../api/job.api";
 import { IJob } from "../../../types/job.types";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams, useSearchParams } from "react-router";
 import { Oval } from "react-loading-icons";
+import { useState } from "react";
 
 const JobDisplay = () => {
   const navigate = useNavigate();
   const { id: selectedJobId } = useParams();
 
+  const [searchParam,setSearchParam] = useSearchParams()
+  const initialPage = Number(searchParam.get('currentPage')) || 1
+  const [currentPage,setCurrentPage] = useState(initialPage)
+
   const { data, isLoading } = useQuery({
-    queryFn: getAllJobsAPI,
-    queryKey: ["get_all_jobs"],
+    queryFn: ()=>getAllJobsAPI(currentPage),
+    queryKey: ["get_all_jobs",currentPage],
   });
 
   const handleJobClick = (id: string) => {
     navigate(`/jobs/${id}`);
   };
+
+
+  const handlePage = (pageNumber:number)=>{
+    setCurrentPage(pageNumber)
+    setSearchParam({currentPage: pageNumber.toString()})
+  }
 
   return (
     <div className="flex justify-center mt-16">

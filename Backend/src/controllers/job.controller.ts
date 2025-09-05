@@ -229,7 +229,6 @@ export const listJobs = async (
   try {
     const {
       currentPage,
-      perPage, //this is for the pagination stuff
       query,
       location, //This is for the filtering
       sortBy, //This is for sorting
@@ -238,7 +237,7 @@ export const listJobs = async (
     let filter: Record<string, any> = {};
 
     const page = Number(currentPage) || 1;
-    const limit = Number(perPage) || 15;
+    const limit = 15;
     const skip = (page - 1) * limit;
 
     if (query) {

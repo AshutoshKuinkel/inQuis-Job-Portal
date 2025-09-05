@@ -1,8 +1,8 @@
 import api from './index'
 
-export const getAllJobsAPI = async()=>{
+export const getAllJobsAPI = async(currentPage:any)=>{
   try{
-  const response = await api.get('/jobs')
+  const response = await api.get(`/jobs?currentPage=${currentPage}`)
   return response.data
   }catch(err:any){
     throw err.response.data
