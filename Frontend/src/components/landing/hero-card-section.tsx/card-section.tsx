@@ -1,17 +1,44 @@
+import { useQuery } from "@tanstack/react-query";
 import { CiSearch } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
+import { getAllJobsAPI } from "../../../api/job.api";
+import { useNavigate, useSearchParams } from "react-router";
+import React, { useState } from "react";
 
 const HeroCard = () => {
+
+  const navigate = useNavigate()
+
+  const [searchParams] = useSearchParams()
+  const query = searchParams.get('query') || ''
+  const location = searchParams.get('location') || ''
+  const currentPage = searchParams.get('currentPage') || '1'
+
+  const [jobQuery,setJobQuery] = useState(query)
+  const [jobLocation,setJobLocation] = useState(location)
+  
+  const {} = useQuery({
+    queryFn:()=>getAllJobsAPI(currentPage,query,location),
+    queryKey:['get_all_jobs',query,location,currentPage]
+  })
+
+  const handleSearch = (e:React.FormEvent)=>{
+    e.preventDefault()
+    navigate(`/jobs/?query=${jobQuery}&location=${jobLocation}&currentPage=${currentPage}`)
+  }
+
   return (
     <div>
       <div className="bg-white mt-14 w-4.5xl shadow-2xl py-5 rounded-lg px-8">
-        <form className="flex gap-6 justify-center items-center">
+        <form className="flex gap-6 justify-center items-center" onSubmit={handleSearch}>
           <div className=" flex items-center w-sm py-2 space-x-2 px-2 text-[#2c3e50] bg-[#FBFBFC] rounded-md">
             <CiSearch size={28} className="" />
             <input
               type="search"
               placeholder="Job title, keywords, or company"
               className="w-full outline-none"
+              value={jobQuery}
+              onChange={(e)=>setJobQuery(e.target.value)}
             />
           </div>
 
@@ -21,6 +48,8 @@ const HeroCard = () => {
               type="search"
               placeholder="Location {City}"
               className="w-full outline-none"
+              value={jobLocation}
+              onChange={(e)=>setJobLocation(e.target.value)}
             />
           </div>
 
