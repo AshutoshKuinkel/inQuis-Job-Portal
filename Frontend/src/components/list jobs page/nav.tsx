@@ -8,18 +8,22 @@ import { getAllJobsAPI } from "../../api/job.api";
 import { useSearchParams } from "react-router";
 import React, { useState } from "react";
 
+// Fix sort by salary error. Maybe convert salary range to a certain currency and then arrange?
+
 const ListJobsNav = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const query = searchParams.get("query") || "";
   const location = searchParams.get("location") || "";
+  const sortBy = searchParams.get("sortBy") || "";
   const currentPage = searchParams.get("currentPage") || 1;
 
   const [jobQuery, setJobQuery] = useState(query);
   const [jobLocation, setJobLocation] = useState(location);
+  const [jobSort, setJobSort] = useState(sortBy);
 
   const {} = useQuery({
-    queryFn: () => getAllJobsAPI(currentPage, query, location),
-    queryKey: ["get_all_jobs", query, location, currentPage],
+    queryFn: () => getAllJobsAPI(currentPage, query, location,sortBy),
+    queryKey: ["get_all_jobs", query, location, currentPage,sortBy],
   });
 
   const handleSearch = (e: React.FormEvent) => {
@@ -28,6 +32,17 @@ const ListJobsNav = () => {
       query: jobQuery,
       location: jobLocation,
       currentPage: "1",
+    });
+  };
+
+    const handleSort = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = e.target.value
+    setJobSort(value)
+    setSearchParams({
+      query: jobQuery,
+      location: jobLocation,
+      currentPage: "1",
+      sortBy: value
     });
   };
   return (
@@ -71,16 +86,19 @@ const ListJobsNav = () => {
         <div className="flex justify-center mt-3 gap-2 items-center">
           <h1 className="text-[#2c3e50]">Sort By:</h1>
 
-          <form className="flex gap-2">
+          <form className="flex gap-2" onSubmit={handleSearch}>
             {/* Date posted */}
             <div className="flex items-center bg-[#E9EBED] p-2 text-xs text-[#2c3e50] rounded-md">
               <div className="flex items-center gap-1">
                 <TbClockHour7 size={18} />
               </div>
-              <select className="outline-none">
+              <select className="outline-none"
+              value={jobSort}
+              onChange={handleSort}
+              >
                 <option defaultValue={"defaultvalue"}>Date Posted</option>
-                <option>Latest</option>
-                <option>Earlier</option>
+                <option value='latest'>Latest</option>
+                <option value='oldest'>Earlier</option>
               </select>
             </div>
 
@@ -89,10 +107,13 @@ const ListJobsNav = () => {
               <div className="flex items-center gap-1">
                 <DollarSign size={18} />
               </div>
-              <select className="outline-none">
+              <select className="outline-none"
+                value={jobSort}
+                onChange={handleSort}
+              >
                 <option defaultValue={"defaultvalue"}>Salary Range</option>
-                <option>Highest</option>
-                <option>Lowest</option>
+                <option value="highestSalary">Highest</option>
+                <option value="lowestSalary">Lowest</option>
               </select>
             </div>
 

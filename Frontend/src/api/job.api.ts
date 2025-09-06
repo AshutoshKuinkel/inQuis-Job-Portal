@@ -1,12 +1,13 @@
 import api from './index'
 
-export const getAllJobsAPI = async(currentPage:any,query:string,location:string)=>{
+export const getAllJobsAPI = async(currentPage:any,query:string,location:string,sortBy?:string)=>{
   try{
   const response = await api.get(`/jobs`,{
     params:{
       currentPage,
       query,
-      location
+      location,
+      sortBy
     }
   })
   return response.data

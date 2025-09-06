@@ -16,10 +16,11 @@ const JobDisplay = () => {
   const query = searchParam.get("query") || "";
   const location = searchParam.get("location") || "";
   const currentPage = Number(searchParam.get("currentPage")) || 1;
+  const sortBy = searchParam.get('sortBy') || ''
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getAllJobsAPI(currentPage, query, location),
-    queryKey: ["get_all_jobs", query, location, currentPage],
+    queryFn: () => getAllJobsAPI(currentPage, query, location,sortBy),
+    queryKey: ["get_all_jobs", query, location, currentPage,sortBy],
   });
 
   const handleJobClick = (
