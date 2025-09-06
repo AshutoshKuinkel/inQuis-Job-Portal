@@ -11,6 +11,8 @@ const Category = () => {
     queryKey: ["get_all_categories"],
   });
 
+  
+
   return (
     <div className="bg-[#FCFDFD] pb-10">
       <div className="text-[#2c3e50] pt-12 bg-[#FCFDFD] text-center flex flex-col gap-3 items-center">
