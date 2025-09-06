@@ -5,9 +5,9 @@ const Hero = () => {
   return (
     <div className="flex flex-col bg-[#F9F9FA] justify-center items-center pb-10">
       {/* Ttile + Slogan section */}
-      <div className="text-[#2c3e50] mt-20 text-center flex flex-col gap-6">
+      <div className="text-[#2c3e50] mt-20 flex flex-col gap-6 items-center text-center">
         <h1 className="font-bold text-4xl sm:text-5xl">Find Your Dream Job</h1>
-        <p className="text-lg max-w-2xl text-[#6C7B7F]">
+        <p className="text-lg max-w-[95vw] sm:max-w-2xl text-[#6C7B7F]">
           Discover thousands of job opportunities from top companies. Your next
           career move is just a search away.
         </p>

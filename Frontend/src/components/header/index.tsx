@@ -4,6 +4,7 @@ import { FiUser } from "react-icons/fi";
 import { NavLinks } from "./nav-links";
 import { logoutAPI } from "../../api/auth.api";
 import toast from "react-hot-toast";
+import { Turn as Hamburger } from "hamburger-react";
 
 // Handle Logout
 const handleLogout = async () => {
@@ -35,11 +36,11 @@ const Header = () => {
     : null;
 
   return (
-    <div className="flex w-full justify-evenly py-3 border border-[#E9EBED] items-center">
-      <div>
+    <div className="flex w-full justify-between sm:justify-evenly py-3 border border-[#E9EBED] items-center">
+      <div className="ml-2 sm:ml-0">
         {/* Logo */}
         <a href="/" className="cursor-pointer">
-          <Logo />
+          <Logo/>
         </a>
       </div>
 
@@ -47,13 +48,19 @@ const Header = () => {
       <NavLinks />
 
       {/* icon section */}
-      <div className="flex space-x-6 items-center">
+      <div className="flex space-x-4 sm:space-x-6 items-center">
         <div className="flex flex-col items-center">
           <FiUser size={22} />
           <p className="text-md text-[#2c3e50]">
             {user ? user.first_name : "Guest"}
           </p>
         </div>
+
+        {/* Hamburger icon */}
+        <div className="block sm:hidden">
+          <Hamburger direction="right" size={20} />
+        </div>
+
         <div className="hidden sm:block">
           {user ? (
             <Link to={"/"}>

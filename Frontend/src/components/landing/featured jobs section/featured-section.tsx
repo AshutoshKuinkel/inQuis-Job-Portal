@@ -12,7 +12,7 @@ const FeaturedSection = () => {
   });
 
   return (
-    <div className="pb-20 px-4 sm:px-6 md:px-12 lg:px-20">
+    <div className="pb-15 sm:pb-20 px-4 sm:px-6 md:px-12 lg:px-20">
       {/* Title Section */}
       <div className="flex flex-col items-start justify-center  pt-12">
         <h1 className="text-3xl text-[#2e3c50] font-bold">Featured Jobs</h1>
@@ -36,7 +36,7 @@ const FeaturedSection = () => {
 
       {/* Load more jobs button */}
       { isLoading ? '' :
-      <div className="flex justify-center items-center mt-12">
+      <div className="flex justify-center items-center mt-9 sm:mt-12">
         <Link to={'/jobs'}>
           <button className="border border-gray-300 py-2 px-4 rounded-lg hover:bg-[#E9EBED] hover:cursor-pointer">
             Load More Jobs

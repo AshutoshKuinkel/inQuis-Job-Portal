@@ -44,7 +44,7 @@ const CategoryCard:React.FC<IProps> = ({category}) => {
 
   return (
     <div className="flex items-center justify-center">
-      <div className="flex flex-col justify-center items-center bg-white border border-[#E9EBED] rounded-lg w-[150px] xl:w-[300px] py-5 hover:scale-105 hover:shadow-xl hover:cursor-pointer transition-all duration-300">
+      <div className="flex flex-col justify-center items-center bg-white border border-[#E9EBED] rounded-lg w-[140px] xl:w-[300px] py-5 hover:scale-105 hover:shadow-xl hover:cursor-pointer transition-all duration-300">
         {Icon && <Icon size={56} className={`${IconBG} text-white p-3 rounded-2xl`} />}
         <p className="text-sm mt-4">{category.name}</p>
       </div>

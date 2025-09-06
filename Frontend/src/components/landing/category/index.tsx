@@ -17,7 +17,7 @@ const Category = () => {
     <div className="bg-[#FCFDFD] pb-10">
       <div className="text-[#2c3e50] pt-12 bg-[#FCFDFD] text-center flex flex-col gap-3 items-center">
         <h1 className="font-bold text-2xl">Browse by Categories</h1>
-        <p className="text-sm max-w-2xl text-[#6C7B7F]">
+        <p className="text-sm  max-w-[90vw] sm:max-w-2xl text-[#6C7B7F]">
           Explore jobs by searching with relevant categories and find the
           perfect match for your skills and interests.
         </p>
