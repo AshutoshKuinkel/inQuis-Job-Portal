@@ -2,8 +2,8 @@ import Logo from "../../assets/logo";
 
 const Footer = () => {
   return (
-    <div className="w-full bg-[#FBFBFC] pb-10">
-      <div className="flex justify-center items-baseline gap-20 text-[#2c3e50]">
+    <div className="w-full bg-[#FBFBFC] pb-10 p-5 sm:p-0">
+      <div className="flex flex-col sm:flex-row justify-center items-baseline gap-7 sm:gap-20 text-[#2c3e50] ">
         {/* inQuis logo + slogan */}
         <div className="mt-6 space-y-2">
           <Logo />
@@ -12,7 +12,7 @@ const Footer = () => {
           </p>
         </div>
 
-        <div className="flex gap-48">
+        <div className="flex flex-col sm:flex-row gap-8 sm:gap-48">
           {/* Job Seekers */}
           <div>
             <h2 className="font-bold">For Job Seekers</h2>
@@ -47,7 +47,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-      <hr className="mx-auto w-7xl mt-6 text-gray-300" />
+      <hr className="mx-auto w-[90vw] sm:w-7xl mt-6 text-gray-300" />
       <p className="text-xs text-center mt-7 text-[#2c3e50]">
         © 2025 inQuis. All rights reserved.
       </p>

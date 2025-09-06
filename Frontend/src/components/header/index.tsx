@@ -30,8 +30,9 @@ const handleLogout = async () => {
 };
 
 const Header = () => {
-  const user = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user') as string) : null;
-  
+  const user = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user") as string)
+    : null;
 
   return (
     <div className="flex w-full justify-evenly py-3 border border-[#E9EBED] items-center">
@@ -49,24 +50,28 @@ const Header = () => {
       <div className="flex space-x-6 items-center">
         <div className="flex flex-col items-center">
           <FiUser size={22} />
-          <p className="text-md text-[#2c3e50]">{user ? user.first_name: 'Guest'}</p>
+          <p className="text-md text-[#2c3e50]">
+            {user ? user.first_name : "Guest"}
+          </p>
         </div>
-        {user ? (
-          <Link to={"/"}>
-            <button
-              onClick={handleLogout}
-              className="border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer"
-            >
-              Sign Out
-            </button>
-          </Link>
-        ) : (
-          <Link to={"/login"}>
-            <button className="border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer">
-              Sign In
-            </button>
-          </Link>
-        )}
+        <div className="hidden sm:block">
+          {user ? (
+            <Link to={"/"}>
+              <button
+                onClick={handleLogout}
+                className="border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer"
+              >
+                Sign Out
+              </button>
+            </Link>
+          ) : (
+            <Link to={"/login"}>
+              <button className="border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer">
+                Sign In
+              </button>
+            </Link>
+          )}
+        </div>
       </div>
     </div>
   );

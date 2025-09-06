@@ -17,7 +17,7 @@ const links:{label:string,link:string}[] = [
 
 export const NavLinks = ()=>{
   return(
-    <div className="flex items-baseline space-x-8">
+    <div className="hidden sm:flex sm:items-baseline sm:space-x-8 ">
       {
         links.map((item)=>(
           <Link key={`${item.link}`} to={item.link} className="space-x-5 text-gray-500 text-sm hover:cursor-pointer">

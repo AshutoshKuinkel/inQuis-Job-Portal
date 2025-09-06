@@ -29,9 +29,9 @@ const HeroCard = () => {
 
   return (
     <div>
-      <div className="bg-white mt-14 w-4.5xl shadow-2xl py-5 rounded-lg px-8">
-        <form className="flex gap-6 justify-center items-center" onSubmit={handleSearch}>
-          <div className=" flex items-center w-sm py-2 space-x-2 px-2 text-[#2c3e50] bg-[#FBFBFC] rounded-md">
+      <div className="bg-white mt-14 w-[90vw] sm:w-[60rem] shadow-2xl py-5 rounded-lg px-8">
+        <form className="flex flex-col sm:flex-row gap-6 justify-center items-center" onSubmit={handleSearch}>
+          <div className=" flex items-center w-[85vw] sm:w-sm py-2 space-x-2 px-2 text-[#2c3e50] bg-[#FBFBFC] rounded-md">
             <CiSearch size={28} className="" />
             <input
               type="search"
@@ -42,7 +42,7 @@ const HeroCard = () => {
             />
           </div>
 
-          <div className=" flex items-center bg-[#FBFBFC] rounded-md py-1 space-x-2 px-2">
+          <div className=" flex items-center w-[85vw] sm:w-auto bg-[#FBFBFC] rounded-md py-1 space-x-2 px-2">
             <IoLocationOutline size={28}/>
             <input
               type="search"

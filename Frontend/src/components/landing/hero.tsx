@@ -17,20 +17,20 @@ const Hero = () => {
       <HeroCard/>
 
       {/* Stats section */}
-      <div className="flex gap-10 justify-center">
+      <div className="flex gap-6 sm:gap-10 justify-center">
         <div className="text-[#2c3e50] mt-18 flex flex-col items-baseline justify-center">
-          <h1 className="font-bold text-3xl">50K+</h1>
-          <p className="text-lg max-w-2xl text-[#6C7B7F]">Active Jobs</p>
+          <h1 className="font-bold text-2xl sm:text-3xl">50K+</h1>
+          <p className="text-sm sm:text-lg max-w-2xl text-[#6C7B7F]">Active Jobs</p>
         </div>
 
         <div className="text-[#2c3e50] mt-18 flex flex-col items-baseline justify-center">
-          <h1 className="font-bold text-3xl">25K+</h1>
-          <p className="text-lg max-w-2xl text-[#6C7B7F]">Companies</p>
+          <h1 className="font-bold text-2xl sm:text-3xl">25K+</h1>
+          <p className="text-sm sm:text-lg max-w-2xl text-[#6C7B7F]">Companies</p>
         </div>
 
         <div className="text-[#2c3e50] mt-18 flex flex-col items-baseline justify-center">
-          <h1 className="font-bold text-3xl">100K+</h1>
-          <p className="text-lg max-w-2xl text-[#6C7B7F]">Job Seekers</p>
+          <h1 className="font-bold text-2xl sm:text-3xl">100K+</h1>
+          <p className="text-sm sm:text-lg max-w-2xl text-[#6C7B7F]">Job Seekers</p>
         </div>
       </div>
     </div>
