@@ -42,7 +42,7 @@ const HeroCard = () => {
             />
           </div>
 
-          <div className=" flex items-center w-[85vw] sm:w-auto bg-[#FBFBFC] rounded-md py-1 space-x-2 px-2">
+          <div className=" flex items-center w-[85vw] sm:w-auto bg-[#FBFBFC] text-[#2c3e50] rounded-md py-1 space-x-2 px-2">
             <IoLocationOutline size={28}/>
             <input
               type="search"
