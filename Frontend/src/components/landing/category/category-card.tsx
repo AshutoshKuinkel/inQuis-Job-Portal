@@ -14,6 +14,7 @@ import { ICategory } from "../../../types/category.types";
 
 interface IProps{
   category:ICategory
+  onClick:(categoryId:string)=>void
 }
 
 const CategoryIcons = {
@@ -38,12 +39,12 @@ const CategoryIconColoring = {
   Engineering: 'bg-indigo-500',
 }
 
-const CategoryCard:React.FC<IProps> = ({category}) => {
+const CategoryCard:React.FC<IProps> = ({onClick,category}) => {
   const Icon = CategoryIcons[category.name as keyof typeof CategoryIcons];
   const IconBG = CategoryIconColoring[category.name as keyof typeof CategoryIcons];
 
   return (
-    <div className="flex items-center justify-center">
+    <div className="flex items-center justify-center" onClick={()=>onClick(category._id)}>
       <div className="flex flex-col justify-center items-center bg-white border border-[#E9EBED] rounded-lg w-[140px] xl:w-[300px] py-5 hover:scale-105 hover:shadow-xl hover:cursor-pointer transition-all duration-300">
         {Icon && <Icon size={56} className={`${IconBG} text-white p-3 rounded-2xl`} />}
         <p className="text-sm mt-4">{category.name}</p>

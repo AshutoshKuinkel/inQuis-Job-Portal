@@ -10,6 +10,7 @@ import PostJob from "./pages/employer/PostJob";
 import ClientLayout from "./layouts/client.layout";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./providers/scroll-to-top";
+import CategoryJobsDisplay from "./components/landing/category/DisplayCategoryJobs";
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
 
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/jobs/:id" element={<JobPage />} />
+            <Route path="/jobs/category" element={<CategoryJobsDisplay/>} />
 
             <Route path="/employer/createJob" element={<PostJob />} />
           </Route>

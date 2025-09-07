@@ -1,17 +1,30 @@
 import { useQuery } from "@tanstack/react-query";
 import { ICategory } from "../../../types/category.types";
 import CategoryCard from "./category-card";
-import { getCategories } from "../../../api/category.api";
-import {Oval} from 'react-loading-icons'
-
+import { getCategories, getCategoryJob } from "../../../api/category.api";
+import { Oval } from "react-loading-icons";
+import { useNavigate, useSearchParams } from "react-router";
 
 const Category = () => {
+  const navigate = useNavigate()
   const { data, isLoading } = useQuery({
     queryFn: getCategories,
     queryKey: ["get_all_categories"],
   });
 
-  
+  const [searchParams, setSearchParams] = useSearchParams();
+  const id = searchParams.get("id") || "";
+
+  const {} = useQuery({
+    queryFn: () => getCategoryJob(id),
+    queryKey: ["get_category_job", id],
+    enabled:!!id
+  });
+
+  const handleCategoryClick = (categoryId: string) => {
+    setSearchParams({ id: categoryId });
+    navigate(`/jobs/category?id=${categoryId}`)
+  };
 
   return (
     <div className="bg-[#FCFDFD] pb-10">
@@ -27,14 +40,15 @@ const Category = () => {
           <div className="flex justify-center items-center col-span-4 h-[300px]">
             <Oval stroke="#2c3e50" height="64" width="64" />
           </div>
-        )
-        
-        :(data?.data.map((category: ICategory) => (
-          <CategoryCard category={category} key={category.name}/>
-        )))
-        }
-        
-        
+        ) : (
+          data?.data.map((category: ICategory) => (
+            <CategoryCard
+              onClick={() => handleCategoryClick(category._id)}
+              category={category}
+              key={category.name}
+            />
+          ))
+        )}
       </div>
     </div>
   );
