@@ -7,7 +7,22 @@ interface IProps {
   job: IJob;
   handleClick: (id: string) => void;
 }
+
+
+const CategoryTextColoring = {
+  Technology: 'text-blue-500',
+  Design: 'text-purple-500',
+  Marketing: 'text-green-500',
+  Sales: 'text-orange-500',
+  Mobile: 'text-pink-500',
+  Security: 'text-red-500',
+  Healthcare: 'text-teal-500',
+  Engineering: 'text-indigo-500',
+}
+
+
 const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
+  const textColor = CategoryTextColoring[job.category.name as keyof typeof CategoryTextColoring]
   return (
     <div
       onClick={() => handleClick(job._id)}
@@ -24,7 +39,7 @@ const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
 
       {/* Category Section */}
       <div className="w-24 text-center bg-[#ECEEF2] rounded-lg py-1">
-        <p className={`text-xs text-[#2e3c50] font-semibold`}>
+        <p className={`text-xs ${textColor} font-semibold`}>
           {job.category?.name || "Uncategorized"}
         </p>
       </div>
