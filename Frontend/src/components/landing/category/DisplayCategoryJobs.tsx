@@ -8,7 +8,7 @@ import { ICategory } from "../../../types/category.types";
 import React from "react";
 
 interface IProps {
-  category: ICategory;
+  category?: ICategory;
 }
 
 const CategoryJobsDisplay: React.FC<IProps> = ({ category }) => {
