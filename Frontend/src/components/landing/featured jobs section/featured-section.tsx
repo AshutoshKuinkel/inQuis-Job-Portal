@@ -11,6 +11,10 @@ const FeaturedSection = () => {
     queryKey: ["featured_Job_API"],
   });
 
+  const handleLoadMoreClick = () => {
+    window.scrollTo(0, 0);  // Scroll to top when the button is clicked
+  };
+
   return (
     <div className="pb-15 sm:pb-20 px-4 sm:px-6 md:px-12 lg:px-20">
       {/* Title Section */}
@@ -37,7 +41,7 @@ const FeaturedSection = () => {
       {/* Load more jobs button */}
       { isLoading ? '' :
       <div className="flex justify-center items-center mt-9 sm:mt-12">
-        <Link to={'/jobs'}>
+        <Link to={'/jobs'} onClick={handleLoadMoreClick}>
           <button className="border border-gray-300 py-2 px-4 rounded-lg hover:bg-[#E9EBED] hover:cursor-pointer">
             Load More Jobs
           </button>

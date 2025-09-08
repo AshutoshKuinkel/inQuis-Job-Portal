@@ -7,11 +7,11 @@ import { Oval } from "react-loading-icons";
 import { ICategory } from "../../../types/category.types";
 import React from "react";
 
-interface IProps{
-  category:ICategory
+interface IProps {
+  category: ICategory;
 }
 
-const CategoryJobsDisplay:React.FC<IProps> = ({category}) => {
+const CategoryJobsDisplay: React.FC<IProps> = ({ category }) => {
   const [searchParams] = useSearchParams();
   const categoryId = searchParams.get("id"); // Get the category ID from query params
 
@@ -21,16 +21,15 @@ const CategoryJobsDisplay:React.FC<IProps> = ({category}) => {
     enabled: !!categoryId, // Only fetch if categoryId exists
   });
 
- 
   const handleJobClick = () => {
-    return
+    return;
   };
 
   return (
     <div className="mt-16">
       <div className="">
         <div className="">
-          <h2 className="">
+          <h2 className="text-4xl text-[#2c3e50] text-center mb-5">
             Jobs in Category: {category?.name}
           </h2>
 
@@ -39,12 +38,21 @@ const CategoryJobsDisplay:React.FC<IProps> = ({category}) => {
               <Oval stroke="#2c3e50" height="64" width="64" />
             </div>
           ) : (
-            <div className="">
-              {data?.data?.length ? (
-                data.data.map((job: IJob) => <JobCard job={job} key={job._id} handleClick={handleJobClick}/>)
-              ) : (
-                <p>No jobs found for this category.</p>
-              )}
+            <div className="lg:h-screen">
+              <div className="flex  flex-wrap gap-4 justify-center p-4 items-center">
+                {data?.data?.length ? (
+                  data.data.map((job: IJob) => (
+                    <JobCard
+                      job={job}
+                      key={job._id}
+                      handleClick={handleJobClick}
+                    />
+                  ))
+                  
+                ) : (
+                  <p>No jobs found for this category.</p>
+                )}
+              </div>
             </div>
           )}
         </div>

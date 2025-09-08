@@ -8,21 +8,22 @@ interface IProps {
   handleClick: (id: string) => void;
 }
 
-
 const CategoryTextColoring = {
-  Technology: 'text-blue-500',
-  Design: 'text-purple-500',
-  Marketing: 'text-green-500',
-  Sales: 'text-orange-500',
-  Mobile: 'text-pink-500',
-  Security: 'text-red-500',
-  Healthcare: 'text-teal-500',
-  Engineering: 'text-indigo-500',
-}
-
+  Technology: "text-blue-500",
+  Design: "text-purple-500",
+  Marketing: "text-green-500",
+  Sales: "text-orange-500",
+  Mobile: "text-pink-500",
+  Security: "text-red-500",
+  Healthcare: "text-teal-500",
+  Engineering: "text-indigo-500",
+};
 
 const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
-  const textColor = CategoryTextColoring[job.category.name as keyof typeof CategoryTextColoring]
+  const textColor =
+    CategoryTextColoring[
+      job.category.name as keyof typeof CategoryTextColoring
+    ];
   return (
     <div
       onClick={() => handleClick(job._id)}
@@ -30,7 +31,7 @@ const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
     >
       {/* Job Role + Company Section */}
       <div className="flex flex-col space-y-1">
-        <h1 className="text-xl text-[#2c3e50] font-bold">{job.title}</h1>
+        <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">{job.title}</h1>
         <div className="flex space-x-1 items-center text-[#6c7b7f] text-sm">
           <Building2 size={16} />
           <p>{job.companyName}</p>
@@ -58,8 +59,14 @@ const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
 
         <div className="flex space-x-1 items-center">
           <DollarSign size={16} />
-          <p>{job.salary}</p>
+          <p className="">{job.salary}</p>
         </div>
+      </div>
+      {/* Apply Now button */}
+      <div>
+        <button className="bg-[#2c3e50] text-white font-semibold w-full py-2 rounded-lg hover:cursor-pointer hover:bg-[#3a4753]">
+          Quick Apply
+        </button>
       </div>
     </div>
   );
