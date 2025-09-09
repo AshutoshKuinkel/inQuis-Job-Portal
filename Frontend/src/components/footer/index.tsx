@@ -48,7 +48,7 @@ const Footer = () => {
         </div>
       </div>
       <hr className="mx-auto w-[90vw] sm:w-7xl mt-6 text-gray-300" />
-      <p className="text-xs text-center mt-7 text-[#2c3e50]">
+      <p className="text-xs text-center mt-7 text-[#2c3e50] sm:mb-10">
         © 2025 inQuis. All rights reserved.
       </p>
     </div>
