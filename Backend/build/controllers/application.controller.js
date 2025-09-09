@@ -21,9 +21,27 @@ const apply = async (req, res, next) => {
         if (!job) {
             throw new error_handler_middleware_1.default(`Job not found`, 404);
         }
-        const { contactEmail } = req.body;
+        const { firstName, lastName, contactEmail, phoneNumber, linkedinProfile, relevantExperience, coverLetter, availability, } = req.body;
         if (!contactEmail) {
             throw new error_handler_middleware_1.default("Contact email required.", 400);
+        }
+        if (!firstName) {
+            throw new error_handler_middleware_1.default("First Name required.", 400);
+        }
+        if (!lastName) {
+            throw new error_handler_middleware_1.default("Last Name required.", 400);
+        }
+        if (!phoneNumber) {
+            throw new error_handler_middleware_1.default("Phone Number required.", 400);
+        }
+        if (!relevantExperience) {
+            throw new error_handler_middleware_1.default("Relevant Experience required.", 400);
+        }
+        if (!coverLetter) {
+            throw new error_handler_middleware_1.default("Cover Letter required.", 400);
+        }
+        if (!availability) {
+            throw new error_handler_middleware_1.default("Availability required.", 400);
         }
         // if(!resume){
         //   throw new CustomError('Resume required.',400)
@@ -41,17 +59,17 @@ const apply = async (req, res, next) => {
         }
         // Upload resume
         const { path: resumeUrl, public_id: resumeId } = await (0, cloudinary_service_utils_1.uploadFile)(files.resume[0].path, folder_name);
-        // Upload cover letter (optional)
-        let coverLetterFile = null;
-        if (files?.coverLetter?.[0]) {
-            const { path: coverUrl, public_id: coverId } = await (0, cloudinary_service_utils_1.uploadFile)(files.coverLetter[0].path, folder_name);
-            coverLetterFile = { path: coverUrl, public_id: coverId };
-        }
         const application = new application_model_1.Application({
             job: jobId,
+            firstName,
+            lastName,
             contactEmail,
+            phoneNumber,
+            linkedinProfile,
+            relevantExperience,
+            coverLetter,
+            availability,
             resume: { path: resumeUrl, public_id: resumeId },
-            coverLetter: coverLetterFile,
             applicant: req.user._id,
         });
         await application.save();
@@ -59,14 +77,14 @@ const apply = async (req, res, next) => {
         //sending email to let user know they've applied:
         await (0, nodemailer_utils_1.sendEmail)({
             to: `${application.contactEmail}`,
-            subject: `Application to ${job?.title || 'Job'} at ${job?.companyName || 'Company'}.`,
-            html: (0, email_utils_1.generate_confirmation_email)(application, job, user)
+            subject: `Application to ${job?.title || "Job"} at ${job?.companyName || "Company"}.`,
+            html: (0, email_utils_1.generate_confirmation_email)(application, job, user),
         });
         //sending email to employer aswell to let them know they have a new application:
         await (0, nodemailer_utils_1.sendEmail)({
             to: `${job.contactEmail}`,
-            subject: `New Application Received to ${job?.title || 'Job'} position.`,
-            html: (0, email_utils_1.generate_employer_application_email)(application, job)
+            subject: `New Application Received to ${job?.title || "Job"} position.`,
+            html: (0, email_utils_1.generate_employer_application_email)(application, job),
         });
         res.status(201).json({
             message: `Successfully applied!`,
@@ -110,8 +128,8 @@ const update = async (req, res, next) => {
         if (!job) {
             throw new error_handler_middleware_1.default(`Job not found`, 404);
         }
-        const { contactEmail, deletedFile } = req.body;
-        const { resume, coverLetter } = req.files;
+        const { deletedFile, firstName, lastName, contactEmail, phoneNumber, linkedinProfile, relevantExperience, coverLetter, availability, } = req.body;
+        const { resume } = req.files;
         let deletedFiles = [];
         if (deletedFile) {
             try {
@@ -128,7 +146,14 @@ const update = async (req, res, next) => {
         let application;
         if (fetchApplication) {
             application = await application_model_1.Application.findByIdAndUpdate(fetchApplication._id, {
+                firstName,
+                lastName,
                 contactEmail,
+                phoneNumber,
+                linkedinProfile,
+                relevantExperience,
+                coverLetter,
+                availability,
             }, { new: true, runValidators: true }).populate("job");
         }
         else {
@@ -142,27 +167,12 @@ const update = async (req, res, next) => {
             await (0, cloudinary_service_utils_1.deleteFiles)([application.resume.public_id]);
             application.resume = undefined;
         }
-        if (deletedFiles.includes("coverLetter") &&
-            application.coverLetter?.public_id) {
-            await (0, cloudinary_service_utils_1.deleteFiles)([application.coverLetter.public_id]);
-            application.coverLetter = undefined;
-        }
         if (resume) {
             const { path, public_id } = await (0, cloudinary_service_utils_1.uploadFile)(resume[0].path, folder_name);
             if (application.resume) {
                 await (0, cloudinary_service_utils_1.deleteFiles)([application.resume.public_id]);
             }
             application.resume = {
-                path,
-                public_id,
-            };
-        }
-        if (coverLetter) {
-            const { path, public_id } = await (0, cloudinary_service_utils_1.uploadFile)(coverLetter[0].path, folder_name);
-            if (application.coverLetter) {
-                await (0, cloudinary_service_utils_1.deleteFiles)([application.coverLetter.public_id]);
-            }
-            application.coverLetter = {
                 path,
                 public_id,
             };
@@ -195,9 +205,6 @@ const withdraw = async (req, res, next) => {
         }
         if (deletedApplication.resume) {
             await (0, cloudinary_service_utils_1.deleteFiles)([deletedApplication.resume.public_id]);
-        }
-        if (deletedApplication.coverLetter) {
-            await (0, cloudinary_service_utils_1.deleteFiles)([deletedApplication.coverLetter.public_id]);
         }
         res.status(200).json({
             message: `Application successfully withdrawn`,
