@@ -21,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginCard />} />
           <Route path="/signup" element={<SignupCard />} />
+          <Route path="/jobs/apply" element={<JobApplicationPage/>}/>
 
           <Route path={'/'} element={<ClientLayout/>}>
             <Route path="" element={<HomePage />} />
@@ -30,8 +31,6 @@ const App = () => {
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/jobs/:id" element={<JobPage />} />
             <Route path="/jobs/category" element={<CategoryJobsDisplay/>} />
-
-            <Route path="/jobs/apply" element={<JobApplicationPage/>}/>
 
             <Route path="/employer/createJob" element={<PostJob />} />
           </Route>
