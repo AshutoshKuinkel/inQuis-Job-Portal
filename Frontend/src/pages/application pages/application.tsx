@@ -20,7 +20,9 @@ const JobApplicationPage = () => {
     if (selectedFile) {
       setFile(selectedFile);
       if (selectedFile.size > 5 * 1024 * 1024) {
-        console.log("File size exceeds the 5MB limit. Please upload a smaller file.");
+        console.log(
+          "File size exceeds the 5MB limit. Please upload a smaller file."
+        );
         return;
       }
     }
@@ -54,8 +56,9 @@ const JobApplicationPage = () => {
           </p>
         </div>
       </div>
-      <div className="flex flex-col justify-center items-center h-screen">
-        <div className="flex flex-col justify-center w-3xl p-6 rounded-md border border-gray-200 shadow">
+
+      <div className="flex flex-col justify-center items-center min-h-screen mt-12 mb-12">
+        <div className="flex flex-col justify-center items-center w-[95vw] sm:w-3xl p-6 rounded-md border border-gray-200 shadow">
           {/* Card text */}
           <form className="flex flex-col gap-4">
             <div>
@@ -72,10 +75,12 @@ const JobApplicationPage = () => {
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <div className="flex flex-col gap-1">
-                  <label className="text-[#2c3e50] text-sm">First Name</label>
+                  <label className="text-[#2c3e50] text-sm font-semibold">
+                    First Name
+                  </label>
                   <div
                     className={
-                      "flex items-center gap-2 px-2 py-2 w-[22rem]  bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                      "flex items-center gap-2 px-2 py-2 w-[90vw] sm:w-[22rem]  bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                     }
                   >
                     <input
@@ -89,10 +94,12 @@ const JobApplicationPage = () => {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-[#2c3e50] text-sm">Last Name</label>
+                  <label className="text-[#2c3e50] text-sm font-semibold">
+                    Last Name
+                  </label>
                   <div
                     className={
-                      "flex items-center gap-2 py-2 w-[22rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                      "flex items-center gap-2 py-2 w-[90vw] sm:w-[22rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                     }
                   >
                     <input
@@ -108,12 +115,12 @@ const JobApplicationPage = () => {
 
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <div className="flex flex-col gap-1">
-                  <label className="text-[#2c3e50] text-sm">
+                  <label className="text-[#2c3e50] text-sm font-semibold">
                     Contact Email
                   </label>
                   <div
                     className={
-                      "flex items-center gap-2 px-2 py-2 w-[22rem]  bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                      "flex items-center gap-2 px-2 py-2 w-[90vw] sm:w-[22rem]  bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                     }
                   >
                     <input
@@ -127,10 +134,12 @@ const JobApplicationPage = () => {
                 </div>
 
                 <div className="flex flex-col gap-1">
-                  <label className="text-[#2c3e50] text-sm">Phone Number</label>
+                  <label className="text-[#2c3e50] text-sm font-semibold">
+                    Phone Number
+                  </label>
                   <div
                     className={
-                      "flex items-center gap-2 py-2 w-[22rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                      "flex items-center gap-2 py-2 w-[90vw] sm:w-[22rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                     }
                   >
                     <input
@@ -144,19 +153,19 @@ const JobApplicationPage = () => {
                 </div>
               </div>
 
-              <label className="text-[#2c3e50] mt-3">
+              <label className="text-[#2c3e50] mt-3 font-semibold">
                 LinkedIn Profile (Optional)
               </label>
               <div
                 className={
-                  "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-smsm:w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                  "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-[90vw] sm:w-full px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                 }
               >
                 <input
-                  id="linkedIn profile"
+                  id="linkedin_profile"
                   type="text"
                   placeholder="https://www.linkedin.com/in/yourprofile"
-                  className="w-sm rounded-md outline-none"
+                  className="w-2xs sm:w-sm rounded-md outline-none"
                   autoComplete="off"
                 />
               </div>
@@ -204,13 +213,75 @@ const JobApplicationPage = () => {
                   </div>
                 )}
               </div>
+              <hr className="text-[#E9EBED] w-full mt-6" />
+            </div>
+
+            {/* Additonal Information */}
+            <p className="text-[#2C3E50]">Additional Information</p>
+            <div className="flex flex-col gap-2">
+              <label className="text-[#2c3e50] font-semibold text-sm">
+                Relevant Experience
+              </label>
+              <div
+                className={
+                  "flex rounded-md gap-2 bg-[#F3F3F5] w-smsm:w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                }
+              >
+                <input
+                  id="relevant_experience"
+                  type="text"
+                  placeholder="Briefly describe your relevant experience for this role..."
+                  className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
+                  autoComplete="off"
+                />
+              </div>
+
+              <label className="text-[#2c3e50] mt-3 font-semibold text-sm">
+                Cover Letter
+              </label>
+              <div
+                className={
+                  "flex rounded-md gap-2 bg-[#F3F3F5] w-smsm:w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                }
+              >
+                <input
+                  id="cover_letter"
+                  type="text"
+                  placeholder="Tell us why you're interested in this position and what makes you a great fit..."
+                  className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
+                  autoComplete="off"
+                />
+              </div>
+
+              <label className="text-[#2c3e50] mt-3 font-semibold text-sm">
+                Availability
+              </label>
+              <div
+                className={
+                  "flex rounded-md gap-2 bg-[#F3F3F5] w-smsm:w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                }
+              >
+                <input
+                  id="availability"
+                  type="text"
+                  placeholder="When are you available to start?"
+                  className="w-full rounded-md outline-none"
+                  autoComplete="off"
+                />
+              </div>
+
+              {/* Submit application button */}
+              <button className="border bg-[#2c3e50] mt-5 w-full text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed">
+                Submit Application
+              </button>
+
+              <p className="text-xs text-gray-500 text-center">
+                By submitting this application, you agree to our privacy policy
+                and terms of service.
+              </p>
             </div>
           </form>
         </div>
-
-        <p className="text-xs sm:text-sm text-center mt-4 text-[#2c3e50]">
-          © 2025 inQuis. All rights reserved.
-        </p>
       </div>
     </div>
   );
