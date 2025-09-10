@@ -288,7 +288,7 @@ const ApplicationForm = () => {
                 id="availability"
                 type="text"
                 placeholder="When are you available to start?"
-                className="w-full rounded-md outline-none w-full"
+                className="w-full rounded-md outline-none"
                 autoComplete="off"
                 {...methods.register("availability")}
               />
