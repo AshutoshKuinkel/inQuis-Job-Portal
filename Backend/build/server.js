@@ -50,19 +50,8 @@ const DB_URI = process.env.DB_URI ?? '';
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
 app.use((0, cookie_parser_1.default)());
-const allowedOrigins = ['http://localhost:5173', 'https://inquis-portal.vercel.app'];
 app.use((0, cors_1.default)({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (like Postman or curl)
-        if (!origin)
-            return callback(null, true);
-        if (allowedOrigins.indexOf(origin) === -1) {
-            const msg = 'CORS policy does not allow access from this origin.';
-            return callback(new Error(msg), false);
-        }
-        return callback(null, true);
-    },
-    credentials: true // <--- This sets Access-Control-Allow-Credentials: true
+    credentials: true
 }));
 app.use(express_1.default.json()); // for JSON bodies
 app.use(express_1.default.urlencoded({ extended: true })); // for form-urlencoded bodies
