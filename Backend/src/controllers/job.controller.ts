@@ -13,7 +13,7 @@ export const createJob = async (
     const id = req.user._id;
 
     if (!id) {
-      throw new CustomError(`Unauthorized. Access denied.`, 401);
+      throw new CustomError(`401 code 2`, 401);
     }
 
     const { title, companyName, description, location, salary, jobType, contactEmail,category} =
@@ -77,7 +77,7 @@ export const readJob = async (
     const { jobId } = req.params;
 
     if (!id) {
-      throw new CustomError(`Unauthorized. Access denied.`, 401);
+      throw new CustomError(`401 code 3`, 401);
     }
 
     const job = await Job.findById(jobId).populate('category')
@@ -114,7 +114,7 @@ export const getAllJobs = async (
     const skip = (page - 1) * limit;
 
     if (!id) {
-      throw new CustomError(`Unauthorized. Access denied.`, 401);
+      throw new CustomError(`401 code 4`, 401);
     }
 
     const jobs = await Job.find({ postedBy: id }).populate('category')

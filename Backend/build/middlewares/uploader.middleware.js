@@ -10,7 +10,7 @@ const path_1 = __importDefault(require("path"));
 const error_handler_middleware_1 = __importDefault(require("./error-handler.middleware"));
 const uploader = () => {
     const fileSize = 5 * 1024 * 1024;
-    const allowedExts = ['pdf'];
+    const allowedExts = ['pdf', 'doc', 'docx'];
     const storage = multer_1.default.diskStorage({
         destination: (req, file, cb) => {
             const uploadPath = 'uploads/';

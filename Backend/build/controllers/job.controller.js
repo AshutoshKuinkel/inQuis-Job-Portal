@@ -12,7 +12,7 @@ const createJob = async (req, res, next) => {
     try {
         const id = req.user._id;
         if (!id) {
-            throw new error_handler_middleware_1.default(`Unauthorized. Access denied.`, 401);
+            throw new error_handler_middleware_1.default(`401 code 2`, 401);
         }
         const { title, companyName, description, location, salary, jobType, contactEmail, category } = req.body;
         const postedBy = id;
@@ -65,7 +65,7 @@ const readJob = async (req, res, next) => {
         const id = req.user._id;
         const { jobId } = req.params;
         if (!id) {
-            throw new error_handler_middleware_1.default(`Unauthorized. Access denied.`, 401);
+            throw new error_handler_middleware_1.default(`401 code 3`, 401);
         }
         const job = await job_model_1.Job.findById(jobId).populate('category');
         if (!job) {
@@ -93,7 +93,7 @@ const getAllJobs = async (req, res, next) => {
         const limit = Number(perPage) || 10;
         const skip = (page - 1) * limit;
         if (!id) {
-            throw new error_handler_middleware_1.default(`Unauthorized. Access denied.`, 401);
+            throw new error_handler_middleware_1.default(`401 code 4`, 401);
         }
         const jobs = await job_model_1.Job.find({ postedBy: id }).populate('category')
             .sort({ createdAt: -1 })

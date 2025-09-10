@@ -18,7 +18,7 @@ const authenticate = (roles) => {
             //getting the token:
             const inQuis_portal_accessToken = req.cookies.inQuis_portal_accessToken;
             if (!inQuis_portal_accessToken) {
-                throw new error_handler_middleware_1.default(`No token.`, 401);
+                throw new error_handler_middleware_1.default(`401 code 5`, 401);
             }
             //verifying token:
             const decodedData = (0, jwt_utils_1.verifyAccessToken)(inQuis_portal_accessToken);
@@ -28,12 +28,12 @@ const authenticate = (roles) => {
                     httpOnly: true,
                     sameSite: 'none'
                 });
-                throw new error_handler_middleware_1.default(`Session expired. Access denied.`, 401);
+                throw new error_handler_middleware_1.default(`401 code 6`, 401);
             }
             //checking user exists.
             const user = await user_model_1.User.findById(decodedData._id);
             if (!user) {
-                throw new error_handler_middleware_1.default(`No User.`, 401);
+                throw new error_handler_middleware_1.default(`401 code 7`, 401);
             }
             //role based authorisation:
             if (roles && !roles.includes(decodedData.role)) {

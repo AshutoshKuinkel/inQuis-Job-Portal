@@ -8,7 +8,7 @@ export const uploader = ()=>{
 
   const fileSize = 5*1024*1024
 
-  const allowedExts = ['pdf']
+  const allowedExts = ['pdf','doc','docx']
 
   const storage = multer.diskStorage({
     destination:(req,file,cb)=>{

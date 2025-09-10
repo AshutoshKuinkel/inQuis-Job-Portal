@@ -12,7 +12,7 @@ export const postFeaturedJob = async (
     const id = req.user._id;
 
     if (!id) {
-      throw new CustomError(`Unauthorized. Access denied.`, 401);
+      throw new CustomError(`401 code 1`, 401);
     }
 
     const {

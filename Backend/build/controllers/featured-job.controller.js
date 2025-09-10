@@ -11,7 +11,7 @@ const postFeaturedJob = async (req, res, next) => {
     try {
         const id = req.user._id;
         if (!id) {
-            throw new error_handler_middleware_1.default(`Unauthorized. Access denied.`, 401);
+            throw new error_handler_middleware_1.default(`401 code 1`, 401);
         }
         const { title, companyName, description, location, salary, jobType, contactEmail, category, } = req.body;
         const postedBy = id;
