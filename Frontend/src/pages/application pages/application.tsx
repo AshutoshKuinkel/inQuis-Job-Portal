@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import ApplicationForm from "./application-form";
+import ApplicationForm from "../../components/application/application-form";
 
 
 const JobApplicationPage = () => {

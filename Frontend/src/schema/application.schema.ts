@@ -3,7 +3,7 @@ import * as yup from "yup";
 export const applicationSchema = yup.object({
   firstName:yup.string().required('First Name is required.'),
   lastName:yup.string().required('Last Name is required.'),
-  contactEmail: yup.string().required('Contact Email is required.').email(),
+  contactEmail: yup.string().required('Contact Email is required.').email('Invalid Email Format'),
   phoneNumber: yup.string().required('Phone Number is required.'),
   linkedinProfile: yup.string(),
   relevantExperience: yup.string().required('Relevant Experience is required.'),
