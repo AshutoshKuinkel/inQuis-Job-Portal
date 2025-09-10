@@ -50,7 +50,7 @@ const DB_URI = process.env.DB_URI ?? '';
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)({
-    credentials: false
+    credentials: true
 }));
 app.use(express_1.default.json()); // for JSON bodies
 app.use(express_1.default.urlencoded({ extended: true })); // for form-urlencoded bodies
