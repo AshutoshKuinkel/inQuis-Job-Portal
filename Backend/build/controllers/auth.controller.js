@@ -82,7 +82,7 @@ const login = async (req, res, next) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'development' ? false : true,
             maxAge: Number(process.env.COOKIE_EXPIRE_IN) * 24 * 60 * 60 * 1000,
-            sameSite: 'none'
+            // sameSite:'none'
         })
             .status(200).json({
             message: `Successfully logged in.`,
