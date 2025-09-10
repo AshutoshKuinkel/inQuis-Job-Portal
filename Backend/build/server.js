@@ -57,7 +57,7 @@ app.use(express_1.default.urlencoded({ extended: true })); // for form-urlencode
 app.use((0, cookie_parser_1.default)());
 //serving uploads as static files:
 app.use('/uploads', express_1.default.static('uploads/'));
-//importing routes: 
+//importing routes:
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const job_routes_1 = __importDefault(require("./routes/job.routes"));

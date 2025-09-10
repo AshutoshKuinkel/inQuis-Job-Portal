@@ -24,7 +24,7 @@ app.use(cookieParser())
 //serving uploads as static files:
 app.use('/uploads',express.static('uploads/'))
 
-//importing routes: 
+//importing routes:
 import authRoutes from './routes/auth.routes'
 import userRoutes from './routes/user.routes'
 import jobRoutes from './routes/job.routes'
