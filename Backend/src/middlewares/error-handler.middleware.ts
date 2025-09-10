@@ -21,6 +21,8 @@ export const errorHandler = async(err:any,req:Request,res:Response,next:NextFunc
     message: message,
     data:null
   })
+
+  console.error("ERROR HANDLER CAUGHT:", err);
   
 }
 

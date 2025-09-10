@@ -23,10 +23,10 @@ const authenticate = (roles) => {
             //verifying token:
             const decodedData = (0, jwt_utils_1.verifyAccessToken)(inQuis_portal_accessToken);
             if (Date.now() > decodedData.exp * 1000) {
-                res.clearCookie('inQuis_portal_accessToken', {
+                res.clearCookie("inQuis_portal_accessToken", {
                     secure: process.env.NODE_ENV === "development" ? false : true,
                     httpOnly: true,
-                    sameSite: 'none'
+                    sameSite: "none",
                 });
                 throw new error_handler_middleware_1.default(`401 code 6`, 401);
             }
@@ -49,6 +49,7 @@ const authenticate = (roles) => {
             next();
         }
         catch (err) {
+            console.error("AUTH ERROR:", err); // add this
             next(err);
         }
     };

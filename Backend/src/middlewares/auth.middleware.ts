@@ -28,10 +28,10 @@ export const authenticate = (roles?: Role[]) => {
       const decodedData = verifyAccessToken(inQuis_portal_accessToken);
 
       if (Date.now() > decodedData.exp * 1000) {
-        res.clearCookie('inQuis_portal_accessToken', {
+        res.clearCookie("inQuis_portal_accessToken", {
           secure: process.env.NODE_ENV === "development" ? false : true,
           httpOnly: true,
-          sameSite:'none'
+          sameSite: "none",
         });
         throw new CustomError(`401 code 6`, 401);
       }
@@ -58,6 +58,7 @@ export const authenticate = (roles?: Role[]) => {
 
       next();
     } catch (err) {
+      console.error("AUTH ERROR:", err); // add this
       next(err);
     }
   };

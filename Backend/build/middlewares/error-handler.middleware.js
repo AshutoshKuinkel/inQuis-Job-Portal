@@ -15,6 +15,7 @@ const errorHandler = async (err, req, res, next) => {
         message: message,
         data: null
     });
+    console.error("ERROR HANDLER CAUGHT:", err);
 };
 exports.errorHandler = errorHandler;
 exports.default = CustomError;
