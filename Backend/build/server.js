@@ -50,14 +50,14 @@ const DB_URI = process.env.DB_URI ?? '';
 const app = (0, express_1.default)();
 app.use((0, helmet_1.default)());
 app.use((0, cors_1.default)({
-    credentials: true
+    credentials: false
 }));
 app.use(express_1.default.json()); // for JSON bodies
 app.use(express_1.default.urlencoded({ extended: true })); // for form-urlencoded bodies
 app.use((0, cookie_parser_1.default)());
 //serving uploads as static files:
 app.use('/uploads', express_1.default.static('uploads/'));
-//importing routes:
+//importing routes: 
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
 const job_routes_1 = __importDefault(require("./routes/job.routes"));
