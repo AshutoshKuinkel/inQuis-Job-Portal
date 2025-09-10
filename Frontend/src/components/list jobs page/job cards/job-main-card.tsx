@@ -21,15 +21,15 @@ const CategoryTextColoring = {
 };
 
 const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const textColor =
     CategoryTextColoring[
       job.category.name as keyof typeof CategoryTextColoring
     ];
 
-    const handleApplyClick = ()=>{
-      navigate(`/jobs/apply/${job._id}`)
-    }
+  const handleApplyClick = () => {
+    navigate(`/jobs/apply/${job._id}`);
+  };
   return (
     <div
       onClick={() => handleClick(job._id)}
@@ -37,7 +37,9 @@ const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
     >
       {/* Job Role + Company Section */}
       <div className="flex flex-col space-y-1">
-        <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">{job.title}</h1>
+        <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">
+          {job.title}
+        </h1>
         <div className="flex space-x-1 items-center text-[#6c7b7f] text-sm">
           <Building2 size={16} />
           <p>{job.companyName}</p>
@@ -70,7 +72,13 @@ const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
       </div>
       {/* Apply Now button */}
       <div>
-        <button className="bg-[#2c3e50] text-white font-semibold w-full py-2 rounded-lg hover:cursor-pointer hover:bg-[#3a4753]" onClick={handleApplyClick}>
+        <button
+          className="bg-[#2c3e50] text-white font-semibold w-full py-2 rounded-lg hover:cursor-pointer hover:bg-[#3a4753]"
+          onClick={(e) => {
+            e.stopPropagation(); // <-- prevents the div's onClick from firing
+            handleApplyClick();
+          }}
+        >
           Quick Apply
         </button>
       </div>
