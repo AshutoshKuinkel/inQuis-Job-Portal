@@ -28,7 +28,7 @@ const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
     ];
 
     const handleApplyClick = ()=>{
-      navigate(`jobs/apply/${job._id}`)
+      navigate(`/jobs/apply/${job._id}`)
     }
   return (
     <div
