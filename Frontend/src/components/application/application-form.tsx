@@ -5,10 +5,13 @@ import { applicationSchema } from "../../schema/application.schema";
 import { useMutation } from "@tanstack/react-query";
 import { applicationAPI } from "../../api/apply.api";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+// import { IApplicationData } from "../../types/application.types";
 
 const ApplicationForm = () => {
   const navigate = useNavigate();
+  const { id: jobId } = useParams();
+
   const methods = useForm({
     defaultValues: {
       firstName: "",
@@ -25,7 +28,8 @@ const ApplicationForm = () => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: applicationAPI,
+    mutationFn: (data: any) => applicationAPI(jobId!, data),
+    mutationKey: ["application_API"],
     onSuccess: (response) => {
       console.log(response);
       toast.success(response?.message ?? "Application Submitted", {
@@ -68,6 +72,20 @@ const ApplicationForm = () => {
       availability,
     } = data;
 
+    if (!jobId) {
+      toast.error("Job ID missing. Please Select another Job.", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+      return;
+    }
+
     const formData = new FormData();
     console.log(`Application Form`, data);
     formData.append("First Name", firstName);
@@ -81,7 +99,7 @@ const ApplicationForm = () => {
     if (resume instanceof File) {
       formData.append("resume", resume);
     }
-    mutate(data);
+    mutate(formData);
   };
 
   return (

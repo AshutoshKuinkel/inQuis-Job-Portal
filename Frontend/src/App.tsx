@@ -21,7 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<LoginCard />} />
           <Route path="/signup" element={<SignupCard />} />
-          <Route path="/jobs/apply" element={<JobApplicationPage/>}/>
+          <Route path="/jobs/apply/:id" element={<JobApplicationPage/>}/>
 
           <Route path={'/'} element={<ClientLayout/>}>
             <Route path="" element={<HomePage />} />
