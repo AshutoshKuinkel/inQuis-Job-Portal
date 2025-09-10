@@ -21,7 +21,7 @@ export const authenticate = (roles?: Role[]) => {
       const inQuis_portal_accessToken = req.cookies.inQuis_portal_accessToken;
 
       if (!inQuis_portal_accessToken) {
-        throw new CustomError(`Unauthorised. Access Denied.`, 401);
+        throw new CustomError(`No token.`, 401);
       }
 
       //verifying token:
@@ -40,7 +40,7 @@ export const authenticate = (roles?: Role[]) => {
       const user = await User.findById(decodedData._id);
 
       if (!user) {
-        throw new CustomError(`Unauthorised. Access denied.`, 401);
+        throw new CustomError(`No User.`, 401);
       }
 
       //role based authorisation:

@@ -18,7 +18,7 @@ const authenticate = (roles) => {
             //getting the token:
             const inQuis_portal_accessToken = req.cookies.inQuis_portal_accessToken;
             if (!inQuis_portal_accessToken) {
-                throw new error_handler_middleware_1.default(`Unauthorised. Access Denied.`, 401);
+                throw new error_handler_middleware_1.default(`No token.`, 401);
             }
             //verifying token:
             const decodedData = (0, jwt_utils_1.verifyAccessToken)(inQuis_portal_accessToken);
@@ -33,7 +33,7 @@ const authenticate = (roles) => {
             //checking user exists.
             const user = await user_model_1.User.findById(decodedData._id);
             if (!user) {
-                throw new error_handler_middleware_1.default(`Unauthorised. Access denied.`, 401);
+                throw new error_handler_middleware_1.default(`No User.`, 401);
             }
             //role based authorisation:
             if (roles && !roles.includes(decodedData.role)) {
