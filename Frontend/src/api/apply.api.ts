@@ -1,9 +1,9 @@
+import axios from "axios";
 import { IApplicationData } from "../types/application.types";
-import api from "./";
 
 export const applicationAPI = async (id: string, data: IApplicationData) => {
   try {
-    const response = await api.post(`/jobs/apply/${id}`, data);
+    const response = await axios.post(`https://inquis-portal.onrender.com/jobs/apply/${id}`, data);
     return response.data;
   } catch (err: any) {
     console.log("ERR FULL:", err);
