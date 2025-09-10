@@ -2,6 +2,7 @@ import { Building2,DollarSign } from "lucide-react";
 import React from "react";
 import { IoLocationOutline } from "react-icons/io5";
 import { IJob } from "../../../types/job.types";
+import { useNavigate } from "react-router";
 
 interface IProps{
   featuredJob:IJob
@@ -19,7 +20,12 @@ const CategoryTextColoring = {
 }
 
 const FeaturedJobCard:React.FC<IProps> = ({featuredJob}) => {
+  const navigate = useNavigate()
   const textColor = CategoryTextColoring[featuredJob.category.name as keyof typeof CategoryTextColoring]
+
+  const handleApplyClick = ()=>{
+    navigate(`/jobs/apply/${featuredJob._id}`)
+  }
   return (
     <div className="flex flex-col border border-[#E9EBED] w-[90vw] sm:w-md gap-y-4 p-4 rounded-lg">
       {/* Job Role + Company Section */}
@@ -58,7 +64,7 @@ const FeaturedJobCard:React.FC<IProps> = ({featuredJob}) => {
 
       {/* Apply Now button */}
       <div>
-        <button className="bg-[#2c3e50] text-white font-semibold w-full py-2 rounded-lg hover:cursor-pointer hover:bg-[#3a4753]">
+        <button className="bg-[#2c3e50] text-white font-semibold w-full py-2 rounded-lg hover:cursor-pointer hover:bg-[#3a4753]" onClick={handleApplyClick}>
           Apply Now
         </button>
       </div>

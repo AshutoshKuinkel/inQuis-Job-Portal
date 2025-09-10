@@ -7,14 +7,14 @@ import {Oval} from 'react-loading-icons'
 import { useQuery } from "@tanstack/react-query";
 import { getJobBYIdAPI } from "../../../api/job.api";
 import React from "react";
-import { useSearchParams } from "react-router";
+import { useNavigate, useSearchParams } from "react-router";
 
 interface IProps {
   jobId: string | null;
 }
 
 const DetailCard: React.FC<IProps> = ({ jobId }) => {
-
+  const navigate = useNavigate()
   const [searchParams] = useSearchParams()
 
   const query = searchParams.get('query') ?? ''
@@ -60,6 +60,10 @@ const DetailCard: React.FC<IProps> = ({ jobId }) => {
         <p className="text-sm max-w-2xl text-[#6C7B7F]">Something Went Wrong. Please Try Again With a Different ID.</p>
       </div>
     );
+  }
+
+  const handleApplyClick = ()=>{
+    navigate(`/jobs/apply/${jobId}`)
   }
 
   return (
@@ -112,7 +116,7 @@ const DetailCard: React.FC<IProps> = ({ jobId }) => {
 
       {/* Apply + Build AI resume for Job button */}
       <div className="flex p-6 gap-2">
-        <button className="border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer">
+        <button className="border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer" onClick={handleApplyClick}>
           Apply Now
         </button>
 
