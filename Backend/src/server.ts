@@ -15,7 +15,7 @@ const app = express()
 
 app.use(helmet())
 app.use(cors({
-  credentials:true
+  credentials:false
 }))
 app.use(express.json());        // for JSON bodies
 app.use(express.urlencoded({ extended: true })); // for form-urlencoded bodies
