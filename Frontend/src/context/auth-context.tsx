@@ -7,7 +7,6 @@ interface IContext {
   token:string | null,
   setToken: React.Dispatch<React.SetStateAction<string | null>>,
   isLoading:boolean,
-  logout:()=> void
 }
 
 const inital_values = {
@@ -44,16 +43,8 @@ const AuthProvider:React.FC<{children:React.ReactNode}> = ({children}) => {
     }
   },[])
 
-  const logout = (cb=()=>{})=>{
-    localStorage.removeItem('user')
-    localStorage.removeItem('token')
-    setUser(null)
-    setToken(null)
-    cb()
-  }
-
   return (
-    <AuthContext.Provider value={{user,setUser,token,setToken,isLoading,logout}}>
+    <AuthContext.Provider value={{user,setUser,token,setToken,isLoading}}>
       {children}
     </AuthContext.Provider>
   )
