@@ -1,6 +1,8 @@
 import { useNavigate } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import ApplicationForm from "../../components/application/application-form";
+import { withAuth } from "../../hoc/with-auth.hoc";
+import { Role } from "../../types/enum.types";
 
 
 const JobApplicationPage = () => {
@@ -44,4 +46,5 @@ const JobApplicationPage = () => {
   );
 };
 
-export default JobApplicationPage;
+const page = withAuth(JobApplicationPage,[Role.SEEKER])
+export default page

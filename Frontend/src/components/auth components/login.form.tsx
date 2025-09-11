@@ -7,12 +7,14 @@ import { loginSchema } from "../../schema/auth.schema";
 import { loginAPI } from "../../api/auth.api";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../context/auth-context";
 
 const LoginForm = () => {
-  const {setUser,setToken} = useAuth()
+  const {setUser} = useAuth()
   const navigate = useNavigate()
+  const location = useLocation()
+  const navigateTo = location.state?.from ?? '/'
 
   const {
     register,
@@ -41,11 +43,10 @@ const LoginForm = () => {
           secondary: "#FFFAEE",
         },
       });
-      localStorage.setItem('user',JSON.stringify(response.data))
-      localStorage.setItem('token',response.inQuis_portal_accessToken)
+      // localStorage.setItem('user',JSON.stringify(response.data))
+      // localStorage.setItem('token',response.inQuis_portal_accessToken)
       setUser(response.data)
-      setToken(response.inQuis_portal_accessToken)
-      setTimeout(()=>navigate('/'),500)
+      setTimeout(()=>navigate(navigateTo),500)
     },
     onError: (error) => {
       console.log(error);

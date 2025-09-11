@@ -35,3 +35,12 @@ export const logoutAPI = async()=>{
     throw err.response.data
   }
 }
+
+export const getProfile = async()=>{
+  try{
+    const response = await api.get('/me')
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}

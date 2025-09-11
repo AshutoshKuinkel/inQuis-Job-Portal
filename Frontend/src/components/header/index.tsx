@@ -10,16 +10,16 @@ import { useAuth } from "../../context/auth-context";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { user, setUser, setToken } = useAuth();
+  const { user, setUser} = useAuth();
 
   // Handle Logout
   const handleLogout = async () => {
     try {
       await logoutAPI(); // Call the logout API
       localStorage.removeItem("user"); // Remove user from localStorage
-      localStorage.removeItem("token");
+      // localStorage.removeItem("token");
       setUser(null);
-      setToken(null);
+      // setToken(null);
       toast.success("Successfully Signed Out", {
         style: {
           border: " 1px solid #2c3e50",

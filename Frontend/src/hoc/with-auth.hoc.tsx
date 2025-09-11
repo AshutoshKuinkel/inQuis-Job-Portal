@@ -1,14 +1,14 @@
 import { ComponentType } from "react";
 import { useAuth } from "../context/auth-context";
 import { Oval } from "react-loading-icons";
-import { Navigate } from "react-router";
+import { Navigate, useLocation } from "react-router";
 import toast from "react-hot-toast";
 import { Role } from "../types/enum.types";
 
 export function withAuth<T>(Component: ComponentType<T>,roles:Role[]) {
   return function ProtectedComponent(props: any) {
     const { isLoading, user } = useAuth();
-
+    const location = useLocation()
     if (isLoading) {
       return (
         <div className="flex justify-center items-center col-span-4 h-screen">
@@ -29,7 +29,7 @@ export function withAuth<T>(Component: ComponentType<T>,roles:Role[]) {
           secondary: "#FFFAEE",
         },
       }),500)
-      return <Navigate to={"/login"} />;
+      return <Navigate to={"/login"} state={{from:location.pathname}} />;
     }
 
     //role based access
@@ -44,7 +44,7 @@ export function withAuth<T>(Component: ComponentType<T>,roles:Role[]) {
           secondary: "#FFFAEE",
         },
       }),500)
-      return <Navigate to={'/login'}/>
+      return <Navigate to={'/login'} state={{from:location.pathname}}/>
     }
     return <Component {...props} />;
   };
