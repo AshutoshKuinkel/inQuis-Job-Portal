@@ -41,7 +41,8 @@ const ApplicationForm = () => {
           primary: "#2c3e50",
           secondary: "#FFFAEE",
         },
-      });
+      },
+    );
       setTimeout(() => navigate(-1), 500);
     },
     onError: (error) => {
@@ -317,7 +318,7 @@ const ApplicationForm = () => {
 
             {/* Submit application button */}
             <button className="border bg-[#2c3e50] mt-5 w-full text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed">
-              {isPending ? "Submitting Application" : "Submit Application"}
+              {isPending ? "Submitting Application..." : "Submit Application"}
             </button>
 
             <p className="text-xs text-gray-500 text-center">
