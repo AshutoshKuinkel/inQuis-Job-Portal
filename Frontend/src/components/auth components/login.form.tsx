@@ -44,7 +44,7 @@ const LoginForm = () => {
       });
       // localStorage.setItem('user',JSON.stringify(response.data))
       // localStorage.setItem('token',response.inQuis_portal_accessToken)
-      setUser(response.data.data)
+      setUser(response.data)
       setTimeout(()=>navigate(navigateTo),500)
     },
     onError: (error) => {

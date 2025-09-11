@@ -16,7 +16,6 @@ export function withAuth<T>(Component: ComponentType<T>,roles:Role[]) {
         </div>
       );
     }
-
     //authentication logic
     if (!user) {
       setTimeout(toast.error("Please login to view this.", {
