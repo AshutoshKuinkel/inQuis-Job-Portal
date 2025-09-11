@@ -29,9 +29,9 @@ const HeroCard = () => {
 
   return (
     <div>
-      <div className="bg-white mt-14 w-[90vw] sm:w-[60rem] shadow-2xl py-5 rounded-lg px-8">
-        <form className="flex flex-col sm:flex-row gap-6 justify-center items-center" onSubmit={handleSearch}>
-          <div className=" flex items-center w-[85vw] sm:w-sm py-2 space-x-2 px-2 text-[#2c3e50] bg-[#FBFBFC] rounded-md">
+      <div className="bg-white mt-14 max-w-[90vw] md:w-[60rem] shadow-2xl py-5 rounded-lg px-8">
+        <form className="flex flex-col md:flex-row gap-6 justify-center items-center" onSubmit={handleSearch}>
+          <div className=" flex items-center w-[85vw] md:w-sm py-2 space-x-2 px-2 text-[#2c3e50] bg-[#FBFBFC] rounded-md">
             <CiSearch size={28} className="" />
             <input
               type="search"
@@ -42,7 +42,7 @@ const HeroCard = () => {
             />
           </div>
 
-          <div className=" flex items-center w-[85vw] sm:w-auto bg-[#FBFBFC] text-[#2c3e50] rounded-md py-1 space-x-2 px-2">
+          <div className=" flex items-center w-[85vw] md:w-auto bg-[#FBFBFC] text-[#2c3e50] rounded-md py-1 space-x-2 px-2">
             <IoLocationOutline size={28}/>
             <input
               type="search"
@@ -53,9 +53,9 @@ const HeroCard = () => {
             />
           </div>
 
-          <div className=" flex items-center px-10 py-2 space-x-2 bg-[#2c3e50] text-white font-semibold rounded-md hover:cursor-pointer">
+          <div className=" flex items-center px-10 sm:px-3 md:px-5 lg:px-10 py-2 space-x-2 bg-[#2c3e50] text-white font-semibold rounded-md hover:cursor-pointer">
             <CiSearch size={28}/>
-            <button type="submit" className="text-md">Search Jobs</button>
+            <button type="submit" className="text-md whitespace-nowrap">Search Jobs</button>
           </div>
         </form>
       </div>
