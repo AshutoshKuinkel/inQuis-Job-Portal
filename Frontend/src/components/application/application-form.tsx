@@ -88,14 +88,14 @@ const ApplicationForm = () => {
 
     const formData = new FormData();
     console.log(`Application Form`, data);
-    formData.append("First Name", firstName);
-    formData.append("Last Name", lastName);
-    formData.append("Contact Email", contactEmail);
-    formData.append("Phone", phoneNumber);
-    formData.append("LinkedIn", linkedinProfile);
-    formData.append("Relevant Experience", relevantExperience);
-    formData.append("CV", coverLetter);
-    formData.append("Availability", availability);
+    formData.append("firstName", firstName);
+    formData.append("lastName", lastName);
+    formData.append("contactEmail", contactEmail);
+    formData.append("phoneNumber", phoneNumber);
+    formData.append("linkedinProfile", linkedinProfile);
+    formData.append("relevantExperience", relevantExperience);
+    formData.append("coverLetter", coverLetter);
+    formData.append("availability", availability);
     if (resume instanceof File) {
       formData.append("resume", resume);
     }

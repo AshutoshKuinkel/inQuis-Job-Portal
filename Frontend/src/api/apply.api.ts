@@ -3,13 +3,13 @@ import { IApplicationData } from "../types/application.types";
 
 export const applicationAPI = async (id: string, data: IApplicationData) => {
   try {
-    const response = await axios.post(`https://inquis-portal.onrender.com/jobs/apply/${id}`, data);
+    const response = await axios.post(`https://inquis-portal.onrender.com/jobs/apply/${id}`, data,{
+      withCredentials:true
+    });
+    console.log(response)
     return response.data;
   } catch (err: any) {
-    console.log("ERR FULL:", err);
     console.log("ERR RESPONSE:", err.response?.data);
-    console.log("ERR MESSAGE:", err.message);
-
-    throw err; // rethrow the full Axios error, not just err.response.data
+    throw err;
   }
 };
