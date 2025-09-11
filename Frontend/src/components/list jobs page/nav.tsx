@@ -2,7 +2,6 @@ import { CiSearch } from "react-icons/ci";
 import { IoLocationOutline } from "react-icons/io5";
 import { TbClockHour7 } from "react-icons/tb";
 import { DollarSign } from "lucide-react";
-import { BiCategoryAlt } from "react-icons/bi";
 import { useQuery } from "@tanstack/react-query";
 import { getAllJobsAPI } from "../../api/job.api";
 import { useSearchParams } from "react-router";
@@ -32,6 +31,7 @@ const ListJobsNav = () => {
       query: jobQuery,
       location: jobLocation,
       currentPage: "1",
+      // sortBy:value
     });
   };
 
@@ -117,22 +117,6 @@ const ListJobsNav = () => {
               </select>
             </div>
 
-            <div className="flex items-center bg-[#E9EBED] p-2 text-xs text-[#2c3e50] rounded-md">
-              <div className="flex items-center gap-1">
-                <BiCategoryAlt size={18} />
-              </div>
-              <select className="outline-none">
-                <option defaultValue={"defaultvalue"}>Category</option>
-                <option>Design</option>
-                <option>Technology</option>
-                <option>Marketing</option>
-                <option>Sales</option>
-                <option>Mobile</option>
-                <option>Security</option>
-                <option>Healthcare</option>
-                <option>Engineering</option>
-              </select>
-            </div>
           </form>
         </div>
       </div>
