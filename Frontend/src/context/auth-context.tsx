@@ -4,7 +4,7 @@ import { getProfile } from "../api/auth.api";
 
 interface IContext {
   user: null | IUser;
-  setUser: React.Dispatch<React.SetStateAction<null>>;
+  setUser: React.Dispatch<React.SetStateAction<IUser | null>>;
   // token:string | null,
   // setToken: React.Dispatch<React.SetStateAction<string | null>>,
   isLoading: boolean;
@@ -24,7 +24,7 @@ const AuthContext = React.createContext<IContext>(inital_values);
 const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<IUser | null>(null);
   // const[token,setToken] = useState<string | null>(null)
   const [isLoading, setIsLoading] = useState(true);
 
@@ -32,8 +32,7 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     async function fetchUser() {
       try {
         const data = await getProfile();
-        console.log(data)
-        setUser(data);
+        setUser(data.data);
       } catch (err) {
         console.log(err);
         setUser(null)

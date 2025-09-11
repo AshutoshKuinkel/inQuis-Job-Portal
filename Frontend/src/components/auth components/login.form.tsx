@@ -32,7 +32,6 @@ const LoginForm = () => {
   const { mutate, isPending } = useMutation({
     mutationFn: loginAPI,
     onSuccess: (response) => {
-      console.log(response);
       toast.success(response?.message ?? "Login Success", {
         style: {
           border: " 1px solid #2c3e50",
@@ -45,7 +44,7 @@ const LoginForm = () => {
       });
       // localStorage.setItem('user',JSON.stringify(response.data))
       // localStorage.setItem('token',response.inQuis_portal_accessToken)
-      setUser(response.data)
+      setUser(response.data.data)
       setTimeout(()=>navigate(navigateTo),500)
     },
     onError: (error) => {
