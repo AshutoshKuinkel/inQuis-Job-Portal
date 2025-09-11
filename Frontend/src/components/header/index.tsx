@@ -8,46 +8,40 @@ import { Turn as Hamburger } from "hamburger-react";
 import { useState } from "react";
 import { useAuth } from "../../context/auth-context";
 
-// Handle Logout
-const handleLogout = async () => {
-  const {setUser,setToken} = useAuth()
-  try {
-    await logoutAPI(); // Call the logout API
-    localStorage.removeItem("user"); // Remove user from localStorage
-    localStorage.removeItem("token");
-    setUser(null)
-    setToken(null)
-    toast.success("Successfully Signed Out", {
-      style: {
-        border: " 1px solid #2c3e50",
-        padding: ".5rem",
-      },
-      iconTheme: {
-        primary: "#2c3e50",
-        secondary: "#FFFAEE",
-      },
-    });
-    setTimeout(() => {
-      window.location.reload(); // Reload the page after a small delay
-    }, 500); // Reload the page to reflect the changes
-  } catch (error) {
-    console.log("Logout error:", error);
-  }
-};
-
 const Header = () => {
-  const [isMenuOpen,setIsMenuOpen] = useState<boolean>(false)
+  const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
+  const { user, setUser, setToken } = useAuth();
 
-  // const user = localStorage.getItem("user")
-  //   ? JSON.parse(localStorage.getItem("user") as string)
-  //   : null;
-  const {user} = useAuth()
+  // Handle Logout
+  const handleLogout = async () => {
+    try {
+      await logoutAPI(); // Call the logout API
+      localStorage.removeItem("user"); // Remove user from localStorage
+      localStorage.removeItem("token");
+      setUser(null);
+      setToken(null);
+      toast.success("Successfully Signed Out", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+      setTimeout(() => {
+        window.location.reload(); // Reload the page after a small delay
+      }, 500); // Reload the page to reflect the changes
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+  };
 
-  const handleMenuToggle = ()=>{
-    setIsMenuOpen((prevState)=>!prevState)
-  }
+  const handleMenuToggle = () => {
+    setIsMenuOpen((prevState) => !prevState);
+  };
 
-  
   // Close the menu when a link is clicked
   const handleLinkClick = () => {
     setIsMenuOpen(false);
@@ -76,24 +70,45 @@ const Header = () => {
 
         {/* Hamburger icon */}
         <div className="block sm:hidden">
-          <Hamburger direction="right" size={20} toggled={isMenuOpen} toggle={handleMenuToggle}/>
+          <Hamburger
+            direction="right"
+            size={20}
+            toggled={isMenuOpen}
+            toggle={handleMenuToggle}
+          />
         </div>
 
         {/* Hamburger Menu styling */}
-        <div className={`absolute w-full top-[60px] left-0 bg-white ${isMenuOpen ? "block" : "hidden"}`}>
+        <div
+          className={`absolute w-full top-[60px] left-0 bg-white ${
+            isMenuOpen ? "block" : "hidden"
+          }`}
+        >
           <div className="flex flex-col justify-center items-center gap-6 mt-5 text-gray-500 text-sm pb-5">
             {/* Find Jobs */}
-            <Link to={"/jobs"} className="hover:cursor-pointer" onClick={handleLinkClick}>
+            <Link
+              to={"/jobs"}
+              className="hover:cursor-pointer"
+              onClick={handleLinkClick}
+            >
               Find Jobs
             </Link>
 
             {/* About us */}
-            <Link to={"/about"} className="hover:cursor-pointer" onClick={handleLinkClick}>
+            <Link
+              to={"/about"}
+              className="hover:cursor-pointer"
+              onClick={handleLinkClick}
+            >
               About Us
             </Link>
 
             {/* Register as Employer */}
-            <Link to={"/employer/createJob"} className="hover:cursor-pointer" onClick={handleLinkClick}>
+            <Link
+              to={"/employer/createJob"}
+              className="hover:cursor-pointer"
+              onClick={handleLinkClick}
+            >
               Resgiter as Employer
             </Link>
 
