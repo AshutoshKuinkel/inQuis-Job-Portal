@@ -16,7 +16,8 @@ const app = express()
 app.use(helmet())
 app.use(cookieParser())
 app.use(cors({
-  credentials:true,
+  origin: process.env.FRONT_END_URL || 'http://localhost:5173',
+  credentials:true
 }))
 app.use(express.json());        // for JSON bodies
 app.use(express.urlencoded({ extended: true })); // for form-urlencoded bodies
