@@ -26,7 +26,7 @@ const JobDisplay = () => {
   const handleJobClick = (
     id: string,
   ) => {
-    navigate(`/jobs/${id}?query=${query}&location=${location}&currentPage=${currentPage}`);
+    navigate(`/jobs/${id}?query=${query}&location=${location}&currentPage=${currentPage}&sortBy=${sortBy}`);
   };
 
   const handlePage = (pageNumber: number) => {
