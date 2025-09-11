@@ -6,6 +6,7 @@ import { logoutAPI } from "../../api/auth.api";
 import toast from "react-hot-toast";
 import { Turn as Hamburger } from "hamburger-react";
 import { useState } from "react";
+import { useAuth } from "../../context/auth-context";
 
 // Handle Logout
 const handleLogout = async () => {
@@ -34,9 +35,10 @@ const handleLogout = async () => {
 const Header = () => {
   const [isMenuOpen,setIsMenuOpen] = useState<boolean>(false)
 
-  const user = localStorage.getItem("user")
-    ? JSON.parse(localStorage.getItem("user") as string)
-    : null;
+  // const user = localStorage.getItem("user")
+  //   ? JSON.parse(localStorage.getItem("user") as string)
+  //   : null;
+  const {user} = useAuth()
 
   const handleMenuToggle = ()=>{
     setIsMenuOpen((prevState)=>!prevState)
