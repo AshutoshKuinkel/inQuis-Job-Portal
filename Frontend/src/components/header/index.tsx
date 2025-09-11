@@ -12,8 +12,6 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const { user, setUser} = useAuth();
 
-  console.log(user)
-
   // Handle Logout
   const handleLogout = async () => {
     try {
