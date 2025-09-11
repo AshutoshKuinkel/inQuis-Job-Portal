@@ -24,6 +24,7 @@ const Category = () => {
   const handleCategoryClick = (categoryId: string) => {
     setSearchParams({ id: categoryId });
     navigate(`/jobs/category?id=${categoryId}`)
+    window.scrollTo(0,0)
   };
 
   return (

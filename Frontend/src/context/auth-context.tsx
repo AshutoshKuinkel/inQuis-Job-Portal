@@ -34,7 +34,6 @@ const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         const data = await getProfile();
         setUser(data.data);
       } catch (err) {
-        console.log(err);
         setUser(null)
       } finally {
         setIsLoading(false);
