@@ -246,7 +246,12 @@ exports.listJobs = listJobs;
 const getJobByCategory = async (req, res, next) => {
     try {
         const { id } = req.params;
-        const category = await category_model_1.Category.findById(id);
+        const { currentPage } = req.query;
+        const page = Number(currentPage) || 1;
+        const limit = 15;
+        const skip = (page - 1) * limit;
+        const category = await category_model_1.Category.findById(id).limit(limit).skip(skip);
+        const total = await category_model_1.Category.countDocuments({});
         if (!category) {
             throw new error_handler_middleware_1.default(`Category not found`, 404);
         }
@@ -254,9 +259,11 @@ const getJobByCategory = async (req, res, next) => {
         if (!jobs || jobs.length === 0) {
             throw new error_handler_middleware_1.default(`No Jobs found for this category`, 404);
         }
+        const pagination = (0, pagination_utils_1.getPagination)(total, page, limit);
         res.status(200).json({
             message: `Jobs from category fetched successfully`,
             data: jobs,
+            pagination
         });
     }
     catch (err) {

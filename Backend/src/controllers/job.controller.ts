@@ -316,8 +316,15 @@ export const listJobs = async (
 export const getJobByCategory = async(req:Request,res:Response,next:NextFunction)=>{
   try{
     const { id } = req.params;
+    const {currentPage} = req.query
 
-    const category = await Category.findById(id);
+    const page = Number(currentPage) || 1;
+    const limit = 15;
+    const skip = (page - 1) * limit;
+
+
+    const category = await Category.findById(id).limit(limit).skip(skip);
+    const total = await Category.countDocuments({})
     if (!category) {
       throw new CustomError(`Category not found`, 404);
     }
@@ -326,10 +333,13 @@ export const getJobByCategory = async(req:Request,res:Response,next:NextFunction
     if (!jobs || jobs.length === 0) {
       throw new CustomError(`No Jobs found for this category`, 404);
     }
+
+    const pagination = getPagination(total,page,limit)
     
     res.status(200).json({
       message: `Jobs from category fetched successfully`,
       data: jobs,
+      pagination
     });
   }catch(err){
     next(err)
