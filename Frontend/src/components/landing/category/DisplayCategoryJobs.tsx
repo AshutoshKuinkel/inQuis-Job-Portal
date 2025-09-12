@@ -6,20 +6,36 @@ import { useSearchParams } from "react-router-dom";
 import { Oval } from "react-loading-icons";
 import { ICategory } from "../../../types/category.types";
 import React from "react";
+import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 
 interface IProps {
   category?: ICategory;
 }
 
 const CategoryJobsDisplay: React.FC<IProps> = ({ category }) => {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const categoryId = searchParams.get("id"); // Get the category ID from query params
-
+  const currentPage = Number(searchParams.get("currentPage") || 1);
   const { data, isLoading } = useQuery({
-    queryFn: () => getCategoryJob(categoryId!),
-    queryKey: ["get_category_jobs", categoryId],
+    queryFn: () => getCategoryJob(categoryId!, currentPage),
+    queryKey: ["get_category_jobs", categoryId, currentPage],
     enabled: !!categoryId, // Only fetch if categoryId exists
   });
+
+  const handlePage = (pageNumber: number) => {
+    if (
+      pageNumber < 1 ||
+      (data?.pagination?.total_pages &&
+        pageNumber > data.pagination.total_pages)
+    ) {
+      return;
+    }
+
+    setSearchParams({
+      id: categoryId!,
+      currentPage: pageNumber.toString(),
+    });
+  };
 
   const handleJobClick = () => {
     return;
@@ -48,10 +64,53 @@ const CategoryJobsDisplay: React.FC<IProps> = ({ category }) => {
                       handleClick={handleJobClick}
                     />
                   ))
-                  
                 ) : (
                   <p>No jobs found for this category.</p>
                 )}
+              </div>
+            </div>
+          )}
+          {/* Next Previous Buttons {Desktop} */}
+          {!isLoading && (
+            <div className="flex justify-between items-center pb-10 p-3">
+              <div
+                className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
+                  currentPage === 1
+                    ? "opacity-50 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                onClick={() => handlePage(currentPage - 1)}
+              >
+                <GoArrowLeft />
+                <button
+                  className={`${
+                    currentPage === 1 ? "cursor-not-allowed" : "cursor-pointer"
+                  }`}
+                >
+                  Previous
+                </button>
+              </div>
+
+              <div
+                className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
+                  data?.pagination?.total_pages &&
+                  currentPage >= data.pagination.total_pages
+                    ? "opacity-50 cursor-not-allowed"
+                    : "cursor-pointer"
+                }`}
+                onClick={() => handlePage(currentPage + 1)}
+              >
+                <button
+                  className={`${
+                    data?.pagination?.total_pages &&
+                    currentPage >= data.pagination.total_pages
+                      ? "cursor-not-allowed"
+                      : "cursor-pointer"
+                  }`}
+                >
+                  Next
+                </button>
+                <GoArrowRight />
               </div>
             </div>
           )}
