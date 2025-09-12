@@ -111,7 +111,7 @@ const JobDisplay = () => {
         {isLoading ? (
           ""
         ) : (!isMobile &&
-          <div className={`lg:block col-span-2 border border-gray-300 rounded-md max-w-4xl h-screen sticky top-0 mb-10`}>
+          <div className={`col-span-2 border border-gray-300 rounded-md max-w-4xl h-screen sticky top-0 mb-10`}>
             <div
               className="h-full overflow-auto hover:overflow-auto"
               style={{ scrollbarGutter: "stable" }}
