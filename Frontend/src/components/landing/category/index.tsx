@@ -14,9 +14,10 @@ const Category = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
   const id = searchParams.get("id") || "";
+  const currentPage=null
 
   const {} = useQuery({
-    queryFn: () => getCategoryJob(id),
+    queryFn: () => getCategoryJob(id,currentPage),
     queryKey: ["get_category_job", id],
     enabled:!!id
   });

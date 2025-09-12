@@ -13,7 +13,7 @@ export const getCategories = async () => {
 };
 
 //get job by categories:
-export const getCategoryJob = async (id:string,currentPage:number) => {
+export const getCategoryJob = async (id:string,currentPage:number | null) => {
   try {
     const response = await api.get(`/jobs/field/${id}?currentPage=${currentPage}`);
     return response.data;
