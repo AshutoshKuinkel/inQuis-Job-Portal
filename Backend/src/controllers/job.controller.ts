@@ -16,8 +16,16 @@ export const createJob = async (
       throw new CustomError(`401 code 2`, 401);
     }
 
-    const { title, companyName, description, location, salary, jobType, contactEmail,category} =
-      req.body;
+    const {
+      title,
+      companyName,
+      description,
+      location,
+      salary,
+      jobType,
+      contactEmail,
+      category,
+    } = req.body;
     const postedBy = id;
 
     if (!title) {
@@ -39,9 +47,9 @@ export const createJob = async (
       throw new CustomError(`Please select Category.`, 400);
     }
 
-    const fetchCategory = await Category.findById(category)
-    if(!fetchCategory){
-      throw new CustomError(`Category not found`,400)
+    const fetchCategory = await Category.findById(category);
+    if (!fetchCategory) {
+      throw new CustomError(`Category not found`, 400);
     }
 
     let job = await Job.create({
@@ -53,10 +61,10 @@ export const createJob = async (
       jobType,
       contactEmail,
       postedBy,
-      category
-    })
+      category,
+    });
 
-    job = await job.populate('category')
+    job = await job.populate("category");
 
     res.status(201).json({
       message: `New Job Successfully Posted.`,
@@ -80,7 +88,7 @@ export const readJob = async (
       throw new CustomError(`401 code 3`, 401);
     }
 
-    const job = await Job.findById(jobId).populate('category')
+    const job = await Job.findById(jobId).populate("category");
 
     if (!job) {
       throw new CustomError(`A Job with that Id does not exist.`, 404);
@@ -117,11 +125,11 @@ export const getAllJobs = async (
       throw new CustomError(`401 code 4`, 401);
     }
 
-    const jobs = await Job.find({ postedBy: id }).populate('category')
+    const jobs = await Job.find({ postedBy: id })
+      .populate("category")
       .sort({ createdAt: -1 })
       .limit(limit)
       .skip(skip);
-      
 
     const total = await Job.countDocuments({ postedBy: id });
 
@@ -160,21 +168,29 @@ export const updateJob = async (
       throw new CustomError("Nothing to update.", 400);
     }
 
-    const { title,companyName, description, location, salary, jobType,contactEmail } = req.body;
+    const {
+      title,
+      companyName,
+      description,
+      location,
+      salary,
+      jobType,
+      contactEmail,
+    } = req.body;
 
     const updatedJob = await Job.findByIdAndUpdate(
       jobId,
       {
         title: title,
-        companyName:companyName,
+        companyName: companyName,
         description: description,
         location: location,
         salary: salary,
-        contactEmail:contactEmail,
+        contactEmail: contactEmail,
         jobType: jobType,
       },
       { new: true, runValidators: true }
-    ).populate('category')
+    ).populate("category");
 
     res.status(200).json({
       message: `Job Successfully updated.`,
@@ -289,12 +305,20 @@ export const listJobs = async (
       sortOption = { createdAt: -1 };
     }
 
-    let jobs = await Job.find(filter).sort(sortOption).limit(limit).skip(skip).populate('category');
+    let jobs = await Job.find(filter)
+      .sort(sortOption)
+      .limit(limit)
+      .skip(skip)
+      .populate("category");
 
     let total = await Job.countDocuments(filter);
 
     if (jobs.length === 0) {
-      jobs = await Job.find({}).sort(sortOption).limit(limit).skip(skip).populate('category');
+      jobs = await Job.find({})
+        .sort(sortOption)
+        .limit(limit)
+        .skip(skip)
+        .populate("category");
 
       total = await Job.countDocuments({});
     }
@@ -311,53 +335,70 @@ export const listJobs = async (
   }
 };
 
-//get job by category
-
-export const getJobByCategory = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const { id } = req.params;
-    const {currentPage} = req.query
+// get jobs by category
+export const getJobByCategory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params; // categoryId
+    const { currentPage } = req.query;
 
     const page = Number(currentPage) || 1;
     const limit = 15;
     const skip = (page - 1) * limit;
 
-
-    const category = await Category.findById(id).limit(limit).skip(skip);
-    const total = await Category.countDocuments({})
+    // check if category exists
+    const category = await Category.findById(id);
     if (!category) {
       throw new CustomError(`Category not found`, 404);
     }
-    const jobs = await Job.find({ category: id }).populate('category')
+    const total = await Job.countDocuments({ category: id });
+    const totalPages = Math.ceil(total / limit);
+
+    if (page > totalPages && totalPages !== 0) {
+      throw new CustomError(`Page out of range`, 400);
+    }
+
+    // get jobs with pagination
+    const jobs = await Job.find({ category: id })
+      .populate("category")
+      .skip(skip)
+      .limit(limit);
 
     if (!jobs || jobs.length === 0) {
       throw new CustomError(`No Jobs found for this category`, 404);
     }
 
-    const pagination = getPagination(total,page,limit)
-    
+    const pagination = getPagination(total, page, limit);
+
     res.status(200).json({
       message: `Jobs from category fetched successfully`,
       data: jobs,
-      pagination
+      pagination,
     });
-  }catch(err){
-    next(err)
+  } catch (err) {
+    next(err);
   }
-}
+};
 
 //get job by id:
 
-export const getJobById = async(req:Request,res:Response,next:NextFunction)=>{
-  const {id} = req.params
+export const getJobById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  const { id } = req.params;
 
-  const job = await Job.findById(id).populate('category')
-  if(!job){
-    throw new CustomError(`Job not Found`,404)
+  const job = await Job.findById(id).populate("category");
+  if (!job) {
+    throw new CustomError(`Job not Found`, 404);
   }
 
   res.status(200).json({
-    message:`Job Successfully fetched.`,
-    data:job
-  })
-}
+    message: `Job Successfully fetched.`,
+    data: job,
+  });
+};
