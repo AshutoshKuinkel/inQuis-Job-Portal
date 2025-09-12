@@ -7,45 +7,58 @@ import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { Oval } from "react-loading-icons";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 import { useEffect, useState } from "react";
+import { FaArrowLeftLong } from "react-icons/fa6";
 
 const JobDisplay = () => {
   const navigate = useNavigate();
   const { id: selectedJobId } = useParams();
 
   const [searchParam, setSearchParam] = useSearchParams();
-  const [isMobile,setIsMobile] = useState(true)
-  const [isJobClicked,setIsJobClicked] = useState(false)
+  const [isMobile, setIsMobile] = useState(true);
+  const [isJobClicked, setIsJobClicked] = useState(false);
 
   const query = searchParam.get("query") || "";
   const location = searchParam.get("location") || "";
   const currentPage = Number(searchParam.get("currentPage")) || 1;
-  const sortBy = searchParam.get('sortBy') || ''
+  const sortBy = searchParam.get("sortBy") || "";
 
   const { data, isLoading } = useQuery({
-    queryFn: () => getAllJobsAPI(currentPage, query, location,sortBy),
-    queryKey: ["get_all_jobs", query, location, currentPage,sortBy],
+    queryFn: () => getAllJobsAPI(currentPage, query, location, sortBy),
+    queryKey: ["get_all_jobs", query, location, currentPage, sortBy],
   });
 
   // useEffect for checking screen width using window.innerwidth
-  useEffect(()=>{
-    const handleScreenWidth = ()=>{
-      setIsMobile(window.innerWidth < 1024)
+  useEffect(() => {
+    const handleScreenWidth = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    window.addEventListener("resize", handleScreenWidth);
+    handleScreenWidth();
+
+    return () => window.removeEventListener("resize", handleScreenWidth);
+  }, []);
+
+  // Reset state when navigating back or when URL changes
+  useEffect(() => {
+    if (!selectedJobId) {
+      setIsJobClicked(false);
     }
+  }, [selectedJobId]);
 
-    window.addEventListener('resize',handleScreenWidth)
-    handleScreenWidth()
-
-    return ()=> window.removeEventListener('resize',handleScreenWidth)
-  },[])
-
-  const handleJobClick = (
-    id: string,
-  ) => {
-    navigate(`/jobs/${id}?query=${query}&location=${location}&currentPage=${currentPage}&sortBy=${sortBy}`);
-    if(isMobile){
-      setIsJobClicked(true)
-      window.scrollTo(0,0)
+  const handleJobClick = (id: string) => {
+    navigate(
+      `/jobs/${id}?query=${query}&location=${location}&currentPage=${currentPage}&sortBy=${sortBy}`
+    );
+    if (isMobile) {
+      setIsJobClicked(true);
+      window.scrollTo(0, 0);
     }
+  };
+
+  const redirectBack = () => {
+    navigate(-1);
+    setIsJobClicked(false);
   };
 
   const handlePage = (pageNumber: number) => {
@@ -69,7 +82,11 @@ const JobDisplay = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-3">
         {/* Cards */}
         <div className="col-span-1">
-          <div className={`flex flex-col gap-3 ${isMobile && isJobClicked ? 'hidden' : ''}`}>
+          <div
+            className={`flex flex-col gap-3 ${
+              isMobile && isJobClicked ? "hidden" : ""
+            }`}
+          >
             {isLoading && (
               <div className="flex justify-center items-center col-span-4 h-[300px]">
                 <Oval stroke="#2c3e50" height="64" width="64" />
@@ -94,32 +111,48 @@ const JobDisplay = () => {
         </div>
 
         {/* Detail Section {Mobile} */}
-        {isLoading ? (
-          ""
-        ) : ( isMobile && isJobClicked &&
-          <div className={`col-span-2 border border-gray-300 rounded-md max-w-4xl h-screen sticky top-0 mb-10`}>
-            <div
-              className="h-full overflow-auto hover:overflow-auto"
-              style={{ scrollbarGutter: "stable" }}
-            >
-              <DetailCard jobId={selectedJobId ?? null} />
-            </div>
-          </div>
-        )}
+        {isLoading
+          ? ""
+          : isMobile &&
+            isJobClicked && (
+              <div>
+                <div
+                  onClick={redirectBack}
+                  className="flex items-center justify-center w-24 bg-[#EBEBEB] rounded-md p-2 mb-2"
+                >
+                  <FaArrowLeftLong className="text-[#2c3e50]" />
+                  <button className=" text-[#2c3e50] sm:px-3 rounded-md hover:cursor-pointer">
+                    Back
+                  </button>
+                </div>
+                <div
+                  className={`col-span-2 border border-gray-300 rounded-md max-w-4xl h-screen sticky top-0 mb-10`}
+                >
+                  <div
+                    className="h-full overflow-auto hover:overflow-auto"
+                    style={{ scrollbarGutter: "stable" }}
+                  >
+                    <DetailCard jobId={selectedJobId ?? null} />
+                  </div>
+                </div>
+              </div>
+            )}
 
         {/* Detail Section {Laptop} */}
-        {isLoading ? (
-          ""
-        ) : (!isMobile &&
-          <div className={`col-span-2 border border-gray-300 rounded-md max-w-4xl h-screen sticky top-0 mb-10`}>
-            <div
-              className="h-full overflow-auto hover:overflow-auto"
-              style={{ scrollbarGutter: "stable" }}
-            >
-              <DetailCard jobId={selectedJobId ?? null} />
-            </div>
-          </div>
-        )}
+        {isLoading
+          ? ""
+          : !isMobile && (
+              <div
+                className={`col-span-2 border border-gray-300 rounded-md max-w-4xl h-screen sticky top-0 mb-10`}
+              >
+                <div
+                  className="h-full overflow-auto hover:overflow-auto"
+                  style={{ scrollbarGutter: "stable" }}
+                >
+                  <DetailCard jobId={selectedJobId ?? null} />
+                </div>
+              </div>
+            )}
 
         {/* Next Previous Buttons {Mobile}*/}
         {!isLoading && isMobile && !isJobClicked && (
@@ -167,7 +200,7 @@ const JobDisplay = () => {
         )}
 
         {/* Next Previous Buttons {Desktop} */}
-                {!isLoading && !isMobile && (
+        {!isLoading && !isMobile && (
           <div className="flex justify-between items-center pb-10 p-3">
             <div
               className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
