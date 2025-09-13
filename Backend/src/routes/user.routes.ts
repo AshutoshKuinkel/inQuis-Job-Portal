@@ -7,7 +7,7 @@ const router = express.Router()
 
 router.get('/profile',authenticate(),viewProfile)
 router.put('/updateProfile',authenticate(seeker),updateSeekerProfile)
-router.put('/updateProfile',authenticate(employer),updateEmployerProfile)
+router.put('/updateEmployerProfile',authenticate(employer),updateEmployerProfile)
 
 
 
