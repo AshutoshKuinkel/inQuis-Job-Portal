@@ -5,6 +5,7 @@ import { useNavigate } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import ProfileForm from "../../components/user page components/profile-form";
 import { ChangePageButtons } from "../../components/user page components/change-page-buttons";
+import { LiaCalendar } from "react-icons/lia";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const ProfilePage = () => {
         </div>
       </div>
 
-      <div className="flex flex-col justify-center items-center gap-10">
+      <div className="flex flex-col justify-center items-center gap-5">
         {/* Signup Sign in button replica */}
         <ChangePageButtons />
 
@@ -37,6 +38,13 @@ const ProfilePage = () => {
         <ProfileForm />
 
         {/* Account info section */}
+        <div className="flex flex-col border border-[#E9EBED] sm:w-[65vw] rounded-xl p-6 gap-4">
+          <p className="text-[#2c3e50]">Account Information</p>
+          <div className="flex items-center space-x-2 text-sm text-gray-500">
+            <LiaCalendar size={20}/>
+            <p>Member since January 2024</p>
+          </div>
+        </div>
       </div>
     </div>
   );
