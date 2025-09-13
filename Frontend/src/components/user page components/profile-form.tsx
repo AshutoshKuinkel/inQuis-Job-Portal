@@ -1,4 +1,4 @@
-import React from "react";
+
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { everyone } from "../../types/enum.types";
 
