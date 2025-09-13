@@ -6,12 +6,14 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import ProfileForm from "../../components/user page components/profile-form";
 import { ChangePageButtons } from "../../components/user page components/change-page-buttons";
 import { LiaCalendar } from "react-icons/lia";
+import { useAuth } from "../../context/auth-context";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
   const redirectBack = () => {
     navigate(-1);
   };
+  const {user} = useAuth()
   return (
     <div className="">
       {/* Page Header */}
@@ -42,8 +44,13 @@ const ProfilePage = () => {
           <p className="text-[#2c3e50]">Account Information</p>
           <div className="flex items-center space-x-2 text-sm text-gray-500">
             <LiaCalendar size={20}/>
-            <p>Member since January 2024</p>
-          </div>
+            <p>Member since{" "}
+          {new Date(user?.createdAt!).toLocaleDateString("en-US", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}</p>
+          </div> 
         </div>
       </div>
     </div>
