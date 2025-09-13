@@ -4,6 +4,7 @@ import { Role } from "../../types/enum.types";
 import { useNavigate } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { ChangePageButtons } from "../../components/user page components/change-page-buttons";
+import ViewMyApplications from "../../components/application/list-job-applications";
 
 const MyApplicationsPage = () => {
   const navigate = useNavigate();
@@ -33,6 +34,7 @@ const MyApplicationsPage = () => {
         <ChangePageButtons />
 
         {/* Job Cards with Application status + buttons to veiw update & withdraw*/}
+        <ViewMyApplications/>
       
       </div>
     </div>
