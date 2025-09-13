@@ -1,8 +1,17 @@
+import { useState } from "react";
+import { useAuth } from "../../context/auth-context";
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { everyone } from "../../types/enum.types";
 
 const ProfileForm = () => {
   // Make onlick function so that when edit profile is clicked, all form fields become normal
+  const { user } = useAuth();
+  const [isEditProfileClicked, setIsEditProfileClicked] = useState(false);
+
+  const handleEditProfileClick = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsEditProfileClicked(true);
+  };
   return (
     <div className="flex justify-center items-center border border-[#E9EBED] sm:w-[65vw] rounded-xl mt-4">
       <form className="flex flex-col gap-4">
@@ -12,9 +21,22 @@ const ProfileForm = () => {
             <p className="text-[#2C3E50] mb-3 mt-6 sm:mb-9 sm:mt-6">
               Personal Information
             </p>
-            <button className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm">
-              Edit Profile
-            </button>
+            {isEditProfileClicked ? (
+              <button
+                type="submit"
+                className="border bg-[#2c3e50] p-2 rounded-lg text-white font-semibold text-sm hover:cursor-pointer hover:bg-[#3a4753]"
+                onClick={handleEditProfileClick}
+              >
+                Save Changes
+              </button>
+            ) : (
+              <button
+                className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm hover:cursor-pointer hover:bg-gray-200"
+                onClick={handleEditProfileClick}
+              >
+                Edit Profile
+              </button>
+            )}
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-6">
@@ -28,10 +50,10 @@ const ProfileForm = () => {
                 }
               >
                 <input
-                  disabled
+                  disabled={!isEditProfileClicked}
                   id="firstName"
                   type="text"
-                  placeholder="First name"
+                  placeholder={user?.first_name}
                   className=" rounded-md outline-none  w-full"
                   autoComplete="off"
                 />
@@ -48,10 +70,10 @@ const ProfileForm = () => {
                 }
               >
                 <input
-                  disabled
+                  disabled={!isEditProfileClicked}
                   id="lastName"
                   type="text"
-                  placeholder="Last name"
+                  placeholder={user?.last_name}
                   className=" rounded-md outline-none w-full"
                   autoComplete="off"
                 />
@@ -70,10 +92,10 @@ const ProfileForm = () => {
                 }
               >
                 <input
-                  disabled
+                  disabled={!isEditProfileClicked}
                   id="email"
                   type="text"
-                  placeholder="Enter your email"
+                  placeholder={user?.email}
                   className=" rounded-md outline-none w-full"
                   autoComplete="off"
                 />
@@ -90,7 +112,7 @@ const ProfileForm = () => {
                 }
               >
                 <input
-                  disabled
+                  disabled={!isEditProfileClicked}
                   id="password"
                   type="password"
                   placeholder="********"
