@@ -10,7 +10,7 @@ import { useAuth } from "../../context/auth-context";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const { user, setUser} = useAuth();
+  const { user, setUser } = useAuth();
 
   // Handle Logout
   const handleLogout = async () => {
@@ -61,12 +61,14 @@ const Header = () => {
 
       {/* icon section */}
       <div className="flex space-x-4 sm:space-x-6 items-center">
-        <div className="flex flex-col items-center">
-          <FiUser size={22} />
-          <p className="text-md text-[#2c3e50]">
-            {user ? user.first_name : "Guest"}
-          </p>
-        </div>
+        <Link to={'/profile'}>
+          <div className="flex flex-col items-center">
+            <FiUser size={22} />
+            <p className="text-md text-[#2c3e50]">
+              {user ? user.first_name : "Guest"}
+            </p>
+          </div>
+        </Link>
 
         {/* Hamburger icon */}
         <div className="block sm:hidden">
