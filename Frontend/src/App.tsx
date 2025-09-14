@@ -14,6 +14,7 @@ import ScrollToTop from "./providers/scroll-to-top";
 import CategoryJobsDisplay from "./components/landing/category/DisplayCategoryJobs";
 import JobApplicationPage from "./pages/application pages/application";
 import MyApplicationsPage from "./pages/user page/my-applications.page";
+import ViewApplication from "./components/application/view-application";
 
 const App = () => {
   return (
@@ -26,6 +27,7 @@ const App = () => {
           <Route path="/jobs/apply/:id" element={<JobApplicationPage/>}/>
           <Route path="/profile" element={<ProfilePage/>}/>
           <Route path="/myApplications" element={<MyApplicationsPage/>}/>
+          <Route path="/myApplications/:id" element={<ViewApplication/>}/>
 
           <Route path={'/'} element={<ClientLayout/>}>
             <Route path="" element={<HomePage />} />

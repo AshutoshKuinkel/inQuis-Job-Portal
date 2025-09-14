@@ -18,3 +18,12 @@ export const viewMyApplicationsAPI = async(currentPage:number)=>{
     throw err.response.data
   }
 }
+
+export const updateApplicationAPI = async(id:string) =>{
+  try{
+    const response = await api.get(`/jobs/updateApplication/${id}`)
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}
