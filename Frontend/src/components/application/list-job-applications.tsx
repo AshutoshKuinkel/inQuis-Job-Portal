@@ -35,7 +35,7 @@ const ViewMyApplications = () => {
           Track and manage your job applications
         </p>
       </div>
-      {/* Jobs Applied to Cards */}
+      {/* Jobs Applied to Cards */} 
       {isLoading ? (
         <div className="flex justify-center items-center">
           <Oval stroke="#2c3e50" height="64" width="64" />
