@@ -75,8 +75,8 @@ app.get('/', (req, res) => {
 app.use('', auth_routes_1.default);
 app.use('/user', user_routes_1.default);
 app.use('/employer', job_routes_1.default);
-app.use('', List_jobs_routes_1.default);
 app.use('/jobs', application_routes_1.default);
+app.use('', List_jobs_routes_1.default);
 app.use('', category_routes_1.default);
 app.use('', featured_job_routes_1.default);
 app.all('/{*all}', (req, res) => {

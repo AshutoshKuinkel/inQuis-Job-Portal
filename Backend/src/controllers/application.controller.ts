@@ -130,7 +130,7 @@ export const apply = async (
 };
 
 //view applications for job seekers.
-export const viewMyApplications = async (
+export const viewMyApplications= async (
   req: Request,
   res: Response,
   next: NextFunction

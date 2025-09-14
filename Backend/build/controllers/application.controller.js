@@ -100,14 +100,16 @@ exports.apply = apply;
 const viewMyApplications = async (req, res, next) => {
     try {
         const { currentPage, perPage } = req.query;
+        const applicant = req.user._id;
         const page = Number(currentPage) || 1;
         const limit = Number(perPage) || 5;
         const skip = Number(page - 1) * limit;
-        const applications = await application_model_1.Application.find({ applicant: req.user._id })
+        console.log("applicant id:", applicant);
+        const applications = await application_model_1.Application.find({ applicant })
             .populate("job")
             .limit(limit)
             .skip(skip);
-        const total = await application_model_1.Application.countDocuments();
+        const total = await application_model_1.Application.countDocuments({ applicant });
         const pagination = (0, pagination_utils_1.getPagination)(total, page, limit);
         res.status(201).json({
             message: `Applications successfully fetched`,
