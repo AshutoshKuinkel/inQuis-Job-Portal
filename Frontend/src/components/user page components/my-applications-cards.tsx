@@ -7,6 +7,7 @@ import { IoTrashOutline } from "react-icons/io5";
 import React from "react";
 import { IJob } from "../../types/job.types";
 import { IApplicationResponse } from "../../types/application.types";
+import { useNavigate} from "react-router";
 
 interface IProps{
   job:IJob
@@ -14,6 +15,12 @@ interface IProps{
 }
 
 const MyApplicationCards:React.FC<IProps> = ({job,application}) => {
+  const navigate = useNavigate()
+  
+  const viewButton = ()=>{
+    navigate(`${application._id}`)
+  }
+  
   return (
     <div>
       <div className="border p-6 rounded-xl border-[#E9EBED] mt-6 border-l-8">
@@ -35,7 +42,9 @@ const MyApplicationCards:React.FC<IProps> = ({job,application}) => {
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200">
+              <div
+              onClick={viewButton}
+              className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200">
                 <AiOutlineEye size={20} />
                 <button className="hover:cursor-pointer">View</button>
               </div>

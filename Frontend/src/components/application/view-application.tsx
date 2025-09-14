@@ -2,15 +2,27 @@
 import { FormProvider, useForm } from "react-hook-form";
 import ImageInput from "../inputs/image-input";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import { useNavigate } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import { useQuery } from "@tanstack/react-query";
+import { getApplicationByIdAPI } from "../../api/user.api";
+// import { IApplicationResponse } from "../../types/application.types";
+
 
 const ViewApplication = () => {
+  const {id} = useParams()
   const methods = useForm({});
   const navigate = useNavigate();
 
+  const {data:response} = useQuery({
+    queryFn:()=>getApplicationByIdAPI(id!),
+    queryKey:['get_application_by_id',id]
+  })
   const redirectBack = () => {
     navigate('/myApplications');
   };
+
+  const application = response?.data
+
   return (
     <div className=" min-h-screen">
       <div className="flex flex-col justify-center items-center sm:mt-10 sm:mb-10 ">
@@ -43,7 +55,7 @@ const ViewApplication = () => {
                     <input
                       id="firstName"
                       type="text"
-                      placeholder="First name"
+                      placeholder={application.firstName}
                       className=" rounded-md outline-none  w-full"
                       autoComplete="off"
                     />
@@ -52,7 +64,7 @@ const ViewApplication = () => {
 
                 <div className="flex flex-col gap-1">
                   <label className="text-[#2c3e50] text-sm font-semibold">
-                    Last Name
+                    {application.lastName}
                   </label>
                   <div
                     className={
@@ -83,7 +95,7 @@ const ViewApplication = () => {
                     <input
                       id="contactEmail"
                       type="text"
-                      placeholder="Enter your email"
+                      placeholder={application.contactEmail}
                       className=" rounded-md outline-none w-full"
                       autoComplete="off"
                     />
@@ -102,7 +114,7 @@ const ViewApplication = () => {
                     <input
                       id="phoneNumber"
                       type="text"
-                      placeholder="e.g 1234567890"
+                      placeholder={application.phoneNumber}
                       className=" rounded-md outline-none w-full"
                       autoComplete="off"
                     />
@@ -121,7 +133,7 @@ const ViewApplication = () => {
                 <input
                   id="linkedinProfile"
                   type="text"
-                  placeholder="https://www.linkedin.com/in/yourprofile"
+                  placeholder={application.linkedinProfile ?? "https://www.linkedin.com/in/yourprofile"}
                   className=" sm:w-sm rounded-md outline-none w-full"
                   autoComplete="off"
                 />
@@ -156,7 +168,7 @@ const ViewApplication = () => {
                 <input
                   id="relevantExperience"
                   type="text"
-                  placeholder="Briefly describe your relevant experience for this role..."
+                  placeholder={application.relevantExperience}
                   className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
                   autoComplete="off"
                 />
@@ -173,7 +185,7 @@ const ViewApplication = () => {
                 <input
                   id="coverLetter"
                   type="text"
-                  placeholder="Tell us why you're interested in this position and what makes you a great fit..."
+                  placeholder={application.coverLetter}
                   className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
                   autoComplete="off"
                 />
@@ -190,7 +202,7 @@ const ViewApplication = () => {
                 <input
                   id="availability"
                   type="text"
-                  placeholder="When are you available to start?"
+                  placeholder={application.availability}
                   className="w-full rounded-md outline-none "
                   autoComplete="off"
                 />
