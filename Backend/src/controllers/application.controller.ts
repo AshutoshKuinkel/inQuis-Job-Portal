@@ -129,6 +129,25 @@ export const apply = async (
   }
 };
 
+export const viewApplicationById = async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const {id} = req.params
+
+    const application = await Application.findById(id)
+
+    if(!application){
+      throw new CustomError(`We couldn't find that Application`,404)
+    }
+
+    res.status(200).json({
+      message:`Application fetched.`,
+      data:application
+    })
+  }catch(err){
+    next(err)
+  }
+}
+
 //view applications for job seekers.
 export const viewMyApplications= async (
   req: Request,

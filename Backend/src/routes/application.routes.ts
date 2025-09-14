@@ -1,6 +1,6 @@
 import { authenticate } from './../middlewares/auth.middleware';
 import express from 'express';
-import {apply,viewMyApplications,update,withdraw, viewApplicants,updateApplicationStatus} from '../controllers/application.controller'
+import {apply,viewMyApplications,update,withdraw, viewApplicants,updateApplicationStatus, viewApplicationById} from '../controllers/application.controller'
 import { seeker } from '../types/enum.types';
 import { employer } from '../types/enum.types';
 import { uploader } from '../middlewares/uploader.middleware';
@@ -9,6 +9,7 @@ const router = express.Router()
 const upload = uploader()
 
 router.get('/myApplications',authenticate(seeker),viewMyApplications)
+router.get('/myApplications/:id',authenticate(seeker),viewApplicationById)
 router.post('/apply/:jobId',authenticate(seeker),upload.fields([{name:'resume',maxCount:1}]),apply)
 router.put('/updateApplication/:jobId',authenticate(seeker),update)
 router.delete('/withdrawApplication/:jobId',authenticate(seeker),withdraw)
