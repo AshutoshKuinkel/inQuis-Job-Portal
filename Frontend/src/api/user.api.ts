@@ -1,4 +1,4 @@
-import axios from 'axios'
+// import axios from 'axios'
 import { IProfileData } from '../types/user.types'
 import api from './'
 
