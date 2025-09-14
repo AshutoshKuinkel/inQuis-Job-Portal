@@ -1,16 +1,14 @@
 export interface IApplicationResponse {
-  firstName: string;
-  lastName: string;
-  contactEmail: string;
-  phoneNumber: string;
-  linkedinProfile: string;
-  resume:{
-    path:string,
-    public_id:string
-  };
-  relevantExperience: string;
-  coverLetter: string;
-  availability: string;
+  firstName:string;
+  lastName:string;
+  contactEmail:string;
+  phoneNumber:string;
+  resume:File | FileList
+  relevantExperience:string;
+  coverLetter:string;
+  availability:string;
+  status:string;
+  createdAt:string;
 }
 
 export interface IApplicationData {
@@ -19,8 +17,9 @@ export interface IApplicationData {
   contactEmail: string;
   phoneNumber: string;
   linkedinProfile?: string;
-  resume:File | FileList,
+  resume: File | FileList;
   relevantExperience: string;
   coverLetter: string;
   availability: string;
+  createdAt: string;
 }

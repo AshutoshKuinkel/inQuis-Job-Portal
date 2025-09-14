@@ -6,12 +6,14 @@ import { LiaEdit } from "react-icons/lia";
 import { IoTrashOutline } from "react-icons/io5";
 import React from "react";
 import { IJob } from "../../types/job.types";
+import { IApplicationResponse } from "../../types/application.types";
 
 interface IProps{
   job:IJob
+  application:IApplicationResponse
 }
 
-const MyApplicationCards:React.FC<IProps> = ({job}) => {
+const MyApplicationCards:React.FC<IProps> = ({job,application}) => {
   return (
     <div>
       <div className="border p-6 rounded-xl border-[#E9EBED] mt-6 border-l-8">
@@ -22,7 +24,7 @@ const MyApplicationCards:React.FC<IProps> = ({job}) => {
             </h1>
             {/* Category Section */}
             <div className="w-24 text-center bg-[#ECEEF2] rounded-lg py-1">
-              <p className={`text-xs text-[#2c3e50] font-semibold`}>Pending</p>
+              <p className={`text-xs text-[#2c3e50] font-semibold`}>{application.status}</p>
             </div>
           </div>
 
@@ -65,7 +67,7 @@ const MyApplicationCards:React.FC<IProps> = ({job}) => {
 
           <div className="flex space-x-1 items-center text-gray-500">
             <CiCalendar size={20} className="text-gray-600" />
-            <p>Applied 4/9/25</p>
+            <p>Applied {new Date(application.createdAt).toLocaleDateString("en-GB")}</p>
           </div>
         </div>
       </div>

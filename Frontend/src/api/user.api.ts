@@ -10,9 +10,9 @@ export const updateUserProfile = async(data:IProfileData)=>{
   }
 }
 
-export const viewMyApplicationsAPI = async()=>{
+export const viewMyApplicationsAPI = async(currentPage:number)=>{
   try{
-    const response = await api.get('/jobs/myApplications')
+    const response = await api.get(`/jobs/myApplications?currentPage=${currentPage}`)
     return response.data
   }catch(err:any){
     throw err.response.data
