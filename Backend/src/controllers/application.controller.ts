@@ -137,17 +137,19 @@ export const viewMyApplications = async (
 ) => {
   try {
     const { currentPage, perPage } = req.query;
+    const applicant = req.user._id
 
     const page = Number(currentPage) || 1;
     const limit = Number(perPage) || 5;
     const skip = Number(page - 1) * limit;
 
-    const applications = await Application.find({ applicant: req.user._id })
+    console.log("applicant id:",applicant)
+    const applications = await Application.find({applicant})
       .populate("job")
       .limit(limit)
       .skip(skip);
 
-    const total = await Application.countDocuments();
+    const total = await Application.countDocuments({applicant});
 
     const pagination = getPagination(total, page, limit);
 

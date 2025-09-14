@@ -8,8 +8,8 @@ import { uploader } from '../middlewares/uploader.middleware';
 const router = express.Router()
 const upload = uploader()
 
-router.post('/apply/:jobId',authenticate(seeker),upload.fields([{name:'resume',maxCount:1}]),apply)
 router.get('/myApplications',authenticate(seeker),viewMyApplications)
+router.post('/apply/:jobId',authenticate(seeker),upload.fields([{name:'resume',maxCount:1}]),apply)
 router.put('/updateApplication/:jobId',authenticate(seeker),update)
 router.delete('/withdrawApplication/:jobId',authenticate(seeker),withdraw)
 

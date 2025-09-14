@@ -44,8 +44,8 @@ app.get('/',(req:Request,res:Response)=>{
 app.use('',authRoutes)
 app.use('/user',userRoutes)
 app.use('/employer',jobRoutes)
-app.use('',listJobRoutes)
 app.use('/jobs',applicationRoutes)
+app.use('',listJobRoutes)
 app.use('',categoryRoutes)
 app.use('',featuredJobRoutes)
 
