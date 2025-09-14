@@ -9,7 +9,7 @@ const router = express.Router()
 const upload = uploader()
 
 router.get('/myApplications',authenticate(seeker),viewMyApplications)
-router.get('/myApplications/:id',authenticate(seeker),viewApplicationById)
+router.get('/myApplications/:id',authenticate(seeker),viewApplicationById) 
 router.post('/apply/:jobId',authenticate(seeker),upload.fields([{name:'resume',maxCount:1}]),apply)
 router.put('/updateApplication/:jobId',authenticate(seeker),update)
 router.delete('/withdrawApplication/:jobId',authenticate(seeker),withdraw)

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateApplicationStatus = exports.viewApplicants = exports.withdraw = exports.update = exports.viewMyApplications = exports.apply = void 0;
+exports.updateApplicationStatus = exports.viewApplicants = exports.withdraw = exports.update = exports.viewMyApplications = exports.viewApplicationById = exports.apply = void 0;
 const application_model_1 = require("../models/application.model");
 const error_handler_middleware_1 = __importDefault(require("../middlewares/error-handler.middleware"));
 const job_model_1 = require("../models/job.model");
@@ -96,6 +96,23 @@ const apply = async (req, res, next) => {
     }
 };
 exports.apply = apply;
+const viewApplicationById = async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        const application = await application_model_1.Application.findById(id);
+        if (!application) {
+            throw new error_handler_middleware_1.default(`We couldn't find that Application`, 404);
+        }
+        res.status(200).json({
+            message: `Application fetched.`,
+            data: application
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.viewApplicationById = viewApplicationById;
 //view applications for job seekers.
 const viewMyApplications = async (req, res, next) => {
     try {
