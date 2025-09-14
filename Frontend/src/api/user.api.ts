@@ -9,3 +9,12 @@ export const updateUserProfile = async(data:IProfileData)=>{
     throw err.response.data
   }
 }
+
+export const viewMyApplicationsAPI = async()=>{
+  try{
+    const response = await api.get('/jobs/myApplications')
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}
