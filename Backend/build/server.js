@@ -54,8 +54,8 @@ app.use((0, cors_1.default)({
     origin: process.env.FRONT_END_URL || 'http://localhost:5173',
     credentials: true
 }));
-app.use(express_1.default.json()); // for JSON bodies
-app.use(express_1.default.urlencoded({ extended: true })); // for form-urlencoded bodies
+app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
 //serving uploads as static files:
 app.use('/uploads', express_1.default.static('uploads/'));
 //importing routes:

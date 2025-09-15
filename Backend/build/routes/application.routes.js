@@ -14,7 +14,7 @@ const upload = (0, uploader_middleware_1.uploader)();
 router.get('/myApplications', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), application_controller_1.viewMyApplications);
 router.get('/myApplications/:id', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), application_controller_1.viewApplicationById);
 router.post('/apply/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), upload.fields([{ name: 'resume', maxCount: 1 }]), application_controller_1.apply);
-router.put('/updateApplication/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), application_controller_1.update);
+router.put('/updateApplication/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), upload.fields([{ name: 'resume', maxCount: 1 }]), application_controller_1.update);
 router.delete('/withdrawApplication/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), application_controller_1.withdraw);
 router.get('/applications/:jobId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.viewApplicants);
 router.put('/applications/:jobId/:applicationId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.updateApplicationStatus);

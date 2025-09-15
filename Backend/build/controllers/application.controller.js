@@ -152,7 +152,7 @@ const update = async (req, res, next) => {
             throw new error_handler_middleware_1.default(`Job not found`, 404);
         }
         const { deletedFile, firstName, lastName, contactEmail, phoneNumber, linkedinProfile, relevantExperience, coverLetter, availability, } = req.body;
-        const { resume } = req.files;
+        const resume = req.files?.resume;
         let deletedFiles = [];
         if (deletedFile) {
             try {

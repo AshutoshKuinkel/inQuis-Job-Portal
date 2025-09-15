@@ -19,8 +19,8 @@ app.use(cors({
   origin: process.env.FRONT_END_URL || 'http://localhost:5173',
   credentials:true
 }))
-app.use(express.json());        // for JSON bodies
-app.use(express.urlencoded({ extended: true })); // for form-urlencoded bodies
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //serving uploads as static files:
 app.use('/uploads',express.static('uploads/'))

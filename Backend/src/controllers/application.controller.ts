@@ -216,9 +216,12 @@ export const update = async (
       availability,
     } = req.body;
 
-    const { resume } = req.files as {
-      [fieldname: string]: Express.Multer.File[];
-    };
+
+    const resume = (
+      req.files as {
+        [fieldname: string]: Express.Multer.File[];
+      }
+    )?.resume;
 
     let deletedFiles: string[] = [];
     if (deletedFile) {
