@@ -1,6 +1,5 @@
 // import React from "react";
 import { FormProvider, useForm } from "react-hook-form";
-import ImageInput from "../inputs/image-input";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
@@ -138,7 +137,10 @@ const ViewApplication = () => {
                 <input
                   id="linkedinProfile"
                   type="text"
-                  placeholder={application.linkedinProfile ?? "https://www.linkedin.com/in/yourprofile"}
+                  placeholder={
+                    application.linkedinProfile ??
+                    "https://www.linkedin.com/in/yourprofile"
+                  }
                   className=" sm:w-sm rounded-md outline-none w-full"
                   autoComplete="off"
                 />
@@ -150,12 +152,15 @@ const ViewApplication = () => {
             {/* Resume */}
             <div>
               <p className="text-[#2C3E50]">Resume</p>
-              <ImageInput
-                id="resume"
-                name="resume"
-                label="Upload Resume"
-                required
-              />
+
+              <a
+                type="button"
+                href={`${application.resume.path}`}
+                target="_blank"
+                className="bg-[#2c3e50] flex items-center justify-center text-center font-semibold text-white rounded-lg p-2 mt-2"
+              >
+                View Resume
+              </a>
               <hr className="text-[#E9EBED] w-full mt-6" />
             </div>
 
