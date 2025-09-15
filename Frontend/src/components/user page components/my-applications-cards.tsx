@@ -3,7 +3,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { CiCalendar } from "react-icons/ci";
 import { AiOutlineEye } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
-import Alert from '../application/withdraw-alert'
+import Alert from "../application/withdraw-alert";
 import React from "react";
 import { IJob } from "../../types/job.types";
 import { IApplicationResponse } from "../../types/application.types";
@@ -24,7 +24,6 @@ const MyApplicationCards: React.FC<IProps> = ({ job, application }) => {
   const updateButton = () => {
     navigate(`/myApplications/update/${job._id}`);
   };
-
 
   return (
     <div>
@@ -48,25 +47,53 @@ const MyApplicationCards: React.FC<IProps> = ({ job, application }) => {
               <p>{job.companyName}</p>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div
-                onClick={viewButton}
-                className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200"
-              >
-                <AiOutlineEye size={20} />
-                <button className="hover:cursor-pointer">View</button>
-              </div>
+            {application.status === "PENDING" && (
+              <div className="flex items-center gap-2">
+                <div
+                  onClick={viewButton}
+                  className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200"
+                >
+                  <AiOutlineEye size={20} />
+                  <button className="hover:cursor-pointer">View</button>
+                </div>
 
-              <div
-                className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200"
-                onClick={updateButton}
-              >
-                <LiaEdit size={20} />
-                <button className="hover:cursor-pointer">Edit</button>
-              </div>
+                <div
+                  className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200"
+                  onClick={updateButton}
+                >
+                  <LiaEdit size={20} />
+                  <button className="hover:cursor-pointer">Edit</button>
+                </div>
 
-              <Alert job={job}/>
-            </div>
+                <Alert job={job} />
+              </div>
+            )}
+
+            {application.status === "REJECTED" && (
+              <div className="flex items-center gap-2">
+                <div
+                  onClick={viewButton}
+                  className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200"
+                >
+                  <AiOutlineEye size={20} />
+                  <button className="hover:cursor-pointer">View</button>
+                </div>
+              </div>
+            )}
+
+            {application.status === "ACCEPTED" && (
+              <div className="flex items-center gap-2">
+                <div
+                  onClick={viewButton}
+                  className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200"
+                >
+                  <AiOutlineEye size={20} />
+                  <button className="hover:cursor-pointer">View</button>
+                </div>
+
+                <Alert job={job} />
+              </div>
+            )}
           </div>
         </div>
 

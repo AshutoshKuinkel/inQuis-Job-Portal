@@ -9,7 +9,7 @@ import ViewMyApplications from "../../components/application/list-job-applicatio
 const MyApplicationsPage = () => {
   const navigate = useNavigate();
   const redirectBack = () => {
-    navigate(-1);
+    navigate('/profile');
   };
   return (
     <div className="">

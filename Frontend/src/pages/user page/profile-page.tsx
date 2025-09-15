@@ -1,7 +1,7 @@
 
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { everyone } from "../../types/enum.types";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import ProfileForm from "../../components/user page components/profile-form";
 import { ChangePageButtons } from "../../components/user page components/change-page-buttons";
@@ -10,8 +10,10 @@ import { useAuth } from "../../context/auth-context";
 
 const ProfilePage = () => {
   const navigate = useNavigate();
+  const location = useLocation()
+  const navigateTo = location.state?.from ?? '/'
   const redirectBack = () => {
-    navigate(-1);
+    navigate(navigateTo);
   };
   const {user} = useAuth()
   return (
