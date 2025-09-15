@@ -1,13 +1,18 @@
 import FeaturedJobCard from "./featured-card";
 import { IJob } from "../../../types/job.types";
 import { useQuery } from "@tanstack/react-query";
-import { getFeaturedJobAPI } from "../../../api/featured-job.api";
 import { Link } from "react-router";
 import {Oval} from 'react-loading-icons'
+import { getAllJobsAPI } from "../../../api/job.api";
 
 const FeaturedSection = () => {
+  const currentPage = null
+  const query = ''
+  const location = ''
+  const sortBy = ''
+  const isFeatured = true
   const { data, isLoading } = useQuery({
-    queryFn: getFeaturedJobAPI,
+    queryFn: ()=>getAllJobsAPI(currentPage,query,location,sortBy,isFeatured),
     queryKey: ["featured_Job_API"],
   });
 
@@ -21,7 +26,7 @@ const FeaturedSection = () => {
       <div className="flex flex-col items-start justify-center  pt-12">
         <h1 className="text-3xl text-[#2e3c50] font-bold">Featured Jobs</h1>
         { isLoading ? '':
-        <p className="text-sm text-[#6C7B7F] mt-1">6 jobs found</p>
+        <p className="text-sm text-[#6C7B7F] mt-1">{data?.data?.length || 0} jobs found</p>
         }
       </div>
 
@@ -31,9 +36,10 @@ const FeaturedSection = () => {
           <div className="flex justify-center items-center col-span-full h-[300px]">
             <Oval stroke="#2c3e50" height="64" width="64" />
           </div> 
-        ) : (
-          data?.data.map((featuredJob: IJob) => (
-            <FeaturedJobCard featuredJob={featuredJob} key={featuredJob._id} />
+        ) : ( 
+          data?.data
+          .map((job: IJob) => (
+            <FeaturedJobCard job={job} key={job._id} />
           ))
         )}
       </div>

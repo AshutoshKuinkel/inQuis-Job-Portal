@@ -9,4 +9,5 @@ export interface IJob{
   salary:string,
   jobType:string,
   category:ICategory
+  isFeatured:boolean
 }
