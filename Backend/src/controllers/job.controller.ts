@@ -284,6 +284,11 @@ export const listJobs = async (
       };
     }
 
+    if (req.query.isFeatured) {
+      const isFeatured = req.query.isFeatured === "true";
+      filter.isFeatured = isFeatured;
+    }
+
     let sortOption = {};
 
     switch (sortBy) {

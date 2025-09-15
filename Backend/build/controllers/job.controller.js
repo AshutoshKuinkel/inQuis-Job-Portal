@@ -207,6 +207,10 @@ const listJobs = async (req, res, next) => {
                 $options: "i",
             };
         }
+        if (req.query.isFeatured) {
+            const isFeatured = req.query.isFeatured === "true";
+            filter.isFeatured = isFeatured;
+        }
         let sortOption = {};
         switch (sortBy) {
             case "latest":

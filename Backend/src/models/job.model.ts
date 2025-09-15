@@ -43,6 +43,11 @@ const jobSchema = new mongoose.Schema({
     required: [true,'Please select a category for your job, or one that best matches.']
   },
 
+  isFeatured:{
+    type:Boolean,
+    default:false
+  },
+
   postedBy:{
     type:mongoose.Types.ObjectId,
     required:[true,`Reference to employer user ID not found`]
