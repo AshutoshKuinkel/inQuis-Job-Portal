@@ -25,6 +25,7 @@ const MyApplicationCards: React.FC<IProps> = ({ job, application }) => {
     navigate(`/myApplications/update/${job._id}`);
   };
 
+
   return (
     <div>
       <div className="border p-6 rounded-xl border-[#E9EBED] mt-6 border-l-8">
@@ -64,7 +65,7 @@ const MyApplicationCards: React.FC<IProps> = ({ job, application }) => {
                 <button className="hover:cursor-pointer">Edit</button>
               </div>
 
-              <Alert/>
+              <Alert job={job}/>
             </div>
           </div>
         </div>

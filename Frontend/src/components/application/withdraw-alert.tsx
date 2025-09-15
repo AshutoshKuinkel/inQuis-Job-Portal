@@ -1,8 +1,50 @@
 import { useState } from "react";
 import { IoTrashOutline } from "react-icons/io5";
+import { IJob } from "../../types/job.types";
+import { useNavigate} from "react-router";
+import { useMutation } from "@tanstack/react-query";
+import { withdrawApplicationAPI } from "../../api/user.api";
+import toast from "react-hot-toast";
 
-const Alert = () => {
+interface IProps {
+  job: IJob;
+}
+
+const Alert: React.FC<IProps> = ({ job }) => {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+   const {mutate:withdraw,isPending} = useMutation({
+      mutationFn: () => withdrawApplicationAPI(job._id),
+      mutationKey: ["withdraw_application_API",job._id],
+      onSuccess: (response) => {
+        toast.success(response?.message ?? "Application Withdrawn", {
+          style: {
+            border: " 1px solid #2c3e50",
+            padding: ".5rem",
+          },
+          iconTheme: {
+            primary: "#2c3e50",
+            secondary: "#FFFAEE",
+          },
+        });
+        setOpen(false)
+        setTimeout(() => navigate(-1), 500);
+      },
+      onError: (error) => {
+        console.log(error);
+        toast.error(error?.message ?? "Something went wrong", {
+          style: {
+            border: " 1px solid #2c3e50",
+            padding: ".5rem",
+          },
+          iconTheme: {
+            primary: "#2c3e50",
+            secondary: "#FFFAEE",
+          },
+        });
+      },
+    });
 
   const handleOpen = () => {
     setOpen(true);
@@ -10,6 +52,10 @@ const Alert = () => {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const handleClick = () => {
+   withdraw()
   };
   return (
     <div>
@@ -46,9 +92,9 @@ const Alert = () => {
               </button>
               <button
                 className=" rounded-lg font-semibold text-sm text-white flex items-center space-x-2  p-2 justify-center hover:cursor-pointer bg-[#d4183d]"
-                onClick={handleClose}
+                onClick={handleClick}
               >
-                Withdraw Application
+                {isPending? 'Withdrawing...':'Withdraw Application'}
               </button>
             </div>
           </div>
