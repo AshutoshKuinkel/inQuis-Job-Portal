@@ -51,9 +51,9 @@ const ListJobsNav = () => {
       <div className="bg-white mt-0.5 w-4.5xl shadow-2xl py-5 rounded-lg px-8">
         <form
           onSubmit={handleSearch}
-          className="flex gap-6 justify-center items-center"
+          className="flex flex-col sm:flex-row gap-6 justify-center items-center sm:flex-wrap lg:flex-nowrap"
         >
-          <div className=" flex items-center w-sm py-2 space-x-2 px-2 text-[#2c3e50] bg-[#FBFBFC] rounded-md">
+          <div className=" flex items-center w-[90vw] sm:w-sm py-2 space-x-2 px-2 text-[#2c3e50] bg-[#FBFBFC] rounded-md">
             <CiSearch size={28} className="" />
             <input
               type="search"
@@ -64,7 +64,7 @@ const ListJobsNav = () => {
             />
           </div>
 
-          <div className=" flex items-center bg-[#FBFBFC] rounded-md py-1 space-x-2 px-2">
+          <div className=" flex items-center w-[90vw] sm:w-auto bg-[#FBFBFC] rounded-md py-1 space-x-2 px-2">
             <IoLocationOutline size={28} />
             <input
               type="search"
@@ -75,7 +75,7 @@ const ListJobsNav = () => {
             />
           </div>
 
-          <div className=" flex items-center px-10 py-2 space-x-2 bg-[#2c3e50] text-white font-semibold rounded-md hover:cursor-pointer">
+          <div className=" flex items-center w-[90vw] sm:w-auto justify-center px-10 py-2 space-x-2 bg-[#2c3e50] text-white font-semibold rounded-md hover:cursor-pointer">
             <CiSearch size={28} />
             <button type="submit" className="text-md">
               Search Jobs
@@ -84,13 +84,13 @@ const ListJobsNav = () => {
         </form>
         {/* Sort by buttons; highest/lowerst salary, latest/oldest */}
         <div className="flex justify-center mt-3 gap-2 items-center">
-          <h1 className="text-[#2c3e50]">Sort By:</h1>
+          <h1 className="text-[#2c3e50] text-xs sm:text-[16px] text-center">Sort By:</h1>
 
           <form className="flex gap-2" onSubmit={handleSearch}>
             {/* Date posted */}
-            <div className="flex items-center bg-[#E9EBED] p-2 text-xs text-[#2c3e50] rounded-md">
+            <div className="flex items-center bg-[#E9EBED] p-2 text-[10px] sm:text-xs text-[#2c3e50] rounded-md w-[7rem] sm:w-auto">
               <div className="flex items-center gap-1">
-                <TbClockHour7 size={18} />
+                <TbClockHour7 size={16} />
               </div>
               <select className="outline-none"
               value={jobSort}
@@ -103,9 +103,9 @@ const ListJobsNav = () => {
             </div>
 
             {/* Salary */}
-            <div className="flex items-center bg-[#E9EBED] p-2 text-xs text-[#2c3e50] rounded-md">
+            <div className="flex items-center bg-[#E9EBED] p-2 text-[10px] sm:text-xs text-[#2c3e50] rounded-md w-[7rem] sm:w-auto">
               <div className="flex items-center gap-1">
-                <DollarSign size={18} />
+                <DollarSign size={16} />
               </div>
               <select className="outline-none"
                 value={jobSort}
