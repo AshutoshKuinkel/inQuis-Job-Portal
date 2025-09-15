@@ -15,7 +15,7 @@ const ProfilePage = () => {
   };
   const {user} = useAuth()
   return (
-    <div className="">
+    <div className="pb-10">
       {/* Page Header */}
       <div className="border border-gray-300 flex flex-col pl-6 pb-5 sm:pb-0 sm:pl-44 sm:pt-8 sm:h-[15vh] gap-4">
         <div
@@ -40,7 +40,7 @@ const ProfilePage = () => {
         <ProfileForm />
 
         {/* Account info section */}
-        <div className="flex flex-col border border-[#E9EBED] sm:w-[65vw] rounded-xl p-6 gap-4">
+        <div className="flex flex-col border border-[#E9EBED] w-[95vw] sm:w-[65vw] rounded-xl p-6 gap-4 ">
           <p className="text-[#2c3e50]">Account Information</p>
           <div className="flex items-center space-x-2 text-sm text-gray-500">
             <LiaCalendar size={20}/>

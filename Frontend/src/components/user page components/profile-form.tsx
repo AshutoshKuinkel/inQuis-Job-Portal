@@ -67,7 +67,7 @@ const ProfileForm = () => {
   };
 
   return (
-    <div className="flex justify-center items-center border border-[#E9EBED] sm:w-[65vw] rounded-xl mt-4">
+    <div className="flex justify-center items-center border border-[#E9EBED] sm:w-[65vw] rounded-xl mt-4 p-2">
       <FormProvider {...methods}>
         <form
           className="flex flex-col gap-4"
