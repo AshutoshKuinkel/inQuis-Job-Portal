@@ -88,7 +88,6 @@ const ApplicationForm = () => {
     }
 
     const formData = new FormData();
-    console.log(`Application Form`, data);
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("contactEmail", contactEmail);

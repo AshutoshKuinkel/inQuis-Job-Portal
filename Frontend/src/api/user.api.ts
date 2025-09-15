@@ -1,6 +1,7 @@
 import axios from 'axios'
 import { IProfileData } from '../types/user.types'
 import api from './'
+import { IApplicationResponse } from '../types/application.types'
 
 export const updateUserProfile = async(data:IProfileData)=>{
   try{
@@ -31,9 +32,9 @@ export const getApplicationByIdAPI = async(id:string) =>{
   }
 }
 
-export const updateApplicationAPI = async(id:string) =>{
+export const updateApplicationAPI = async(id:string,data:IApplicationResponse) =>{
   try{
-    const response = await api.put(`/jobs/updateApplication/${id}`)
+    const response = await api.put(`/jobs/updateApplication/${id}`,data)
     return response.data
   }catch(err:any){
     throw err.response.data
