@@ -129,46 +129,53 @@ export const apply = async (
   }
 };
 
-export const viewApplicationById = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
-    const {id} = req.params
+export const viewApplicationById = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { id } = req.params;
+    const user = req.user._id;
 
-    const application = await Application.findById(id)
-
-    if(!application){
-      throw new CustomError(`We couldn't find that Application`,404)
+    const application = await Application.findById(id);
+    if (!application) {
+      throw new CustomError(`We couldn't find that Application`, 404);
+    }
+    if (user.toString() !== application.applicant.toString()) {
+      throw new CustomError(`Unauthorised. Access Denied`, 403);
     }
 
     res.status(200).json({
-      message:`Application fetched.`,
-      data:application
-    })
-  }catch(err){
-    next(err)
+      message: `Application fetched.`,
+      data: application,
+    });
+  } catch (err) {
+    next(err);
   }
-}
+};
 
 //view applications for job seekers.
-export const viewMyApplications= async (
+export const viewMyApplications = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { currentPage, perPage } = req.query;
-    const applicant = req.user._id
+    const applicant = req.user._id;
 
     const page = Number(currentPage) || 1;
     const limit = Number(perPage) || 5;
     const skip = Number(page - 1) * limit;
 
-    console.log("applicant id:",applicant)
-    const applications = await Application.find({applicant})
+    console.log("applicant id:", applicant);
+    const applications = await Application.find({ applicant })
       .populate("job")
       .limit(limit)
       .skip(skip);
 
-    const total = await Application.countDocuments({applicant});
+    const total = await Application.countDocuments({ applicant });
 
     const pagination = getPagination(total, page, limit);
 

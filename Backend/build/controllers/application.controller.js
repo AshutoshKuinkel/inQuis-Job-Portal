@@ -99,13 +99,17 @@ exports.apply = apply;
 const viewApplicationById = async (req, res, next) => {
     try {
         const { id } = req.params;
+        const user = req.user._id;
         const application = await application_model_1.Application.findById(id);
         if (!application) {
             throw new error_handler_middleware_1.default(`We couldn't find that Application`, 404);
         }
+        if (user.toString() !== application.applicant.toString()) {
+            throw new error_handler_middleware_1.default(`Unauthorised. Access Denied`, 403);
+        }
         res.status(200).json({
             message: `Application fetched.`,
-            data: application
+            data: application,
         });
     }
     catch (err) {
