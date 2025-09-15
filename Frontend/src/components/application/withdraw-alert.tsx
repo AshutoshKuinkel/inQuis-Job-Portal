@@ -79,8 +79,7 @@ const Alert: React.FC<IProps> = ({ job }) => {
               Withdraw Application
             </h1>
             <p className="text-gray-500 max-w-xl text-sm">
-              Are you sure you want to withdraw your application for Senior
-              Frontend Developer at TechCorp Inc.? This action cannot be undone.
+              Are you sure you want to withdraw your application for {job.title} at {job.companyName}? This action cannot be undone.
             </p>
 
             <div className="flex justify-end gap-3 mr-[.5rem] mt-3">
