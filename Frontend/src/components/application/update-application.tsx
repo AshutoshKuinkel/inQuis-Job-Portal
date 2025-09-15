@@ -294,7 +294,7 @@ const UpdateApplication = () => {
 
               {/* Submit application button */}
               <button className="border bg-[#2c3e50] w-full text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed">
-                {isPending ? "Submitting Application..." : "Submit Application"}
+                {isPending ? "Updating Application..." : "Update Application"}
               </button>
             </div>
           </form>

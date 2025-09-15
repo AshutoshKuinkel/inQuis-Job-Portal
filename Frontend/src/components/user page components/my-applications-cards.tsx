@@ -3,7 +3,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { CiCalendar } from "react-icons/ci";
 import { AiOutlineEye } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
-import { IoTrashOutline } from "react-icons/io5";
+import Alert from '../application/withdraw-alert'
 import React from "react";
 import { IJob } from "../../types/job.types";
 import { IApplicationResponse } from "../../types/application.types";
@@ -64,10 +64,7 @@ const MyApplicationCards: React.FC<IProps> = ({ job, application }) => {
                 <button className="hover:cursor-pointer">Edit</button>
               </div>
 
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-red-500 font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center hover:cursor-pointer hover:bg-gray-200">
-                <IoTrashOutline size={20} />
-                <button className="hover:cursor-pointer">Withdraw</button>
-              </div>
+              <Alert/>
             </div>
           </div>
         </div>
