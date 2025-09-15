@@ -5,25 +5,30 @@ import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import { getApplicationByIdAPI } from "../../api/user.api";
+import Oval from "react-loading-icons/dist/esm/components/oval";
 // import { IApplicationResponse } from "../../types/application.types";
 
-
 const ViewApplication = () => {
-  const {id} = useParams()
+  const { id } = useParams();
   const methods = useForm({});
   const navigate = useNavigate();
 
-  const {data:response} = useQuery({
-    queryFn:()=>getApplicationByIdAPI(id!),
-    queryKey:['get_application_by_id',id]
-  })
+  const { data: response, isLoading } = useQuery({
+    queryFn: () => getApplicationByIdAPI(id!),
+    queryKey: ["get_application_by_id", id],
+    enabled: !!id,
+  });
   const redirectBack = () => {
-    navigate('/myApplications');
+    navigate("/myApplications");
   };
 
-  const application = response?.data
+  const application = response?.data;
 
-  return (
+  return isLoading ? (
+    <div className="flex justify-center items-center col-span-4 h-screen">
+      <Oval stroke="#2c3e50" height="64" width="64" />
+    </div>
+  ) : (
     <div className=" min-h-screen">
       <div className="flex flex-col justify-center items-center sm:mt-10 sm:mb-10 ">
         <FormProvider {...methods}>
@@ -64,7 +69,7 @@ const ViewApplication = () => {
 
                 <div className="flex flex-col gap-1">
                   <label className="text-[#2c3e50] text-sm font-semibold">
-                    {application.lastName}
+                    Last Name
                   </label>
                   <div
                     className={
@@ -74,7 +79,7 @@ const ViewApplication = () => {
                     <input
                       id="lastName"
                       type="text"
-                      placeholder="Last name"
+                      placeholder={application.lastName}
                       className=" rounded-md outline-none w-full"
                       autoComplete="off"
                     />

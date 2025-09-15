@@ -1,4 +1,4 @@
-// import axios from 'axios'
+import axios from 'axios'
 import { IProfileData } from '../types/user.types'
 import api from './'
 
@@ -22,7 +22,9 @@ export const viewMyApplicationsAPI = async(currentPage:number)=>{
 
 export const getApplicationByIdAPI = async(id:string) =>{
   try{
-    const response = await api.get(`/jobs/myApplications/${id}`)
+    const response = await axios.get(`https://inquis-portal.onrender.com/jobs/myApplications/${id}`,{
+      withCredentials:true
+    })
     return response.data
   }catch(err:any){
     throw err.response.data
