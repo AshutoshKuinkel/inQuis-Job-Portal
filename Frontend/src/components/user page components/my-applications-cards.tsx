@@ -7,20 +7,24 @@ import { IoTrashOutline } from "react-icons/io5";
 import React from "react";
 import { IJob } from "../../types/job.types";
 import { IApplicationResponse } from "../../types/application.types";
-import { useNavigate} from "react-router";
+import { useNavigate } from "react-router";
 
-interface IProps{
-  job:IJob
-  application:IApplicationResponse
+interface IProps {
+  job: IJob;
+  application: IApplicationResponse;
 }
 
-const MyApplicationCards:React.FC<IProps> = ({job,application}) => {
-  const navigate = useNavigate()
-  
-  const viewButton = ()=>{
-    navigate(`${application._id}`)
-  }
-  
+const MyApplicationCards: React.FC<IProps> = ({ job, application }) => {
+  const navigate = useNavigate();
+
+  const viewButton = () => {
+    navigate(`${application._id}`);
+  };
+
+  const updateButton = () => {
+    navigate(`/myApplications/update/${job._id}`);
+  };
+
   return (
     <div>
       <div className="border p-6 rounded-xl border-[#E9EBED] mt-6 border-l-8">
@@ -31,7 +35,9 @@ const MyApplicationCards:React.FC<IProps> = ({job,application}) => {
             </h1>
             {/* Category Section */}
             <div className="w-24 text-center bg-[#ECEEF2] rounded-lg py-1">
-              <p className={`text-xs text-[#2c3e50] font-semibold`}>{application.status}</p>
+              <p className={`text-xs text-[#2c3e50] font-semibold`}>
+                {application.status}
+              </p>
             </div>
           </div>
 
@@ -43,13 +49,17 @@ const MyApplicationCards:React.FC<IProps> = ({job,application}) => {
 
             <div className="flex items-center gap-2">
               <div
-              onClick={viewButton}
-              className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200">
+                onClick={viewButton}
+                className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200"
+              >
                 <AiOutlineEye size={20} />
                 <button className="hover:cursor-pointer">View</button>
               </div>
 
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200">
+              <div
+                className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200"
+                onClick={updateButton}
+              >
                 <LiaEdit size={20} />
                 <button className="hover:cursor-pointer">Edit</button>
               </div>
@@ -76,7 +86,10 @@ const MyApplicationCards:React.FC<IProps> = ({job,application}) => {
 
           <div className="flex space-x-1 items-center text-gray-500">
             <CiCalendar size={20} className="text-gray-600" />
-            <p>Applied {new Date(application.createdAt).toLocaleDateString("en-GB")}</p>
+            <p>
+              Applied{" "}
+              {new Date(application.createdAt).toLocaleDateString("en-GB")}
+            </p>
           </div>
         </div>
       </div>

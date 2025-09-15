@@ -15,6 +15,7 @@ import CategoryJobsDisplay from "./components/landing/category/DisplayCategoryJo
 import JobApplicationPage from "./pages/application pages/application";
 import MyApplicationsPage from "./pages/user page/my-applications.page";
 import ViewApplication from "./components/application/view-application";
+import UpdateApplication from './components/application/update-application'
 
 const App = () => {
   return (
@@ -27,6 +28,7 @@ const App = () => {
           <Route path="/jobs/apply/:id" element={<JobApplicationPage />} />
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/myApplications/:id" element={<ViewApplication />} />
+          <Route path="/myApplications/update/:id" element={<UpdateApplication/>} />
           <Route path="/myApplications" element={<MyApplicationsPage />} />
 
           <Route path={"/"} element={<ClientLayout />}>

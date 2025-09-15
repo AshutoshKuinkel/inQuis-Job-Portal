@@ -3,20 +3,20 @@ import { FormProvider, useForm } from "react-hook-form";
 import { FaArrowLeftLong } from "react-icons/fa6";
 import { useNavigate, useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
-import { getApplicationByIdAPI } from "../../api/user.api";
+import { updateApplicationAPI } from "../../api/user.api";
 import Oval from "react-loading-icons/dist/esm/components/oval";
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { Role } from "../../types/enum.types";
 // import { IApplicationResponse } from "../../types/application.types";
 
-const ViewApplication = () => {
+const UpdateApplication = () => {
   const { id } = useParams();
   const methods = useForm({});
   const navigate = useNavigate();
 
   const { data: response, isLoading } = useQuery({
-    queryFn: () => getApplicationByIdAPI(id!),
-    queryKey: ["get_application_by_id", id],
+    queryFn: () => updateApplicationAPI(id!),
+    queryKey: ["update_application_by_id", id],
     enabled: !!id,
   });
   const redirectBack = () => {
@@ -62,7 +62,7 @@ const ViewApplication = () => {
                       disabled
                       id="firstName"
                       type="text"
-                      placeholder={application.firstName}
+                      placeholder='First Name'
                       className=" rounded-md outline-none  w-full disabled:cursor-not-allowed"
                       autoComplete="off"
                     />
@@ -82,7 +82,7 @@ const ViewApplication = () => {
                       disabled
                       id="lastName"
                       type="text"
-                      placeholder={application.lastName}
+                      placeholder='Last Name'
                       className=" rounded-md outline-none w-full disabled:cursor-not-allowed"
                       autoComplete="off"
                     />
@@ -104,7 +104,7 @@ const ViewApplication = () => {
                       disabled
                       id="contactEmail"
                       type="text"
-                      placeholder={application.contactEmail}
+                      placeholder='Your email address'
                       className=" rounded-md outline-none w-full disabled:cursor-not-allowed"
                       autoComplete="off"
                     />
@@ -124,7 +124,7 @@ const ViewApplication = () => {
                       disabled
                       id="phoneNumber"
                       type="text"
-                      placeholder={application.phoneNumber}
+                      placeholder='e.g 1234567890'
                       className=" rounded-md outline-none w-full disabled:cursor-not-allowed"
                       autoComplete="off"
                     />
@@ -145,7 +145,7 @@ const ViewApplication = () => {
                   id="linkedinProfile"
                   type="text"
                   placeholder={
-                    application.linkedinProfile ??
+                    // application.linkedinProfile ??
                     "https://www.linkedin.com/in/yourprofile"
                   }
                   className=" sm:w-sm rounded-md outline-none w-full disabled:cursor-not-allowed"
@@ -186,7 +186,7 @@ const ViewApplication = () => {
                   disabled
                   id="relevantExperience"
                   type="text"
-                  placeholder={application.relevantExperience}
+                  placeholder='experience'
                   className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal disabled:cursor-not-allowed"
                   autoComplete="off"
                 />
@@ -204,7 +204,7 @@ const ViewApplication = () => {
                   disabled
                   id="coverLetter"
                   type="text"
-                  placeholder={application.coverLetter}
+                  placeholder='coverLetter'
                   className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal disabled:cursor-not-allowed"
                   autoComplete="off"
                 />
@@ -222,7 +222,7 @@ const ViewApplication = () => {
                   disabled
                   id="availability"
                   type="text"
-                  placeholder={application.availability}
+                  placeholder='availability'
                   className="w-full rounded-md outline-none disabled:cursor-not-allowed "
                   autoComplete="off"
                 />
@@ -235,5 +235,5 @@ const ViewApplication = () => {
   );
 };
 
-const page = withAuth(ViewApplication,[Role.SEEKER])
+const page = withAuth(UpdateApplication,[Role.SEEKER]);
 export default page

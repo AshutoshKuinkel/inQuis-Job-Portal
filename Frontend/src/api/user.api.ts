@@ -33,7 +33,7 @@ export const getApplicationByIdAPI = async(id:string) =>{
 
 export const updateApplicationAPI = async(id:string) =>{
   try{
-    const response = await api.get(`/jobs/updateApplication/${id}`)
+    const response = await api.put(`/jobs/updateApplication/${id}`)
     return response.data
   }catch(err:any){
     throw err.response.data
