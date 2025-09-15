@@ -57,10 +57,11 @@ const ViewApplication = () => {
                     }
                   >
                     <input
+                      disabled
                       id="firstName"
                       type="text"
                       placeholder={application.firstName}
-                      className=" rounded-md outline-none  w-full"
+                      className=" rounded-md outline-none  w-full disabled:cursor-not-allowed"
                       autoComplete="off"
                     />
                   </div>
@@ -76,10 +77,11 @@ const ViewApplication = () => {
                     }
                   >
                     <input
+                      disabled
                       id="lastName"
                       type="text"
                       placeholder={application.lastName}
-                      className=" rounded-md outline-none w-full"
+                      className=" rounded-md outline-none w-full disabled:cursor-not-allowed"
                       autoComplete="off"
                     />
                   </div>
@@ -97,10 +99,11 @@ const ViewApplication = () => {
                     }
                   >
                     <input
+                      disabled
                       id="contactEmail"
                       type="text"
                       placeholder={application.contactEmail}
-                      className=" rounded-md outline-none w-full"
+                      className=" rounded-md outline-none w-full disabled:cursor-not-allowed"
                       autoComplete="off"
                     />
                   </div>
@@ -116,10 +119,11 @@ const ViewApplication = () => {
                     }
                   >
                     <input
+                      disabled
                       id="phoneNumber"
                       type="text"
                       placeholder={application.phoneNumber}
-                      className=" rounded-md outline-none w-full"
+                      className=" rounded-md outline-none w-full disabled:cursor-not-allowed"
                       autoComplete="off"
                     />
                   </div>
@@ -135,13 +139,14 @@ const ViewApplication = () => {
                 }
               >
                 <input
+                  disabled
                   id="linkedinProfile"
                   type="text"
                   placeholder={
                     application.linkedinProfile ??
                     "https://www.linkedin.com/in/yourprofile"
                   }
-                  className=" sm:w-sm rounded-md outline-none w-full"
+                  className=" sm:w-sm rounded-md outline-none w-full disabled:cursor-not-allowed"
                   autoComplete="off"
                 />
               </div>
@@ -176,10 +181,11 @@ const ViewApplication = () => {
                 }
               >
                 <input
+                  disabled
                   id="relevantExperience"
                   type="text"
                   placeholder={application.relevantExperience}
-                  className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
+                  className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal disabled:cursor-not-allowed"
                   autoComplete="off"
                 />
               </div>
@@ -193,10 +199,11 @@ const ViewApplication = () => {
                 }
               >
                 <input
+                  disabled
                   id="coverLetter"
                   type="text"
                   placeholder={application.coverLetter}
-                  className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
+                  className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal disabled:cursor-not-allowed"
                   autoComplete="off"
                 />
               </div>
@@ -210,10 +217,11 @@ const ViewApplication = () => {
                 }
               >
                 <input
+                  disabled
                   id="availability"
                   type="text"
                   placeholder={application.availability}
-                  className="w-full rounded-md outline-none "
+                  className="w-full rounded-md outline-none disabled:cursor-not-allowed "
                   autoComplete="off"
                 />
               </div>
