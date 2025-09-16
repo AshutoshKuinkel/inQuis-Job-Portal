@@ -50,4 +50,4 @@ try{
 }catch(err){
   throw new CustomError('Error sending email',500)
 }
-}
+} 
