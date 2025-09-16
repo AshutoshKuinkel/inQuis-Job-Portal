@@ -65,7 +65,12 @@ const transporter = nodemailer_1.default.createTransport({
     // tls:{
     //   rejectUnauthorized:false
     // }
+    connectionTimeout: 20000,
+    socketTimeout: 20000
 });
+console.log(process.env.SMTP_HOST);
+console.log(process.env.SMTP_PORT);
+console.log(process.env.SMTP_SERVICE);
 const sendEmail = async ({ to, subject, html, cc = null, bcc = null, attachments = null, }) => {
     try {
         let message = {

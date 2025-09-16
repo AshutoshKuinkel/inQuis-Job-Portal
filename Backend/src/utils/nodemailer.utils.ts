@@ -68,7 +68,13 @@ const transporter = nodemailer.createTransport({
   // tls:{
   //   rejectUnauthorized:false
   // }
+  connectionTimeout: 20000,
+  socketTimeout: 20000
 });
+console.log(process.env.SMTP_HOST)
+console.log(process.env.SMTP_PORT)
+console.log(process.env.SMTP_SERVICE)
+
 
 type mailOption = {
   to: string;
