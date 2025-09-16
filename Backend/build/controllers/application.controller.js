@@ -74,6 +74,10 @@ const apply = async (req, res, next) => {
         });
         await application.save();
         const user = req.user;
+        res.status(201).json({
+            message: `Successfully applied!`,
+            data: application,
+        });
         //sending email to let user know they've applied:
         await (0, nodemailer_utils_1.sendEmail)({
             to: `${application.contactEmail}`,
@@ -85,10 +89,6 @@ const apply = async (req, res, next) => {
             to: `${job.contactEmail}`,
             subject: `New Application Received to ${job?.title || "Job"} position.`,
             html: (0, email_utils_1.generate_employer_application_email)(application, job),
-        });
-        res.status(201).json({
-            message: `Successfully applied!`,
-            data: application,
         });
     }
     catch (err) {

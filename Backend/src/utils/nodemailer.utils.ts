@@ -43,7 +43,10 @@ try{
     message['attachments'] = attachments
   }
 
-  await transporter.sendMail(message)
+  await transporter.sendMail(message).catch((error) => {
+  console.error("Email failed to send:", error);
+  throw new CustomError('Error sending email', 500);
+});
 }catch(err){
   throw new CustomError('Error sending email',500)
 }

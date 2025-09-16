@@ -34,7 +34,10 @@ const sendEmail = async ({ to, subject, html, cc = null, bcc = null, attachments
         if (attachments) {
             message['attachments'] = attachments;
         }
-        await transporter.sendMail(message);
+        await transporter.sendMail(message).catch((error) => {
+            console.error("Email failed to send:", error);
+            throw new error_handler_middleware_1.default('Error sending email', 500);
+        });
     }
     catch (err) {
         throw new error_handler_middleware_1.default('Error sending email', 500);
