@@ -4,8 +4,8 @@ import CustomError from '../middlewares/error-handler.middleware';
 
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
-  port:Number(process.env.SMTP_PORT),
-  secure:Number(process.env.SMTP_PORT) === 465 ? true : false,
+  port:587,
+  secure:false,
   service:process.env.SMTP_SERVICE,
   auth:{
     user:process.env.SMTP_USER,
