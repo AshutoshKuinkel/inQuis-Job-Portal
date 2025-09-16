@@ -25,6 +25,7 @@ const FeaturedJobCard:React.FC<IProps> = ({job}) => {
 
   const handleApplyClick = ()=>{
     navigate(`/jobs/apply/${job._id}`)
+    window.scrollTo(0,0)
   }
   return (
     <div className="flex flex-col border border-[#E9EBED] max-w-[90vw] sm:max-w-[40vw] gap-y-4 p-4 rounded-lg">

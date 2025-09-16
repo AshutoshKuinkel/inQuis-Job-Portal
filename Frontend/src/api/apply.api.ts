@@ -9,7 +9,6 @@ export const applicationAPI = async (id: string, data: IApplicationData) => {
     console.log(response)
     return response.data;
   } catch (err: any) {
-    console.log("ERR RESPONSE:", err.response?.data);
-    throw err;
+    throw err.response?.data;
   }
 };

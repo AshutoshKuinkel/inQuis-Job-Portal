@@ -29,6 +29,7 @@ const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
 
   const handleApplyClick = () => {
     navigate(`/jobs/apply/${job._id}`);
+    window.scrollTo(0,0)
   };
   return (
     <div
@@ -75,7 +76,7 @@ const JobCard: React.FC<IProps> = ({ job, handleClick }) => {
         <button
           className="bg-[#2c3e50] text-white font-semibold w-full py-2 rounded-lg hover:cursor-pointer hover:bg-[#3a4753]"
           onClick={(e) => {
-            e.stopPropagation(); // <-- prevents the div's onClick from firing
+            e.stopPropagation(); // here to make sure that when we click the button it doesnt treat it as clicking the job card.
             handleApplyClick();
           }}
         >

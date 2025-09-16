@@ -4,7 +4,6 @@ import ApplicationForm from "../../components/application/application-form";
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { Role } from "../../types/enum.types";
 
-
 const JobApplicationPage = () => {
   const navigate = useNavigate();
 
@@ -26,10 +25,10 @@ const JobApplicationPage = () => {
         </div>
         <div className="flex flex-col gap-2">
           <h1 className="text-2xl text-[#2c3e50] font-semibold">
-            Apply for Job title
+            Thank your for choosing inQuis.
           </h1>
           <p className="text-md text-gray-500">
-            Submit your application to join Company Name
+            Submit your application and we'll notify the employer.
           </p>
         </div>
       </div>
