@@ -119,14 +119,14 @@ const ApplicationForm = () => {
           <div>
             <p className="text-[#2C3E50] mb-3">Personal Information</p>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
               <div className="flex flex-col gap-1">
                 <label className="text-[#2c3e50] text-sm font-semibold">
                   First Name
                 </label>
                 <div
                   className={
-                    "flex items-center gap-2 px-2 py-2 w-[90vw] sm:w-[22rem]  bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                    "flex items-center gap-2 px-2 py-2 w-[90vw] md:w-[22rem]  bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                   }
                 >
                   <input
@@ -149,7 +149,7 @@ const ApplicationForm = () => {
                 </label>
                 <div
                   className={
-                    "flex items-center gap-2 py-2 w-[90vw] sm:w-[22rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                    "flex items-center gap-2 py-2 w-[90vw] md:w-[22rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                   }
                 >
                   <input
@@ -167,14 +167,14 @@ const ApplicationForm = () => {
               </div>
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-4 mb-6">
+            <div className="flex flex-col md:flex-row gap-4 mb-6">
               <div className="flex flex-col gap-1">
                 <label className="text-[#2c3e50] text-sm font-semibold">
                   Contact Email
                 </label>
                 <div
                   className={
-                    "flex items-center gap-2 px-2 py-2 w-[90vw] sm:w-[22rem]  bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                    "flex items-center gap-2 px-2 py-2 w-[90vw] md:w-[22rem]  bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                   }
                 >
                   <input
@@ -197,7 +197,7 @@ const ApplicationForm = () => {
                 </label>
                 <div
                   className={
-                    "flex items-center gap-2 py-2 w-[90vw] sm:w-[22rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                    "flex items-center gap-2 py-2 w-[90vw] md:w-[22rem] bg-[#F3F3F5] rounded-md px-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
                   }
                 >
                   <input
@@ -220,14 +220,14 @@ const ApplicationForm = () => {
             </label>
             <div
               className={
-                "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-[90vw] sm:w-full px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
+                "flex items-center rounded-md gap-2 bg-[#F3F3F5] w-[90vw] md:w-full px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
               }
             >
               <input
                 id="linkedinProfile"
                 type="text"
                 placeholder="https://www.linkedin.com/in/yourprofile"
-                className=" sm:w-sm rounded-md outline-none w-full"
+                className=" md:w-sm rounded-md outline-none w-full"
                 autoComplete="off"
                 {...methods.register("linkedinProfile")}
               />
@@ -262,7 +262,7 @@ const ApplicationForm = () => {
               <textarea
                 id="relevantExperience"
                 placeholder="Briefly describe your relevant experience for this role..."
-                className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
+                className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal md:placeholder:whitespace-normal"
                 autoComplete="off"
                 {...methods.register("relevantExperience")}
               />
@@ -282,7 +282,7 @@ const ApplicationForm = () => {
               <textarea
                 id="coverLetter"
                 placeholder="Tell us why you're interested in this position and what makes you a great fit..."
-                className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
+                className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal md:placeholder:whitespace-normal"
                 autoComplete="off"
                 {...methods.register("coverLetter")}
               />
