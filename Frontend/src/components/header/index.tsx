@@ -31,8 +31,8 @@ const Header = () => {
         },
       });
       setTimeout(() => {
-        window.location.reload(); // Reload the page after a small delay
-      }, 500); // Reload the page to reflect the changes
+        window.location.reload();
+      }, 500);
     } catch (error) {
       console.log("Logout error:", error);
     }

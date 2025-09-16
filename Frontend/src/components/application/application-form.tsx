@@ -41,8 +41,7 @@ const ApplicationForm = () => {
           primary: "#2c3e50",
           secondary: "#FFFAEE",
         },
-      },
-    );
+      });
       setTimeout(() => navigate(-1), 500);
     },
     onError: (error) => {
@@ -260,9 +259,8 @@ const ApplicationForm = () => {
                 "flex rounded-md gap-2 bg-[#F3F3F5] w-smsm:w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
               }
             >
-              <input
+              <textarea
                 id="relevantExperience"
-                type="text"
                 placeholder="Briefly describe your relevant experience for this role..."
                 className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
                 autoComplete="off"
@@ -281,9 +279,8 @@ const ApplicationForm = () => {
                 "flex rounded-md gap-2 bg-[#F3F3F5] w-smsm:w-sm px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150 hover:cursor-pointer"
               }
             >
-              <input
+              <textarea
                 id="coverLetter"
-                type="text"
                 placeholder="Tell us why you're interested in this position and what makes you a great fit..."
                 className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal sm:placeholder:whitespace-normal"
                 autoComplete="off"
