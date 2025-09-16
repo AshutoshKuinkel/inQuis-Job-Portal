@@ -49,7 +49,7 @@ exports.sendEmail = void 0;
 // }catch(err){
 //   throw new CustomError('Error sending email',500)
 // }
-// } 
+// }
 const nodemailer_1 = __importDefault(require("nodemailer"));
 require("dotenv/config");
 const error_handler_middleware_1 = __importDefault(require("../middlewares/error-handler.middleware"));
@@ -57,7 +57,7 @@ const transporter = nodemailer_1.default.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
     secure: Number(process.env.SMTP_PORT) === 465 ? true : false,
-    // service: process.env.SMTP_SERVICE,
+    service: process.env.SMTP_SERVICE,
     auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
@@ -66,13 +66,13 @@ const transporter = nodemailer_1.default.createTransport({
     //   rejectUnauthorized:false
     // }
 });
-const sendEmail = async ({ to, subject, html, cc = null, bcc = null, attachments = null }) => {
+const sendEmail = async ({ to, subject, html, cc = null, bcc = null, attachments = null, }) => {
     try {
         let message = {
             from: `inQuis Job Portal <${process.env.SMTP_USER}>`,
             to,
             subject,
-            html
+            html,
         };
         if (cc)
             message.cc = cc;
@@ -80,22 +80,32 @@ const sendEmail = async ({ to, subject, html, cc = null, bcc = null, attachments
             message.bcc = bcc;
         if (attachments)
             message.attachments = attachments;
-        // Promise wrapper so function won’t end until email is sent
-        const info = await new Promise((resolve, reject) => {
+        // // Promise wrapper so function won’t end until email is sent
+        // const info = await new Promise((resolve, reject) => {
+        //   transporter.sendMail(message, (err, info) => {
+        //     if (err) {
+        //       console.error("Email failed to send:", err);
+        //       reject(new CustomError("Error sending email", 500));
+        //     } else {
+        //       resolve(info);
+        //     }
+        //   });
+        // });
+        await new Promise((resolve, reject) => {
             transporter.sendMail(message, (err, info) => {
                 if (err) {
-                    console.error("Email failed to send:", err);
-                    reject(new error_handler_middleware_1.default("Error sending email", 500));
+                    console.error(err);
+                    reject(err);
                 }
                 else {
                     resolve(info);
                 }
             });
         });
-        return info; // return nodemailer response (messageId, accepted, rejected, etc.)
     }
     catch (err) {
-        throw new error_handler_middleware_1.default('Error sending email', 500);
+        console.log(err);
+        throw new error_handler_middleware_1.default("Error sending email", 500);
     }
 };
 exports.sendEmail = sendEmail;
