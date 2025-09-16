@@ -68,8 +68,8 @@ const transporter = nodemailer.createTransport({
   // tls:{
   //   rejectUnauthorized:false
   // }
-  connectionTimeout: 20000,
-  socketTimeout: 20000
+  connectionTimeout: 60000,
+  socketTimeout: 60000
 });
 console.log(process.env.SMTP_HOST)
 console.log(process.env.SMTP_PORT)
