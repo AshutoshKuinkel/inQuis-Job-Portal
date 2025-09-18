@@ -16,6 +16,7 @@ import JobApplicationPage from "./pages/application pages/application";
 import MyApplicationsPage from "./pages/user page/my-applications.page";
 import ViewApplication from "./components/application/view-application";
 import UpdateApplication from './components/application/update-application'
+import EmployerDashboard from './pages/employer/dashboard'
 // import Alert from "./components/application/withdraw-alert";
 
 const App = () => {
@@ -32,6 +33,9 @@ const App = () => {
           <Route path="/myApplications/update/:id" element={<UpdateApplication/>} />
           <Route path="/myApplications" element={<MyApplicationsPage />} />
           {/* <Route path="/alert" element={<Alert/>} /> */}
+
+          {/* Employer pages */}
+          <Route path="/myDashboard" element={<EmployerDashboard/>}/>
 
           <Route path={"/"} element={<ClientLayout />}>
             <Route path="" element={<HomePage />} />
