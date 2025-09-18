@@ -15,7 +15,7 @@ export const EmployerProfileButton = ()=>{
       {
         links.map((item,index)=>(
           <Link key={`${item.link}-${index}`} to={item.link} className={`flex-1 ${active_path === item.link && 'bg-white rounded-2xl scale-93 '}`}>
-            <button className="text-xs sm:text-sm text-[#2c3e50] hover:cursor-pointer  w-full text-center py-2">{item.label}</button>
+            <button className="text-xs sm:text-sm text-[#2c3e50] hover:cursor-pointer  w-full text-center py-2 font-semibold">{item.label}</button>
           </Link>
         ))
       }
