@@ -5,7 +5,7 @@ import { everyone } from '../types/enum.types'
 
 const router = express.Router()
 
-router.post('/signup',registerUser)
+router.post('/signup',registerUser) 
 router.post('/login',login)
 router.post('/logout',logout)
 router.get('/me',authenticate(everyone),profile) 
