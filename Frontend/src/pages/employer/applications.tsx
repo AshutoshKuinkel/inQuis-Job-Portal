@@ -4,7 +4,7 @@ import { Role } from '../../types/enum.types'
 
 const Applications = () => {
   return (
-    <div className='h-screen'>
+    <div className=''>
       <div className='grid sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 h-screen'>
         {/* Sidebar */}
         <Sidebar/>
