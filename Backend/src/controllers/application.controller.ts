@@ -104,11 +104,6 @@ export const apply = async (
     await application.save();
     const user = req.user;
 
-    res.status(201).json({
-      message: `Successfully applied!`,
-      data: application,
-    });
-
     //sending email to let user know they've applied:
     await sendEmail({
       to: `${application.contactEmail}`,
@@ -123,6 +118,11 @@ export const apply = async (
       to: `${job.contactEmail}`,
       subject: `New Application Received to ${job?.title || "Job"} position.`,
       html: generate_employer_application_email(application, job),
+    });
+
+    res.status(201).json({
+      message: `Successfully applied!`,
+      data: application,
     });
   } catch (err) {
     next(err);
