@@ -1,10 +1,22 @@
+import Sidebar from '../../components/employer/sidebar'
+import { withAuth } from '../../hoc/with-auth.hoc'
+import { Role } from '../../types/enum.types'
 
-const PostJob = () => {
+const CreateJob = () => {
   return (
-    <div className="min-h-screen">
-      <h1>Post Job</h1>
+    <div className='h-screen'>
+      <div className='grid sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 h-screen'>
+        {/* Sidebar */}
+        <Sidebar/>
+
+        {/* Main content section */}
+        <div className='p-2'>
+          Create Job
+        </div>
+      </div>
     </div>
   )
 }
 
-export default PostJob
+const page = withAuth(CreateJob,[Role.EMPLOYER])
+export default page

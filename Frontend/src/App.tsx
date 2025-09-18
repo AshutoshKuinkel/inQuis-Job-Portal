@@ -7,7 +7,6 @@ import AboutPage from "./pages/About";
 import PageNotFound from "./pages/page-not-found";
 import JobPage from "./pages/job-page";
 import ProfilePage from "./pages/user page/profile-page";
-import PostJob from "./pages/employer/PostJob";
 import ClientLayout from "./layouts/client.layout";
 import { Toaster } from "react-hot-toast";
 import ScrollToTop from "./providers/scroll-to-top";
@@ -17,6 +16,10 @@ import MyApplicationsPage from "./pages/user page/my-applications.page";
 import ViewApplication from "./components/application/view-application";
 import UpdateApplication from './components/application/update-application'
 import EmployerDashboard from './pages/employer/dashboard'
+import ManageJobs from './pages/employer/manage-jobs'
+import CreateJob from './pages/employer/PostJob'
+import Applications from './pages/employer/applications'
+import Profile from './pages/employer/profile'
 // import Alert from "./components/application/withdraw-alert";
 
 const App = () => {
@@ -36,6 +39,11 @@ const App = () => {
 
           {/* Employer pages */}
           <Route path="/myDashboard" element={<EmployerDashboard/>}/>
+          <Route path="/employer/manageJobs" element={<ManageJobs/>}/>
+          <Route path="/employer/createJob" element={<CreateJob/>}/>
+          <Route path="/employer/applications" element={<Applications/>}/>
+          <Route path="/myDashboard" element={<EmployerDashboard/>}/>
+          <Route path="/employer/profile" element={<Profile/>}/>
 
           <Route path={"/"} element={<ClientLayout />}>
             <Route path="" element={<HomePage />} />
@@ -46,7 +54,6 @@ const App = () => {
             <Route path="/jobs/:id" element={<JobPage />} />
             <Route path="/jobs/category" element={<CategoryJobsDisplay />} />
 
-            <Route path="/employer/createJob" element={<PostJob />} />
           </Route>
 
           <Route path="*" element={<PageNotFound />} />
