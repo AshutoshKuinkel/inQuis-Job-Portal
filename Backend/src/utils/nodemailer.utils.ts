@@ -2,6 +2,8 @@ import nodemailer from "nodemailer";
 import "dotenv/config";
 import CustomError from "../middlewares/error-handler.middleware";
 
+console.log(process.env.SMTP_HOST)
+console.log(process.env.SMTP_SERVICE)
 const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST,
   port: Number(process.env.SMTP_PORT),

@@ -7,6 +7,8 @@ exports.sendEmail = void 0;
 const nodemailer_1 = __importDefault(require("nodemailer"));
 require("dotenv/config");
 const error_handler_middleware_1 = __importDefault(require("../middlewares/error-handler.middleware"));
+console.log(process.env.SMTP_HOST);
+console.log(process.env.SMTP_SERVICE);
 const transporter = nodemailer_1.default.createTransport({
     host: process.env.SMTP_HOST,
     port: Number(process.env.SMTP_PORT),
