@@ -1,9 +1,12 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { GrOverview } from "react-icons/gr";
 import { LuBriefcase } from "react-icons/lu";
 import { FaPlus } from "react-icons/fa6";
 import { BsPeople } from "react-icons/bs";
 import { FiUser } from "react-icons/fi";
+import { logoutAPI } from "../../api/auth.api";
+import { useAuth } from "../../context/auth-context";
+import toast from "react-hot-toast";
 
 const links: { label: string; link: string; icon: any }[] = [
   {
@@ -34,8 +37,34 @@ const links: { label: string; link: string; icon: any }[] = [
 ];
 
 export const SidebarLinks = () => {
+  const navigate = useNavigate()
+  const { user, setUser } = useAuth();
   const location = useLocation();
-
+  // Handle Logout
+  const handleLogout = async () => {
+    try {
+      await logoutAPI(); // Call the logout API
+      localStorage.removeItem("user"); // Remove user from localStorage
+      // localStorage.removeItem("token");
+      setUser(null);
+      // setToken(null);
+      toast.success("Successfully Signed Out", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+      setTimeout(() => {
+        navigate('/');
+      }, 500);
+    } catch (error) {
+      console.log("Logout error:", error);
+    }
+  };
   return (
     <div className="flex flex-col gap-2 w-full px-2">
       {links.map((item) => {
@@ -56,6 +85,23 @@ export const SidebarLinks = () => {
           </Link>
         );
       })}
+      {/* Sign In / Sign Out Button */}
+      <div className="mt-auto">
+        {user ? (
+          <button
+            onClick={handleLogout}
+            className="w-full border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer"
+          >
+            Sign Out
+          </button>
+        ) : (
+          <Link to="/login">
+            <button className="w-full border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer">
+              Sign In
+            </button>
+          </Link>
+        )}
+      </div>
     </div>
   );
 };
