@@ -11,10 +11,10 @@ import { useLocation, useNavigate } from "react-router";
 import { useAuth } from "../../context/auth-context";
 
 const LoginForm = () => {
-  const {setUser} = useAuth()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const navigateTo = location.state?.from ?? '/'
+  const { setUser } = useAuth();
+  const navigate = useNavigate();
+  const location = useLocation();
+  const navigateTo = location.state?.from ?? "/";
 
   const {
     register,
@@ -44,8 +44,12 @@ const LoginForm = () => {
       });
       // localStorage.setItem('user',JSON.stringify(response.data))
       // localStorage.setItem('token',response.inQuis_portal_accessToken)
-      setUser(response.data)
-      setTimeout(()=>navigate(navigateTo),500)
+      setUser(response.data);
+      if (response.data?.role === "EMPLOYER") {
+        setTimeout(() => navigate("/myDashboard"), 500);
+      } else{
+      setTimeout(() => navigate(navigateTo), 500);
+      }
     },
     onError: (error) => {
       console.log(error);
