@@ -6,8 +6,8 @@ const links:{label:string,link:string}[] = [
     link:'/jobs',
   },
   {
-    label:'About Us',
-    link:'/about',
+    label:'Employer Dashboard',
+    link:'/myDashboard',
   },
   {
     label:'Register as Employer',
