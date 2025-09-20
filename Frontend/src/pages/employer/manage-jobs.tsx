@@ -6,8 +6,14 @@ import { GoPlus } from "react-icons/go";
 import { DollarSign } from "lucide-react";
 import { AiOutlineEye } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
+import { useNavigate } from "react-router";
 
 const ManageJobs = () => {
+  const navigate = useNavigate()
+
+  const redirectToCreateJob = ()=>{
+    navigate('/employer/createJob')
+  }
   return (
     <div className="h-screen">
       <div className="grid sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 h-screen">
@@ -26,7 +32,7 @@ const ManageJobs = () => {
                 View, edit, and delete your job postings
               </p>
             </div>
-            <button className="border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer">
+            <button className="border bg-[#2c3e50] text-white font-bold py-2 px-3 rounded-md hover:bg-[#3a4753] hover:cursor-pointer" onClick={redirectToCreateJob}>
               <div className="flex items-center gap-3">
                 <GoPlus size={22} />
                 <p>Create New Job</p>
