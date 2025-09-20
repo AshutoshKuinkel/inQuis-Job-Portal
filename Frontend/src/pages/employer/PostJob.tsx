@@ -157,9 +157,10 @@ const CreateJob = () => {
                     />
                   </div>
                 </div>
+                 <hr className="text-[#E9EBED] w-full" />
 
                 {/* Submit application button */}
-                <button className="border bg-[#2c3e50] mt-5 w-full text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed">
+                <button className="border bg-[#2c3e50] mt-2 w-full text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed">
                   Create Job Posting
                 </button>
               </div>
