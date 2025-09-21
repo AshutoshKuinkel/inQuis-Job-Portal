@@ -9,8 +9,8 @@ var Role;
 })(Role || (exports.Role = Role = {}));
 var job_type;
 (function (job_type) {
-    job_type["FULL_TIME"] = "Full Time";
-    job_type["PART_TIME"] = "Part Time";
+    job_type["FULL_TIME"] = "Full-Time";
+    job_type["PART_TIME"] = "Part-Time";
     job_type["CASUAL"] = "Casual";
 })(job_type || (exports.job_type = job_type = {}));
 var applicationStatus;

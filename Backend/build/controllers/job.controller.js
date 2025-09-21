@@ -16,6 +16,8 @@ const createJob = async (req, res, next) => {
         }
         const { title, companyName, description, location, salary, jobType, contactEmail, category, } = req.body;
         const postedBy = id;
+        const isFeatured = false;
+        console.log("JobType received:", jobType);
         if (!title) {
             throw new error_handler_middleware_1.default(`Please enter job title.`, 400);
         }
@@ -48,6 +50,7 @@ const createJob = async (req, res, next) => {
             contactEmail,
             postedBy,
             category,
+            isFeatured
         });
         job = await job.populate("category");
         res.status(201).json({

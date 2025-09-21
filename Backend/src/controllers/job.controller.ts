@@ -28,6 +28,7 @@ export const createJob = async (
     } = req.body;
     const postedBy = id;
     const isFeatured=false
+    console.log("JobType received:", jobType);
 
     if (!title) {
       throw new CustomError(`Please enter job title.`, 400);
