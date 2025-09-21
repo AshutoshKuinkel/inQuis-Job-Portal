@@ -240,6 +240,26 @@ const Applications = () => {
           </div>
 
           {/* Stats overview for applications */}
+          <div className="flex flex-col items-center justify-center">
+            <div className="bg-[#FBFBFC] p-8 rounded-lg w-[84vw] mt-8">
+              <div className="flex justify-evenly p-4">
+                <div className="flex flex-col items-center">
+                  <p className="text-2xl text-[#2c3e50] font-semibold">2</p>
+                  <p className="text-gray-500 text-sm">Pending review</p>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <p className="text-2xl text-[#2c3e50] font-semibold">1</p>
+                  <p className="text-gray-500 text-sm">Accepted</p>
+                </div>
+
+                <div className="flex flex-col items-center">
+                  <p className="text-2xl text-[#2c3e50] font-semibold">0</p>
+                  <p className="text-gray-500 text-sm">Rejected</p>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
