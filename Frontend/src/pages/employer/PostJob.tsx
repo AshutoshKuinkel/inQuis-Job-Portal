@@ -37,7 +37,7 @@ const CreateJob = () => {
       description: "",
       location: "",
       salary: "",
-      jobType: "Full-Time",
+      jobType: "",
       category: "",
       isFeatured: false,
     },
@@ -196,15 +196,14 @@ const CreateJob = () => {
                       <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
                         <div className="text-gray-500 w-full">
                           <select
-                            id="jobType"
-                            aria-placeholder="Select Job Type"
+                            id=""
                             className="outline-none w-full"
                             {...methods.register("jobType")}
                           >
                             <option value="" disabled selected>
                               Select Job Type
                             </option>
-                            <option value="FULL_TIME">Full-Time</option>
+                            <option value="Full-Time">Full-Time</option>
                             <option value="Part-Time">Part-Time</option>
                             <option value="Casual">Casual</option>
                           </select>
