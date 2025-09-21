@@ -31,7 +31,6 @@ const ApplicationForm = () => {
     mutationFn: (data: any) => applicationAPI(jobId!, data),
     mutationKey: ["application_API"],
     onSuccess: (response) => {
-      console.log(response);
       toast.success(response?.message ?? "Application Submitted", {
         style: {
           border: " 1px solid #2c3e50",
