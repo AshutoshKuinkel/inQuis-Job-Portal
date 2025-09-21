@@ -10,6 +10,26 @@ import { createJobAPI } from "../../api/employer.api";
 import toast from "react-hot-toast";
 
 const CreateJob = () => {
+  const categoryMapping: {
+    Design: string;
+    Technology: string;
+    Marketing: string;
+    Sales: string;
+    Mobile: string;
+    Security: string;
+    Healthcare: string;
+    Engineering: string;
+  } = {
+    Design: "68b14b0a6999f67b788c748f",
+    Technology: "68b14f17db96eaa1930367ff",
+    Marketing: "68b14f1fdb96eaa193036802",
+    Sales: "68b14f22db96eaa193036805",
+    Mobile: "68b14f28db96eaa193036808",
+    Security: "68b14f2cdb96eaa19303680b",
+    Healthcare: "68b14f32db96eaa19303680e",
+    Engineering: "68b14f39db96eaa193036811",
+  };
+
   const methods = useForm({
     defaultValues: {
       title: "",
@@ -25,7 +45,7 @@ const CreateJob = () => {
     mode: "all",
   });
 
-  const { mutate,isPending } = useMutation({
+  const { mutate, isPending } = useMutation({
     mutationFn: createJobAPI,
     mutationKey: ["create_job_API"],
     onSuccess: (response) => {
@@ -56,7 +76,24 @@ const CreateJob = () => {
     },
   });
 
+  type CategoryKey = keyof typeof categoryMapping;
+
   const onSubmit = (data: ICreateJob) => {
+    const categoryId = categoryMapping[data.category as CategoryKey];
+    if (categoryId) {
+      data.category = categoryId;
+    } else {
+      toast.error("Invalid Category", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+    }
     mutate(data);
   };
   return (
@@ -141,7 +178,7 @@ const CreateJob = () => {
                         <input
                           id="salary"
                           type="text"
-                          placeholder="e.g. $60,000 - $90,000 | $80,000"
+                          placeholder="e.g. $60,000 - $90,000 or $80,000"
                           className="w-full rounded-md outline-none"
                           autoComplete="off"
                           {...methods.register("salary")}
@@ -157,14 +194,21 @@ const CreateJob = () => {
                         Job Type
                       </label>
                       <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                        <input
-                          id="jobType"
-                          type="text"
-                          placeholder="Make a drop down of this for all job types"
-                          className="w-full rounded-md outline-none"
-                          autoComplete="off"
-                          {...methods.register("jobType")}
-                        />
+                        <div className="text-gray-500 w-full">
+                          <select
+                            id="jobType"
+                            aria-placeholder="Select Job Type"
+                            className="outline-none w-full"
+                            {...methods.register("jobType")}
+                          >
+                            <option value="" disabled selected>
+                              Select Job Type
+                            </option>
+                            <option value="FULL_TIME">Full-Time</option>
+                            <option value="Part-Time">Part-Time</option>
+                            <option value="Casual">Casual</option>
+                          </select>
+                        </div>  
                       </div>
                     </div>
                   </div>
@@ -195,14 +239,25 @@ const CreateJob = () => {
                         Category
                       </label>
                       <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                        <input
-                          id="jobType"
-                          type="text"
-                          placeholder="Make a drop down of all categories for this"
-                          className="w-full rounded-md outline-none"
-                          autoComplete="off"
-                          {...methods.register("category")}
-                        />
+                        <div className="text-gray-500 w-full">
+                          <select
+                            id="category"
+                            className="outline-none w-full"
+                            {...methods.register("category")}
+                          >
+                            <option value="" disabled selected>
+                              Select Category that best fits your job
+                            </option>
+                            <option value="Design">Design</option>
+                            <option value="Technology">Technology</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Sales">Sales</option>
+                            <option value="Mobile">Mobile</option>
+                            <option value="Security">Security</option>
+                            <option value="Healthcare">Healthcare</option>
+                            <option value="Engineering">Engineering</option>
+                          </select>
+                        </div>
                       </div>
                       <p className="text-red-500 text-xs h-2">
                         {methods.formState.errors.category?.message}
@@ -238,7 +293,7 @@ const CreateJob = () => {
                     <div className="flex rounded-md gap-2 bg-[#F3F3F5] w-full px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
                       <input
                         id="companyName"
-                        placeholder="Enter the company name you want to be displayed on your posting"
+                        placeholder="Enter the company name you want displayed on your posting"
                         className="w-full rounded-md outline-none placeholder:whitespace-normal"
                         autoComplete="off"
                         {...methods.register("companyName")}
@@ -251,8 +306,11 @@ const CreateJob = () => {
                   <hr className="text-[#E9EBED] w-full" />
 
                   {/* Submit application button */}
-                  <button type='submit' className="border bg-[#2c3e50] mt-2 w-full text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed">
-                    {isPending? 'Creating Posting...' : 'Create Job Posting'}
+                  <button
+                    type="submit"
+                    className="border bg-[#2c3e50] mt-2 w-full text-white font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed"
+                  >
+                    {isPending ? "Creating Posting..." : "Create Job Posting"}
                   </button>
                 </div>
               </form>
