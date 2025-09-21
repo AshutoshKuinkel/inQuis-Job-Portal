@@ -27,6 +27,7 @@ export const createJob = async (
       category,
     } = req.body;
     const postedBy = id;
+    const isFeatured=false
 
     if (!title) {
       throw new CustomError(`Please enter job title.`, 400);
@@ -62,6 +63,7 @@ export const createJob = async (
       contactEmail,
       postedBy,
       category,
+      isFeatured
     });
 
     job = await job.populate("category");
