@@ -28,7 +28,7 @@ const jobSchema = new mongoose.Schema({
 
   jobType:{
     type:String,
-    enum:Object.values(job_type),
+    enum:Object.keys(job_type),
     default:job_type.FULL_TIME
   },
 

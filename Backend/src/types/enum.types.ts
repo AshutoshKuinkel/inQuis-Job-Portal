@@ -5,8 +5,8 @@ export enum Role{
 }
 
 export enum job_type{
-  FULL_TIME = 'Full Time',
-  PART_TIME = 'Part Time',
+  FULL_TIME = 'Full-Time',
+  PART_TIME = 'Part-Time',
   CASUAL = 'Casual'
 }
 
