@@ -91,9 +91,9 @@ exports.readJob = readJob;
 const getAllJobs = async (req, res, next) => {
     try {
         const id = req.user._id;
-        const { currentPage, perPage } = req.query;
+        const { currentPage } = req.query;
         const page = Number(currentPage) || 1;
-        const limit = Number(perPage) || 10;
+        const limit = 5;
         const skip = (page - 1) * limit;
         if (!id) {
             throw new error_handler_middleware_1.default(`User id not found.`, 401);

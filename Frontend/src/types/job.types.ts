@@ -10,4 +10,5 @@ export interface IJob{
   jobType:string,
   category:ICategory
   isFeatured:boolean
+  createdAt?:string
 }

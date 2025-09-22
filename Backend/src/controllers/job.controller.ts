@@ -118,10 +118,10 @@ export const getAllJobs = async (
 ) => {
   try {
     const id = req.user._id;
-    const { currentPage, perPage } = req.query;
+    const { currentPage} = req.query;
 
     const page = Number(currentPage) || 1;
-    const limit = Number(perPage) || 10;
+    const limit = 5;
     const skip = (page - 1) * limit;
 
     if (!id) {
