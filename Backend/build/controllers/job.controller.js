@@ -93,7 +93,7 @@ const getAllJobs = async (req, res, next) => {
         const id = req.user._id;
         const { currentPage } = req.query;
         const page = Number(currentPage) || 1;
-        const limit = 5;
+        const limit = 3;
         const skip = (page - 1) * limit;
         if (!id) {
             throw new error_handler_middleware_1.default(`User id not found.`, 401);

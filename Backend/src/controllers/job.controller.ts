@@ -121,7 +121,7 @@ export const getAllJobs = async (
     const { currentPage} = req.query;
 
     const page = Number(currentPage) || 1;
-    const limit = 5;
+    const limit = 3;
     const skip = (page - 1) * limit;
 
     if (!id) {
