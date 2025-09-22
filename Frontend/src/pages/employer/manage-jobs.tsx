@@ -3,17 +3,34 @@ import ManageJobCard from "../../components/employer/manage-job.card";
 import Sidebar from "../../components/employer/sidebar";
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { Role } from "../../types/enum.types";
-import { GoPlus } from "react-icons/go";
-import {useNavigate } from "react-router";
+import { GoArrowLeft, GoArrowRight, GoPlus } from "react-icons/go";
+import { useNavigate, useSearchParams } from "react-router";
 import { getMyJobsAPI } from "../../api/employer.api";
 import { IJob } from "../../types/job.types";
 
 const ManageJobs = () => {
   const navigate = useNavigate();
-    const { data, isLoading } = useQuery({
-    queryFn: getMyJobsAPI,
-    queryKey: ["get_my_Jobs_API"],
+  const [searchParams, setSearchParams] = useSearchParams();
+  const currentPage = Number(searchParams.get("currentPage") || 1);
+
+  const { data, isLoading } = useQuery({
+    queryFn: ()=>getMyJobsAPI(currentPage),
+    queryKey: ["get_my_Jobs_API",currentPage],
   });
+
+  const handlePage = (pageNumber: number) => {
+    if (
+      pageNumber < 1 ||
+      (data?.pagination?.total_pages &&
+        pageNumber > data.pagination.total_pages)
+    ) {
+      return;
+    }
+
+    setSearchParams({
+      currentPage: pageNumber.toString(),
+    });
+  };
 
   const redirectToCreateJob = () => {
     navigate("/employer/createJob");
@@ -50,14 +67,61 @@ const ManageJobs = () => {
           {/* Job Cards section */}
           <div className="pl-8 pr-8">
             <div className="flex flex-col gap-6">
-              {!isLoading && (data.data?.map((job:IJob)=>{
-                return <ManageJobCard job={job} key={job._id}/>
-              }))}
+              {!isLoading &&
+                data.data?.map((job: IJob) => {
+                  return <ManageJobCard job={job} key={job._id} />;
+                })}
+              {/* Next Previous Buttons {Desktop} */}
+              {!isLoading && (
+                <div className="flex justify-between items-center pb-10 p-3">
+                  <div
+                    className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
+                      currentPage === 1
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
+                    onClick={() => handlePage(currentPage - 1)}
+                  >
+                    <GoArrowLeft />
+                    <button
+                      className={`${
+                        currentPage === 1
+                          ? "cursor-not-allowed"
+                          : "cursor-pointer"
+                      }`}
+                    >
+                      Previous
+                    </button>
+                  </div>
+
+                  <div
+                    className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
+                      data?.pagination?.total_pages &&
+                      currentPage >= data.pagination.total_pages
+                        ? "opacity-50 cursor-not-allowed"
+                        : "cursor-pointer"
+                    }`}
+                    onClick={() => handlePage(currentPage + 1)}
+                  >
+                    <button
+                      className={`${
+                        data?.pagination?.total_pages &&
+                        currentPage >= data.pagination.total_pages
+                          ? "cursor-not-allowed"
+                          : "cursor-pointer"
+                      }`}
+                    >
+                      Next
+                    </button>
+                    <GoArrowRight />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-    </div> 
+    </div>
   );
 };
 
