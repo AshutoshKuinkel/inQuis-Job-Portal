@@ -110,7 +110,7 @@ export const readJob = async (
   }
 };
 
-//pagination successfully added.
+//pagination successfully added. 
 export const getAllJobs = async (
   req: Request,
   res: Response,

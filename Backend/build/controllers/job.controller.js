@@ -87,7 +87,7 @@ const readJob = async (req, res, next) => {
     }
 };
 exports.readJob = readJob;
-//pagination successfully added.
+//pagination successfully added. 
 const getAllJobs = async (req, res, next) => {
     try {
         const id = req.user._id;
