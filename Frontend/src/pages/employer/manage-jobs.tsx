@@ -57,7 +57,7 @@ const ManageJobs = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div> 
   );
 };
 
