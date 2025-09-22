@@ -20,3 +20,12 @@ export const createJobAPI = async(data:ICreateJob)=>{
     throw err.response.data
   }
 }
+
+export const getMyJobsAPI = async()=>{
+  try{
+    const response = await api.get('/employer/myJobs')
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}
