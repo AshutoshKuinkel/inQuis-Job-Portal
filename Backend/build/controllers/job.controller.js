@@ -50,7 +50,7 @@ const createJob = async (req, res, next) => {
             contactEmail,
             postedBy,
             category,
-            isFeatured
+            isFeatured,
         });
         job = await job.populate("category");
         res.status(201).json({
@@ -96,7 +96,7 @@ const getAllJobs = async (req, res, next) => {
         const limit = Number(perPage) || 10;
         const skip = (page - 1) * limit;
         if (!id) {
-            throw new error_handler_middleware_1.default(`401 code 4`, 401);
+            throw new error_handler_middleware_1.default(`User id not found.`, 401);
         }
         const jobs = await job_model_1.Job.find({ postedBy: id })
             .populate("category")
@@ -298,14 +298,19 @@ const getJobByCategory = async (req, res, next) => {
 exports.getJobByCategory = getJobByCategory;
 //get job by id:
 const getJobById = async (req, res, next) => {
-    const { id } = req.params;
-    const job = await job_model_1.Job.findById(id).populate("category");
-    if (!job) {
-        throw new error_handler_middleware_1.default(`Job not Found`, 404);
+    try {
+        const { id } = req.params;
+        const job = await job_model_1.Job.findById(id).populate("category");
+        if (!job) {
+            throw new error_handler_middleware_1.default(`Job not Found`, 404);
+        }
+        res.status(200).json({
+            message: `Job Successfully fetched.`,
+            data: job,
+        });
     }
-    res.status(200).json({
-        message: `Job Successfully fetched.`,
-        data: job,
-    });
+    catch (err) {
+        next(err);
+    }
 };
 exports.getJobById = getJobById;

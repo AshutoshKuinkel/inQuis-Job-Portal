@@ -27,7 +27,7 @@ export const createJob = async (
       category,
     } = req.body;
     const postedBy = id;
-    const isFeatured=false
+    const isFeatured = false;
     console.log("JobType received:", jobType);
 
     if (!title) {
@@ -64,7 +64,7 @@ export const createJob = async (
       contactEmail,
       postedBy,
       category,
-      isFeatured
+      isFeatured,
     });
 
     job = await job.populate("category");
@@ -125,7 +125,7 @@ export const getAllJobs = async (
     const skip = (page - 1) * limit;
 
     if (!id) {
-      throw new CustomError(`401 code 4`, 401);
+      throw new CustomError(`User id not found.`, 401);
     }
 
     const jobs = await Job.find({ postedBy: id })
@@ -398,15 +398,19 @@ export const getJobById = async (
   res: Response,
   next: NextFunction
 ) => {
-  const { id } = req.params;
+  try {
+    const { id } = req.params;
 
-  const job = await Job.findById(id).populate("category");
-  if (!job) {
-    throw new CustomError(`Job not Found`, 404);
+    const job = await Job.findById(id).populate("category");
+    if (!job) {
+      throw new CustomError(`Job not Found`, 404);
+    }
+
+    res.status(200).json({
+      message: `Job Successfully fetched.`,
+      data: job,
+    });
+  } catch (err) {
+    next(err);
   }
-
-  res.status(200).json({
-    message: `Job Successfully fetched.`,
-    data: job,
-  });
 };
