@@ -7,6 +7,7 @@ import { GoArrowLeft, GoArrowRight, GoPlus } from "react-icons/go";
 import { useNavigate, useSearchParams } from "react-router";
 import { getMyJobsAPI } from "../../api/employer.api";
 import { IJob } from "../../types/job.types";
+import Oval from "react-loading-icons/dist/esm/components/oval";
 
 const ManageJobs = () => {
   const navigate = useNavigate();
@@ -14,8 +15,8 @@ const ManageJobs = () => {
   const currentPage = Number(searchParams.get("currentPage") || 1);
 
   const { data, isLoading } = useQuery({
-    queryFn: ()=>getMyJobsAPI(currentPage),
-    queryKey: ["get_my_Jobs_API",currentPage],
+    queryFn: () => getMyJobsAPI(currentPage),
+    queryKey: ["get_my_Jobs_API", currentPage],
   });
 
   const handlePage = (pageNumber: number) => {
@@ -35,6 +36,12 @@ const ManageJobs = () => {
   const redirectToCreateJob = () => {
     navigate("/employer/createJob");
   };
+
+  if (isLoading) {
+    return(<div className="flex justify-center items-center h-screen">
+      <Oval stroke="#2c3e50" height="64" width="64" />
+    </div>)
+  }
   return (
     <div className="h-screen">
       <div className="grid sm:grid-cols-4 lg:grid-cols-6 xl:grid-cols-8 h-screen">
