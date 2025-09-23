@@ -179,6 +179,7 @@ export const updateJob = async (
       salary,
       jobType,
       contactEmail,
+      category
     } = req.body;
 
     const updatedJob = await Job.findByIdAndUpdate(
@@ -191,6 +192,7 @@ export const updateJob = async (
         salary: salary,
         contactEmail: contactEmail,
         jobType: jobType,
+        category: category
       },
       { new: true, runValidators: true }
     ).populate("category");

@@ -130,7 +130,7 @@ const updateJob = async (req, res, next) => {
         if (!req.body || Object.keys(req.body).length === 0) {
             throw new error_handler_middleware_1.default("Nothing to update.", 400);
         }
-        const { title, companyName, description, location, salary, jobType, contactEmail, } = req.body;
+        const { title, companyName, description, location, salary, jobType, contactEmail, category } = req.body;
         const updatedJob = await job_model_1.Job.findByIdAndUpdate(jobId, {
             title: title,
             companyName: companyName,
@@ -139,6 +139,7 @@ const updateJob = async (req, res, next) => {
             salary: salary,
             contactEmail: contactEmail,
             jobType: jobType,
+            category: category
         }, { new: true, runValidators: true }).populate("category");
         res.status(200).json({
             message: `Job Successfully updated.`,
