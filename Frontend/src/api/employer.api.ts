@@ -56,3 +56,12 @@ export const updateMyJobAPI = async(jobId:string,data:any)=>{
     throw err.response.data
   }
 }
+
+export const viewAllApplicationsAPI = async()=>{
+  try{
+    const response = await api.get(`jobs/myJobs/allApplications`)
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}
