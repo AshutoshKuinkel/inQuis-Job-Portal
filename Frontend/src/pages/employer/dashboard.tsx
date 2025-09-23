@@ -2,17 +2,21 @@ import Sidebar from "../../components/employer/sidebar";
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { Role } from "../../types/enum.types";
 import { LuBriefcase } from "react-icons/lu";
-import { BsPeople } from "react-icons/bs";
+
 import { Check } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { getMyJobsAPI } from "../../api/employer.api";
 import Oval from "react-loading-icons/dist/esm/components/oval";
+import TotalApplicationsCard from "../../components/employer/total-applications.card";
 
 const EmployerDashboard = () => {
+  const currentPage = null
   const { data, isLoading } = useQuery({
-    queryFn: getMyJobsAPI,
+    queryFn: ()=>getMyJobsAPI(currentPage),
     queryKey: ["get_my_Jobs_API"],
   });
+
+  
 
   if (isLoading) {
     <div className="flex justify-center items-center col-span-full h-[300px]">
@@ -39,7 +43,7 @@ const EmployerDashboard = () => {
 
           {/* Job Stats */}
           <div className="grid grid-cols-3 place-items-center">
-            <div className="border border-[#E9EBED] xl:w-[30rem] flex flex-col p-6 text-lg gap-6 rounded-lg">
+            <div className="border border-[#E9EBED] xl:w-[25rem] flex flex-col p-6 text-lg gap-6 rounded-lg">
               <div className="flex items-center gap-2 text-[#2c3e50]">
                 <LuBriefcase size={22} />
                 <p>Active Jobs</p>
@@ -52,18 +56,9 @@ const EmployerDashboard = () => {
               </div>
             </div>
 
-            <div className="border border-[#E9EBED] xl:w-[30rem] flex flex-col p-6 text-lg gap-6 rounded-lg">
-              <div className="flex items-center gap-2 text-[#2c3e50]">
-                <BsPeople size={22} />
-                <p>Total Applications</p>
-              </div>
-              <div>
-                <p className="text-4xl text-[#2c3e50] font-semibold">3</p>
-                <p className="text-sm text-[#6C7B7F]">Across all jobs</p>
-              </div>
-            </div>
+            <TotalApplicationsCard/>
 
-            <div className="border border-[#E9EBED] xl:w-[30rem] flex flex-col p-6 text-lg gap-6 rounded-lg">
+            <div className="border border-[#E9EBED] xl:w-[25rem] flex flex-col p-6 text-lg gap-6 rounded-lg">
               <div className="flex items-center gap-2 text-[#2c3e50]">
                 <Check size={22} />
                 <p>Pending Reviews</p>

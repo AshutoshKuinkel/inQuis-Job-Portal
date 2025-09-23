@@ -21,7 +21,7 @@ export const createJobAPI = async(data:ICreateJob)=>{
   }
 }
 
-export const getMyJobsAPI = async(currentPage:number)=>{
+export const getMyJobsAPI = async(currentPage:number | null)=>{
   try{
     const response = await api.get(`/employer/myJobs?currentPage=${currentPage}`)
     return response.data
