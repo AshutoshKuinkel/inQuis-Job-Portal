@@ -39,6 +39,7 @@ const CreateJob = () => {
       salary: "",
       jobType: "",
       category: "",
+      contactEmail:'',
       isFeatured: false,
     },
     resolver: yupResolver(createJobSchema),

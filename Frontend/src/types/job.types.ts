@@ -8,6 +8,7 @@ export interface IJob{
   location:string,
   salary:string,
   jobType:string,
+  contactEmail:string
   category:ICategory
   isFeatured:boolean
   createdAt?:string
