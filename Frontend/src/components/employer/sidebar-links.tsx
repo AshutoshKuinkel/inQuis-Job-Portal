@@ -37,7 +37,7 @@ const links: { label: string; link: string; icon: any }[] = [
 ];
 
 export const SidebarLinks = () => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const { user, setUser } = useAuth();
   const location = useLocation();
   // Handle Logout
@@ -59,7 +59,7 @@ export const SidebarLinks = () => {
         },
       });
       setTimeout(() => {
-        navigate('/');
+        navigate("/");
       }, 500);
     } catch (error) {
       console.log("Logout error:", error);
@@ -102,6 +102,12 @@ export const SidebarLinks = () => {
           </Link>
         )}
       </div>
+      {/* Back to Site Button */}
+      <Link to={'/'}>
+        <button className="border border-[#d1d2d3] text-gray-700 p-2 rounded-lg hover:bg-gray-50 hover:cursor-pointer w-full">
+          Back to Site
+        </button>
+      </Link>
     </div>
   );
 };
