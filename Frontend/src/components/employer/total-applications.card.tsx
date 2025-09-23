@@ -4,8 +4,9 @@ import { viewAllApplicationsAPI } from "../../api/employer.api";
 import { useQuery } from "@tanstack/react-query";
 
 const TotalApplicationsCard = () => {
+  const currentPage = null
     const {data,isPending} = useQuery({
-    queryFn:viewAllApplicationsAPI,
+    queryFn:()=>viewAllApplicationsAPI(currentPage),
     queryKey:['view_all_Applications_API']
   })
   return (

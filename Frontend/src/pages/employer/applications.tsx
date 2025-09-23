@@ -11,6 +11,7 @@ import { GoArrowLeft, GoArrowRight } from "react-icons/go";
 const Applications = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("currentPage") || 1);
+
   const { data, isPending } = useQuery({
     queryFn: () => viewAllApplicationsAPI(currentPage),
     queryKey: ["view_all_Applications_API", currentPage],

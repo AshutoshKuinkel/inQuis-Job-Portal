@@ -1,17 +1,26 @@
-// Create a new function in backend with pagination limit 3, and send it here to recent application cards.
+import React from "react";
+import { IApplicationResponse } from "../../types/application.types";
 
-const RecentApplicationCards = () => {
+interface IProps{
+  application:IApplicationResponse
+}
+
+const RecentApplicationCards:React.FC<IProps> = ({application}) => {
   return (
     <div>
       <div className="border border-[#E9EBED] rounded-lg mt-6 p-4">
-        <h1 className="text-[#2c3e50] text-lg font-semibold">Alice Jhonson</h1>
+        <h1 className="text-[#2c3e50] text-lg font-semibold">{`${application.firstName} ${application.lastName}`}</h1>
         <div className="flex justify-between items-baseline">
-          <p className="text-[#6C7B7F] text-sm">Senior Frontend Developer</p>
+          <p className="text-[#6C7B7F] text-sm">{application.job?.title}</p>
           <div className="w-24 text-center bg-[#ECEEF2] rounded-lg py-1">
-            <p className="text-xs text-[#2c3e50] font-bold">pending</p>
+            <p className="text-xs text-[#2c3e50] font-bold">{application.status.toLocaleLowerCase()}</p>
           </div>
         </div>
-        <p className="text-[#6C7B7F] text-sm">Applied 2025-01-12</p>
+        <p className="text-[#6C7B7F] text-sm">Applied {new Date(application.createdAt!).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}</p>
       </div>
 
       {/* <div className="border border-[#E9EBED] rounded-lg mt-6 p-4">
