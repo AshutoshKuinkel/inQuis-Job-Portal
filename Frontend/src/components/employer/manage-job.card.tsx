@@ -1,4 +1,4 @@
-import { IoLocationOutline, IoTrashOutline } from "react-icons/io5";
+import { IoLocationOutline} from "react-icons/io5";
 import { DollarSign } from "lucide-react";
 import { AiOutlineEye } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
@@ -6,6 +6,7 @@ import { IJob } from "../../types/job.types";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { viewApplicantsforJobAPI } from "../../api/employer.api";
+import DeleteJobButton from "./delete-job-button";
 
 interface IProps{
   job:IJob
@@ -16,8 +17,6 @@ const ManageJobCard:React.FC<IProps> = ({job}) => {
     queryFn: ()=>viewApplicantsforJobAPI(job._id),
     queryKey:['view_applicants_for_job_API',job._id]
   })
-
-  console.log(!isLoading && data.pagination.total)
 
   return (
     <div>
@@ -48,10 +47,7 @@ const ManageJobCard:React.FC<IProps> = ({job}) => {
                 <button className="hover:cursor-pointer">Edit</button>
               </div>
 
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-red-500 font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center hover:cursor-pointer hover:bg-gray-200">
-                <IoTrashOutline size={20} />
-                <button className="hover:cursor-pointer">Delete</button>
-              </div>
+              <DeleteJobButton job={job}/>
             </div>
           </div>
         </div>
