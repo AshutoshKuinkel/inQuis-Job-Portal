@@ -1,3 +1,5 @@
+import { IJob } from "./job.types";
+
 export interface IApplicationResponse {
   _id:string
   firstName:string;
@@ -10,6 +12,7 @@ export interface IApplicationResponse {
   availability:string;
   status:string;
   createdAt:string;
+  job?:IJob
 }
 
 export interface IApplicationData {
