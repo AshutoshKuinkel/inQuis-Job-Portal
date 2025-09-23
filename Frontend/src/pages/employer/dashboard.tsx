@@ -8,6 +8,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getMyJobsAPI } from "../../api/employer.api";
 import Oval from "react-loading-icons/dist/esm/components/oval";
 import TotalApplicationsCard from "../../components/employer/total-applications.card";
+import RecentApplicationCards from "../../components/employer/recent-application.cards";
 
 const EmployerDashboard = () => {
   const currentPage = null
@@ -76,48 +77,7 @@ const EmployerDashboard = () => {
               <p className="text-[#2c3e50] text-lg">Recent Applications</p>
 
               {/* Recent Application Cards */}
-              <div className="border border-[#E9EBED] rounded-lg mt-6 p-4">
-                <h1 className="text-[#2c3e50] text-lg font-semibold">
-                  Alice Jhonson
-                </h1>
-                <div className="flex justify-between items-baseline">
-                  <p className="text-[#6C7B7F] text-sm">
-                    Senior Frontend Developer
-                  </p>
-                  <div className="w-24 text-center bg-[#ECEEF2] rounded-lg py-1">
-                    <p className="text-xs text-[#2c3e50] font-bold">pending</p>
-                  </div>
-                </div>
-                <p className="text-[#6C7B7F] text-sm">Applied 2025-01-12</p>
-              </div>
-
-              <div className="border border-[#E9EBED] rounded-lg mt-6 p-4">
-                <h1 className="text-[#2c3e50] text-lg font-semibold">
-                  Bob Smith
-                </h1>
-                <div className="flex justify-between items-baseline">
-                  <p className="text-[#6C7B7F] text-sm">
-                    Senior Frontend Developer
-                  </p>
-                  <div className="w-24 text-center bg-[#2c3e50] rounded-lg py-1">
-                    <p className="text-xs text-[#fff] font-bold">accepted</p>
-                  </div>
-                </div>
-                <p className="text-[#6C7B7F] text-sm">Applied 2025-01-11</p>
-              </div>
-
-              <div className="border border-[#E9EBED] rounded-lg mt-6 p-4">
-                <h1 className="text-[#2c3e50] text-lg font-semibold">
-                  Carol Davis
-                </h1>
-                <div className="flex justify-between items-baseline">
-                  <p className="text-[#6C7B7F] text-sm">UX Designer</p>
-                  <div className="w-24 text-center bg-[#ECEEF2] rounded-lg py-1">
-                    <p className="text-xs text-[#2c3e50] font-bold">pending</p>
-                  </div>
-                </div>
-                <p className="text-[#6C7B7F] text-sm">Applied 2025-01-10</p>
-              </div>
+                <RecentApplicationCards/>
             </div>
           </div>
         </div>
