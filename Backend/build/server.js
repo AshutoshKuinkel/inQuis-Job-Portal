@@ -45,19 +45,30 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const helmet_1 = __importDefault(require("helmet"));
 const cors_1 = __importDefault(require("cors"));
 const PORT = process.env.PORT;
-const DB_URI = process.env.DB_URI ?? '';
+const DB_URI = process.env.DB_URI ?? "";
 (0, db_config_1.ConnectDatabase)(DB_URI);
 const app = (0, express_1.default)();
+const allowed_origins = [
+    process.env.FRONT_END_LOCAL_URL,
+    process.env.FRONT_END_LIVE_URL,
+];
 app.use((0, helmet_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: process.env.FRONT_END_URL || 'http://localhost:5173',
-    credentials: true
+    origin: (origin, callback) => {
+        if (allowed_origins.includes(origin)) {
+            callback(null, true);
+        }
+        else {
+            callback(new error_handler_middleware_1.default("Blocked by CORS error", 422));
+        }
+    },
+    credentials: true,
 }));
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 //serving uploads as static files:
-app.use('/uploads', express_1.default.static('uploads/'));
+app.use("/uploads", express_1.default.static("uploads/"));
 //importing routes:
 const auth_routes_1 = __importDefault(require("./routes/auth.routes"));
 const user_routes_1 = __importDefault(require("./routes/user.routes"));
@@ -66,20 +77,20 @@ const List_jobs_routes_1 = __importDefault(require("./routes/List-jobs.routes"))
 const application_routes_1 = __importDefault(require("./routes/application.routes"));
 const category_routes_1 = __importDefault(require("./routes/category.routes"));
 const featured_job_routes_1 = __importDefault(require("./routes/featured-job.routes"));
-app.get('/', (req, res) => {
+app.get("/", (req, res) => {
     res.status(200).json({
-        message: 'InQuis Job Portal'
+        message: "InQuis Job Portal",
     });
 });
 //using routes:
-app.use('', auth_routes_1.default);
-app.use('/user', user_routes_1.default);
-app.use('/employer', job_routes_1.default);
-app.use('/jobs', application_routes_1.default);
-app.use('', List_jobs_routes_1.default);
-app.use('', category_routes_1.default);
-app.use('', featured_job_routes_1.default);
-app.all('/{*all}', (req, res) => {
+app.use("", auth_routes_1.default);
+app.use("/user", user_routes_1.default);
+app.use("/employer", job_routes_1.default);
+app.use("/jobs", application_routes_1.default);
+app.use("", List_jobs_routes_1.default);
+app.use("", category_routes_1.default);
+app.use("", featured_job_routes_1.default);
+app.all("/{*all}", (req, res) => {
     const message = `Cannot ${req.method} @ ${req.originalUrl}`;
     throw new error_handler_middleware_1.default(message, 404);
 });
