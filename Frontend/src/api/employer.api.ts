@@ -47,3 +47,12 @@ export const deleteMyJobsAPI = async(jobId:string)=>{
     throw err.response.data
   }
 }
+
+export const updateMyJobAPI = async(jobId:string)=>{
+  try{
+    const response = await api.get(`/employer/myJob/update/${jobId}`)
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}

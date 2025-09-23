@@ -1,12 +1,12 @@
 import { IoLocationOutline} from "react-icons/io5";
 import { DollarSign } from "lucide-react";
 import { AiOutlineEye } from "react-icons/ai";
-import { LiaEdit } from "react-icons/lia";
 import { IJob } from "../../types/job.types";
 import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { viewApplicantsforJobAPI } from "../../api/employer.api";
 import DeleteJobButton from "./delete-job-button";
+import EditJobButton from "./edit-job-button";
 
 interface IProps{
   job:IJob
@@ -42,10 +42,7 @@ const ManageJobCard:React.FC<IProps> = ({job}) => {
                 </button>
               </div>
 
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200">
-                <LiaEdit size={20} />
-                <button className="hover:cursor-pointer">Edit</button>
-              </div>
+              <EditJobButton job={job}/>
 
               <DeleteJobButton job={job}/>
             </div>
