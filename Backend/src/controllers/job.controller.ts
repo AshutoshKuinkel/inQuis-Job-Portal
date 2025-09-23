@@ -180,7 +180,7 @@ export const updateJob = async (
       jobType,
       contactEmail,
       category
-    } = req.body;
+    } = req.body; 
 
     const updatedJob = await Job.findByIdAndUpdate(
       jobId,
