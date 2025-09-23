@@ -7,7 +7,7 @@ export const createJobSchema = yup.object({
   location:yup.string().required('Location required'),
   salary:yup.string().required('Salary required'),
   jobType:yup.string(),
-  contactEmail:yup.string().required('Contact Email requried'),
+  contactEmail:yup.string().email('Invalid Email format').required('Contact Email requried'),
   category:yup.string().required('Category required'),
   isFeatured:yup.boolean().default(false)
 })

@@ -29,3 +29,12 @@ export const getMyJobsAPI = async(currentPage:number)=>{
     throw err.response.data
   }
 }
+
+export const viewApplicantsforJobAPI = async(jobId:string)=>{
+  try{
+    const response = await api.get(`/jobs/applications/${jobId}`)
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}

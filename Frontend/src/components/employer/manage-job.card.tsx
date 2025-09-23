@@ -4,12 +4,21 @@ import { AiOutlineEye } from "react-icons/ai";
 import { LiaEdit } from "react-icons/lia";
 import { IJob } from "../../types/job.types";
 import React from "react";
+import { useQuery } from "@tanstack/react-query";
+import { viewApplicantsforJobAPI } from "../../api/employer.api";
 
 interface IProps{
   job:IJob
 }
 
 const ManageJobCard:React.FC<IProps> = ({job}) => {
+  const {data,isLoading} = useQuery({
+    queryFn: ()=>viewApplicantsforJobAPI(job._id),
+    queryKey:['view_applicants_for_job_API',job._id]
+  })
+
+  console.log(!isLoading && data.pagination.total)
+
   return (
     <div>
       {/* Card 1 */}
@@ -30,7 +39,7 @@ const ManageJobCard:React.FC<IProps> = ({job}) => {
               <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 justify-center hover:cursor-pointer hover:bg-gray-200">
                 <AiOutlineEye size={20} />
                 <button className="hover:cursor-pointer">
-                  View Applications ({'total applications'})
+                  View Applications ({!isLoading && data.pagination.total})
                 </button>
               </div>
 
@@ -80,7 +89,7 @@ const ManageJobCard:React.FC<IProps> = ({job}) => {
 
         {/* Number of Applications */}
         <div className="mt-6 text-[#6c7b7f]">
-          <p>List total number of applications</p>
+          <p>{!isLoading && data.pagination.total} applications</p>
         </div>
       </div>
     </div>
