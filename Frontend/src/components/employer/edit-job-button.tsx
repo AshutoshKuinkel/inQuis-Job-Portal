@@ -1,7 +1,6 @@
 import { LiaEdit } from "react-icons/lia";
 import { IJob } from "../../types/job.types";
 import React, { useState } from "react";
-import { useNavigate } from "react-router";
 import { useMutation } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import { updateMyJobAPI } from "../../api/employer.api";
@@ -15,7 +14,6 @@ interface IProps {
 
 const EditJobButton: React.FC<IProps> = ({ job }) => {
   const [open, setOpen] = useState(false);
-  const navigate = useNavigate();
 
   const categoryMapping: {
     Design: string;
@@ -39,14 +37,14 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
 
   const methods = useForm({
     defaultValues: {
-      title: job.title,
-      companyName: job.companyName,
-      description: job.description,
-      location: job.location,
-      salary: job.salary,
-      contactEmail: job.contactEmail,
-      jobType: job.jobType,
-      category: job.category.name,
+      title: job.title || '',
+      companyName: job.companyName || '',
+      description: job.description || '',
+      location: job.location || '',
+      salary: job.salary || '',
+      contactEmail: job.contactEmail || '',
+      jobType: job.jobType || '',
+      category: job.category.name || '',
       isFeatured: false,
     },
     resolver: yupResolver(updateJobSchema),
@@ -54,7 +52,7 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: () => updateMyJobAPI(job._id),
+    mutationFn: (data:any) => updateMyJobAPI(job._id,data),
     mutationKey: ["update_my_job_API", job._id],
     onSuccess: (response) => {
       toast.success(response?.message ?? "Job Deleted", {
@@ -68,7 +66,7 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
         },
       });
       setOpen(false);
-      setTimeout(() => navigate(-1), 500);
+      setTimeout(() => window.location.reload(), 500);
     },
     onError: (error) => {
       console.log(error);
@@ -96,6 +94,7 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
   type CategoryKey = keyof typeof categoryMapping;
 
   const onSubmit = (data: any) => {
+    console.log(data)
     const categoryId = categoryMapping[data.category as CategoryKey];
     if (categoryId) {
       data.category = categoryId;
@@ -111,6 +110,7 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
         },
       });
     }
+    console.log(data)
     mutate(data);
   };
   return (
