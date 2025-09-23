@@ -375,6 +375,51 @@ export const viewApplicants = async (
   }
 };
 
+export const getAllApplications = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const { currentPage} = req.query;
+    const employerId = req.user._id;
+
+    const page = Number(currentPage) || 1;
+    const limit = 6;
+    const skip = (page - 1) * limit;
+
+    // Find all jobs posted by the employer
+    const jobs = await Job.find({ postedBy: employerId });
+
+    if (jobs.length === 0) {
+      throw new CustomError("No jobs found.", 404);
+    }
+
+    // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
+    //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.
+    const applications = await Application.find({
+      job: { $in: jobs.map((job) => job._id) },
+    })
+      .populate("job")
+      .limit(limit)
+      .skip(skip);
+
+    const total = await Application.countDocuments({
+      job: { $in: jobs.map((job) => job._id) },
+    });
+
+    const pagination = getPagination(total, page, limit);
+
+    res.status(200).json({
+      message: `Applications fetched successfully.`,
+      data: applications,
+      pagination,
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const updateApplicationStatus = async (
   req: Request,
   res: Response,

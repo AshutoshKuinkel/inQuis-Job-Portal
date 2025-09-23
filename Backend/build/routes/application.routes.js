@@ -17,5 +17,6 @@ router.post('/apply/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.se
 router.put('/updateApplication/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), upload.fields([{ name: 'resume', maxCount: 1 }]), application_controller_1.update);
 router.delete('/withdrawApplication/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), application_controller_1.withdraw);
 router.get('/applications/:jobId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.viewApplicants);
+router.get('/myJobs/allApplications', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.getAllApplications);
 router.put('/applications/:jobId/:applicationId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.updateApplicationStatus);
 exports.default = router;

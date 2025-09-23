@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateApplicationStatus = exports.viewApplicants = exports.withdraw = exports.update = exports.viewMyApplications = exports.viewApplicationById = exports.apply = void 0;
+exports.updateApplicationStatus = exports.getAllApplications = exports.viewApplicants = exports.withdraw = exports.update = exports.viewMyApplications = exports.viewApplicationById = exports.apply = void 0;
 const application_model_1 = require("../models/application.model");
 const error_handler_middleware_1 = __importDefault(require("../middlewares/error-handler.middleware"));
 const job_model_1 = require("../models/job.model");
@@ -270,6 +270,41 @@ const viewApplicants = async (req, res, next) => {
     }
 };
 exports.viewApplicants = viewApplicants;
+const getAllApplications = async (req, res, next) => {
+    try {
+        const { currentPage } = req.query;
+        const employerId = req.user._id;
+        const page = Number(currentPage) || 1;
+        const limit = 6;
+        const skip = (page - 1) * limit;
+        // Find all jobs posted by the employer
+        const jobs = await job_model_1.Job.find({ postedBy: employerId });
+        if (jobs.length === 0) {
+            throw new error_handler_middleware_1.default("No jobs found.", 404);
+        }
+        // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
+        //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.
+        const applications = await application_model_1.Application.find({
+            job: { $in: jobs.map((job) => job._id) },
+        })
+            .populate("job")
+            .limit(limit)
+            .skip(skip);
+        const total = await application_model_1.Application.countDocuments({
+            job: { $in: jobs.map((job) => job._id) },
+        });
+        const pagination = (0, pagination_utils_1.getPagination)(total, page, limit);
+        res.status(200).json({
+            message: `Applications fetched successfully.`,
+            data: applications,
+            pagination,
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.getAllApplications = getAllApplications;
 const updateApplicationStatus = async (req, res, next) => {
     try {
         const { applicationId, jobId } = req.params;
