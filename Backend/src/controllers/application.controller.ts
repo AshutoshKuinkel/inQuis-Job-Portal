@@ -381,11 +381,11 @@ export const getAllApplications = async (
   next: NextFunction
 ) => {
   try {
-    const { currentPage} = req.query;
+    const { currentPage,perPage} = req.query;
     const employerId = req.user._id;
 
     const page = Number(currentPage) || 1;
-    const limit = 6;
+    const limit = Number(perPage) || 6;
     const skip = (page - 1) * limit;
 
     // Find all jobs posted by the employer

@@ -272,10 +272,10 @@ const viewApplicants = async (req, res, next) => {
 exports.viewApplicants = viewApplicants;
 const getAllApplications = async (req, res, next) => {
     try {
-        const { currentPage } = req.query;
+        const { currentPage, perPage } = req.query;
         const employerId = req.user._id;
         const page = Number(currentPage) || 1;
-        const limit = 6;
+        const limit = Number(perPage) || 6;
         const skip = (page - 1) * limit;
         // Find all jobs posted by the employer
         const jobs = await job_model_1.Job.find({ postedBy: employerId });
