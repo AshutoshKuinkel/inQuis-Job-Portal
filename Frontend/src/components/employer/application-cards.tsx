@@ -2,13 +2,12 @@ import React from "react";
 import { Check, X, Mail, Calendar, FileText } from "lucide-react";
 import { IApplicationResponse } from "../../types/application.types";
 
-interface IProps{
-  application:IApplicationResponse
+interface IProps {
+  application: IApplicationResponse;
 }
-const ApplicationCards:React.FC<IProps> = ({application}) => {
-
+const ApplicationCards: React.FC<IProps> = ({ application }) => {
   return (
-    <div className="pl-8 flex gap-5 flex-wrap">
+    <div className="">
       {/* Card 1 */}
       <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8 w-[40vw]">
         <div className="flex flex-col space-y-3">
@@ -19,7 +18,9 @@ const ApplicationCards:React.FC<IProps> = ({application}) => {
               </h1>
               {/* Category Section */}
               <div className="w-24 text-center bg-gray-200 rounded-lg py-1">
-                <p className={`text-xs text-[#2c3e50] font-bold`}>{application.status.toLocaleLowerCase()}</p>
+                <p className={`text-xs text-[#2c3e50] font-bold`}>
+                  {application.status.toLocaleLowerCase()}
+                </p>
               </div>
             </div>
 
@@ -51,11 +52,14 @@ const ApplicationCards:React.FC<IProps> = ({application}) => {
           <div className="flex space-x-1 items-center">
             {/* <DollarSign size={16} /> */}
             <Calendar size={18} />
-            <p className="">Applied {new Date(application.createdAt!).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}</p>
+            <p className="">
+              Applied{" "}
+              {new Date(application.createdAt!).toLocaleDateString("en-US", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </p>
           </div>
 
           <div className="flex space-x-1 items-center">
@@ -76,21 +80,21 @@ const ApplicationCards:React.FC<IProps> = ({application}) => {
 
 export default ApplicationCards;
 
-
-
-
-
-
-      {/* Card 2 */}
-      // <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8 w-[40vw]">
-      //   <div className="flex flex-col space-y-3">
-      //     <div className="flex items-center justify-between">
-      //       <div className="flex items-baseline space-x-3">
-      //         <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">
-      //           Bob Smith
-      //         </h1>
-              {/* Category Section */}
-              {/* <div className="w-24 text-center bg-[#2c3e50] rounded-lg py-1">
+{
+  /* Card 2 */
+}
+// <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8 w-[40vw]">
+//   <div className="flex flex-col space-y-3">
+//     <div className="flex items-center justify-between">
+//       <div className="flex items-baseline space-x-3">
+//         <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">
+//           Bob Smith
+//         </h1>
+{
+  /* Category Section */
+}
+{
+  /* <div className="w-24 text-center bg-[#2c3e50] rounded-lg py-1">
                 <p className={`text-xs text-[#fff] font-bold`}>accepted</p>
               </div>
             </div>
@@ -101,30 +105,46 @@ export default ApplicationCards;
               </div>
             </div>
           </div>
-        </div> */}
+        </div> */
+}
 
-        {/* Location + Salary Section + Posted Section */}
-        {/* <div className="flex flex-col space-x-3 gap-2 text-[#6c7b7f] text-sm mt-2">
+{
+  /* Location + Salary Section + Posted Section */
+}
+{
+  /* <div className="flex flex-col space-x-3 gap-2 text-[#6c7b7f] text-sm mt-2">
           <div className="flex space-x-1 items-center">
             <Mail size={18} />
             <p>bobsmith@email.com</p>
           </div>
 
-          <div className="flex space-x-1 items-center"> */}
-            {/* <DollarSign size={16} /> */}
-            {/* <Calendar size={18} />
+          <div className="flex space-x-1 items-center"> */
+}
+{
+  /* <DollarSign size={16} /> */
+}
+{
+  /* <Calendar size={18} />
             <p className="">Applied 2025-01-11</p>
           </div>
 
-          <div className="flex space-x-1 items-center"> */}
-            {/* <DollarSign size={16} /> */}
-            {/* <FileText size={18} />
+          <div className="flex space-x-1 items-center"> */
+}
+{
+  /* <DollarSign size={16} /> */
+}
+{
+  /* <FileText size={18} />
             <p className="">Senior Frontend Developer</p>
           </div>
-        </div> */}
+        </div> */
+}
 
-        {/* Description */}
-        {/* <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
+{
+  /* Description */
+}
+{
+  /* <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
           exercitationem sint sunt sit, mollitia dolore aliquam facere accusamus
           tempora dolor laborum corrupti fugit maxime dignissimos eveniet
@@ -138,19 +158,24 @@ export default ApplicationCards;
           tempora sit provident accusantium deserunt, atque porro, illo quod nam
           nisi quisquam excepturi!
         </div>
-      </div> */}
+      </div> */
+}
 
-
-{/* Card 3 */}
-      // <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8 w-[40vw]">
-      //   <div className="flex flex-col space-y-3">
-      //     <div className="flex items-center justify-between">
-      //       <div className="flex items-baseline space-x-3">
-      //         <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">
-      //           Carol Davis
-      //         </h1>
-              {/* Category Section */}
-              {/* <div className="w-24 text-center bg-gray-200 rounded-lg py-1">
+{
+  /* Card 3 */
+}
+// <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8 w-[40vw]">
+//   <div className="flex flex-col space-y-3">
+//     <div className="flex items-center justify-between">
+//       <div className="flex items-baseline space-x-3">
+//         <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">
+//           Carol Davis
+//         </h1>
+{
+  /* Category Section */
+}
+{
+  /* <div className="w-24 text-center bg-gray-200 rounded-lg py-1">
                 <p className={`text-xs text-[#2c3e50] font-bold`}>pending</p>
               </div>
             </div>
@@ -171,30 +196,46 @@ export default ApplicationCards;
               </div>
             </div>
           </div>
-        </div> */}
+        </div> */
+}
 
-        {/* Location + Salary Section + Posted Section */}
-        {/* <div className="flex flex-col space-x-3 gap-2 text-[#6c7b7f] text-sm mt-2">
+{
+  /* Location + Salary Section + Posted Section */
+}
+{
+  /* <div className="flex flex-col space-x-3 gap-2 text-[#6c7b7f] text-sm mt-2">
           <div className="flex space-x-1 items-center">
             <Mail size={18} />
             <p>carol.davis@email.com</p>
           </div>
 
-          <div className="flex space-x-1 items-center"> */}
-            {/* <DollarSign size={16} /> */}
-            {/* <Calendar size={18} />
+          <div className="flex space-x-1 items-center"> */
+}
+{
+  /* <DollarSign size={16} /> */
+}
+{
+  /* <Calendar size={18} />
             <p className="">Applied 2025-01-10</p>
           </div>
 
-          <div className="flex space-x-1 items-center"> */}
-            {/* <DollarSign size={16} /> */}
-            {/* <FileText size={18} />
+          <div className="flex space-x-1 items-center"> */
+}
+{
+  /* <DollarSign size={16} /> */
+}
+{
+  /* <FileText size={18} />
             <p className="">UX Designer</p>
           </div>
-        </div> */}
+        </div> */
+}
 
-        {/* Description */}
-        {/* <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
+{
+  /* Description */
+}
+{
+  /* <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam
           exercitationem sint sunt sit, mollitia dolore aliquam facere accusamus
           tempora dolor laborum corrupti fugit maxime dignissimos eveniet
@@ -208,4 +249,5 @@ export default ApplicationCards;
           tempora sit provident accusantium deserunt, atque porro, illo quod nam
           nisi quisquam excepturi!
         </div>
-      </div> */}
+      </div> */
+}

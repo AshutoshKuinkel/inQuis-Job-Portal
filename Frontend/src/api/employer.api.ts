@@ -57,9 +57,9 @@ export const updateMyJobAPI = async(jobId:string,data:any)=>{
   }
 }
 
-export const viewAllApplicationsAPI = async()=>{
+export const viewAllApplicationsAPI = async(currentPage:number | null)=>{
   try{
-    const response = await api.get(`jobs/myJobs/allApplications`)
+    const response = await api.get(`jobs/myJobs/allApplications?currentPage=${currentPage}`)
     return response.data
   }catch(err:any){
     throw err.response.data
