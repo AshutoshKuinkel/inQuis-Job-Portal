@@ -1,13 +1,13 @@
 import Sidebar from "../../components/employer/sidebar";
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { Role } from "../../types/enum.types";
-import { Check } from "lucide-react";
 import TotalApplicationsCard from "../../components/employer/total-applications.card";
 import RecentApplicationCards from "../../components/employer/recent-application.cards";
 import ActiveJobsCard from "../../components/employer/active-jobs.card";
 import { useQuery } from "@tanstack/react-query";
 import {viewRecentApplicationsAPI } from "../../api/employer.api";
 import { IApplicationResponse } from "../../types/application.types";
+import PendingReviewsCard from "../../components/employer/pending-review.card";
 
 const EmployerDashboard = () => {
 
@@ -40,16 +40,7 @@ const EmployerDashboard = () => {
 
             <TotalApplicationsCard />
 
-            <div className="border border-[#E9EBED] xl:w-[25rem] flex flex-col p-6 text-lg gap-6 rounded-lg">
-              <div className="flex items-center gap-2 text-[#2c3e50]">
-                <Check size={22} />
-                <p>Pending Reviews</p>
-              </div>
-              <div>
-                <p className="text-4xl text-[#2c3e50] font-semibold">2</p>
-                <p className="text-sm text-[#6C7B7F]">Need your attention</p>
-              </div>
-            </div>
+            <PendingReviewsCard/>
           </div>
 
           {/* Recent Applications */}

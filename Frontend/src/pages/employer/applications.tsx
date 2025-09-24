@@ -82,17 +82,17 @@ const Applications = () => {
               <div className="bg-[#FBFBFC] p-8 rounded-lg min-w-[80vw] mb-8">
                 <div className="flex justify-evenly p-4">
                   <div className="flex flex-col items-center">
-                    <p className="text-2xl text-[#2c3e50] font-semibold">{pendingApplications.length || 0}</p>
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{pendingApplications.length ?? 0}</p>
                     <p className="text-gray-500 text-sm">Pending review</p>
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="text-2xl text-[#2c3e50] font-semibold">{acceptedApplications.length || 0}</p>
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{acceptedApplications.length ?? 0}</p>
                     <p className="text-gray-500 text-sm">Accepted</p>
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="text-2xl text-[#2c3e50] font-semibold">{rejectedApplications.length || 0}</p>
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{rejectedApplications.length ?? 0}</p>
                     <p className="text-gray-500 text-sm">Rejected</p>
                   </div>
                 </div>
