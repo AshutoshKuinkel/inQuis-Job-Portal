@@ -472,7 +472,7 @@ export const updateApplicationStatus = async (
   next: NextFunction
 ) => {
   try {
-    const { applicationId, jobId } = req.params;
+    const { applicationId, jobId } = req.query;
     const { status } = req.body;
     const user = req.user;
 
