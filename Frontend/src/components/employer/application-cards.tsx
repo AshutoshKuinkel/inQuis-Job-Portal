@@ -2,15 +2,69 @@ import React from "react";
 import { Check, X, Mail, Calendar, FileText } from "lucide-react";
 import { IApplicationResponse } from "../../types/application.types";
 import ViewApplicantDetails from "./view-applicant-details";
+import { useMutation } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { updateStatusAPI } from "../../api/employer.api";
 
 interface IProps {
   application: IApplicationResponse;
 }
 const ApplicationCards: React.FC<IProps> = ({ application }) => {
+  const applicationId = application._id;
+  const jobId = application.job?._id;
 
-  const fetchResume = ()=>{
-    window.open(application.resume.path, "_blank")
-  }
+  const fetchResume = () => {
+    window.open(application.resume.path, "_blank");
+  };
+
+  const { mutate } = useMutation({
+    mutationFn: ({
+      applicationId,
+      jobId,
+      status,
+    }: {
+      applicationId: string;
+      jobId: any;
+      status: "ACCEPTED" | "REJECTED";
+    }) => updateStatusAPI(applicationId, jobId, status),
+    mutationKey: ["change_Application_status_API", applicationId, jobId],
+    onSuccess: (response) => {
+      toast.success(response?.message ?? "Status updated", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+      setTimeout(() => window.location.reload(), 500);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error?.message ?? "Something went wrong", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+    },
+  });
+
+  const handleStatusChange = (status: "ACCEPTED" | "REJECTED") => {
+    console.log(`Application Id: ${applicationId}`);
+    console.log(`job Id: ${jobId}`);
+    mutate({
+      applicationId: application._id,
+      jobId: application.job?._id,
+      status,
+    });
+  };
 
   return (
     <div className="">
@@ -31,19 +85,25 @@ const ApplicationCards: React.FC<IProps> = ({ application }) => {
             </div>
 
             <div className="flex flex-col items-center gap-2">
-             <div className="flex items-center gap-2">
-               <ViewApplicantDetails application={application}/>
+              <div className="flex items-center gap-2">
+                <ViewApplicantDetails application={application} />
 
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-[#fff] bg-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-[#3a4753]">
-                <Check size={20} />
-                <button className="hover:cursor-pointer">Accept</button>
-              </div>
+                <div
+                  className="border border-[#E9EBED] p-2 rounded-lg text-[#fff] bg-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-[#3a4753]"
+                  onClick={() => handleStatusChange("ACCEPTED")}
+                >
+                  <Check size={20} />
+                  <button className="hover:cursor-pointer">Accept</button>
+                </div>
 
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-[#fff] bg-[#d4183d] hover:bg-[#cf2346] font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center hover:cursor-pointer">
-                <X size={20} />
-                <button className="hover:cursor-pointer">Reject</button>
+                <div
+                  className="border border-[#E9EBED] p-2 rounded-lg text-[#fff] bg-[#d4183d] hover:bg-[#cf2346] font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center hover:cursor-pointer"
+                  onClick={() => handleStatusChange("REJECTED")}
+                >
+                  <X size={20} />
+                  <button className="hover:cursor-pointer">Reject</button>
+                </div>
               </div>
-             </div>
 
               {/* View Resume Button */}
               <div onClick={fetchResume}>

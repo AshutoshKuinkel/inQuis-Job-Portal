@@ -74,3 +74,13 @@ export const viewRecentApplicationsAPI = async()=>{
     throw err.response.data
   }
 }
+
+
+export const updateStatusAPI = async(applicationId:string,jobId:string,status: "ACCEPTED" | "REJECTED")=>{
+  try{
+    const response = await api.put(`jobs/updateStatus/${jobId}/${applicationId}`,{status})
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}
