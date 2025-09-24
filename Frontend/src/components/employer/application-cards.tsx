@@ -10,6 +10,7 @@ interface IProps {
   application: IApplicationResponse;
 }
 const ApplicationCards: React.FC<IProps> = ({ application }) => {
+
   const applicationId = application._id;
   const jobId = application.job?._id;
 
@@ -64,7 +65,7 @@ const ApplicationCards: React.FC<IProps> = ({ application }) => {
       status,
     });
   };
-
+  
   return (
     <div className="">
       {/* Card 1 */}

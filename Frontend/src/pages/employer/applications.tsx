@@ -7,12 +7,13 @@ import { viewAllApplicationsAPI } from "../../api/employer.api";
 import { IApplicationResponse } from "../../types/application.types";
 import { useSearchParams } from "react-router";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
+import Oval from "react-loading-icons/dist/esm/components/oval";
 
 const Applications = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const currentPage = Number(searchParams.get("currentPage") || 1);
 
-  const { data, isPending } = useQuery({
+  const { data, isLoading } = useQuery({
     queryFn: () => viewAllApplicationsAPI(currentPage),
     queryKey: ["view_all_Applications_API", currentPage],
   });
@@ -30,6 +31,26 @@ const Applications = () => {
       currentPage: pageNumber.toString(),
     });
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Oval stroke="#2c3e50" height="64" width="64" />
+      </div>
+    );
+  }
+
+  const pendingApplications = data?.data.filter(
+    (application: IApplicationResponse) => application.status === "PENDING"
+  );
+
+  const acceptedApplications = data?.data.filter(
+    (application:IApplicationResponse) => application.status === 'ACCEPTED'
+  )
+
+    const rejectedApplications = data?.data.filter(
+    (application:IApplicationResponse) => application.status === 'REJECTED'
+  )
 
   return (
     <div className="">
@@ -52,39 +73,42 @@ const Applications = () => {
           </div>
           <div className="pl-8 flex gap-5 flex-wrap">
             {/* Stats overview for applications */}
-            {!isPending && (
-              <div className="flex flex-col items-center justify-center">
-                <div className="bg-[#FBFBFC] p-8 rounded-lg min-w-[80vw] mb-8">
-                  <div className="flex justify-evenly p-4">
-                    <div className="flex flex-col items-center">
-                      <p className="text-2xl text-[#2c3e50] font-semibold">2</p>
-                      <p className="text-gray-500 text-sm">Pending review</p>
-                    </div>
+            <div className="flex flex-col items-center justify-center">
+              <div className="bg-[#FBFBFC] p-8 rounded-lg min-w-[80vw] mb-8">
+                <div className="flex justify-evenly p-4">
+                  <div className="flex flex-col items-center">
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{pendingApplications.length}</p>
+                    <p className="text-gray-500 text-sm">Pending review</p>
+                  </div>
 
-                    <div className="flex flex-col items-center">
-                      <p className="text-2xl text-[#2c3e50] font-semibold">1</p>
-                      <p className="text-gray-500 text-sm">Accepted</p>
-                    </div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{acceptedApplications.length}</p>
+                    <p className="text-gray-500 text-sm">Accepted</p>
+                  </div>
 
-                    <div className="flex flex-col items-center">
-                      <p className="text-2xl text-[#2c3e50] font-semibold">0</p>
-                      <p className="text-gray-500 text-sm">Rejected</p>
-                    </div>
+                  <div className="flex flex-col items-center">
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{rejectedApplications.length}</p>
+                    <p className="text-gray-500 text-sm">Rejected</p>
                   </div>
                 </div>
               </div>
-            )}
+            </div>
           </div>
           <div className="flex flex-wrap pl-8 gap-5">
             {/* Applications cards */}
-            {!isPending &&
+            {!isLoading &&
               data.data.map((application: IApplicationResponse) => {
-                return <ApplicationCards application={application} />;
+                return (
+                  <ApplicationCards
+                    application={application}
+                    key={application._id}
+                  />
+                );
               })}
           </div>
 
           {/* Next Previous Buttons {Desktop} */}
-          {!isPending && (
+          {!isLoading && (
             <div className="flex justify-between items-center pb-10 p-3 max-w-[85vw] pl-8">
               <div
                 className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
