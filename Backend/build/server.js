@@ -55,14 +55,7 @@ const allowed_origins = [
 app.use((0, helmet_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
-    origin: (origin, callback) => {
-        if (allowed_origins.includes(origin)) {
-            callback(null, true);
-        }
-        else {
-            callback(new error_handler_middleware_1.default("Blocked by CORS error", 422));
-        }
-    },
+    origin: process.env.FRONT_END_LOCAL_URL,
     credentials: true,
 }));
 app.use(express_1.default.json());
