@@ -6,6 +6,10 @@ interface IProps {
   application: IApplicationResponse;
 }
 const ApplicationCards: React.FC<IProps> = ({ application }) => {
+
+  const fetchResume = ()=>{
+    window.open(application.resume.path, "_blank")
+  }
   return (
     <div className="">
       {/* Card 1 */}
@@ -24,8 +28,9 @@ const ApplicationCards: React.FC<IProps> = ({ application }) => {
               </div>
             </div>
 
-            <div className="flex items-center gap-2">
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 justify-center hover:cursor-pointer hover:bg-gray-200">
+            <div className="flex flex-col items-center gap-2">
+             <div className="flex items-center gap-2">
+               <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 justify-center hover:cursor-pointer hover:bg-gray-200">
                 <button className="hover:cursor-pointer">View Details</button>
               </div>
 
@@ -38,15 +43,25 @@ const ApplicationCards: React.FC<IProps> = ({ application }) => {
                 <X size={20} />
                 <button className="hover:cursor-pointer">Reject</button>
               </div>
+             </div>
+
+              {/* View Resume Button */}
+              <div onClick={fetchResume}>
+                <button className="bg-gray-100 hover:cursor-pointer hover:bg-gray-200 py-2 rounded-lg text-[#2c3e50] font-semibold text-sm w-2xs">
+                  View resume
+                </button>
+              </div>
             </div>
           </div>
         </div>
 
         {/* Location + Salary Section + Posted Section */}
         <div className="flex flex-col space-x-3 gap-2 text-[#6c7b7f] text-sm mt-2">
-          <div className="flex space-x-1 items-center">
-            <Mail size={18} />
-            <p>{application.contactEmail}</p>
+          <div className="flex justify-between">
+            <div className="flex space-x-1 items-center">
+              <Mail size={18} />
+              <p>{application.contactEmail}</p>
+            </div>
           </div>
 
           <div className="flex space-x-1 items-center">

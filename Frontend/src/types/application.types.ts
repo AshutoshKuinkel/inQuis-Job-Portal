@@ -6,7 +6,7 @@ export interface IApplicationResponse {
   lastName:string;
   contactEmail:string;
   phoneNumber:string;
-  resume:File | FileList
+  resume:File | FileList | any
   relevantExperience:string;
   coverLetter:string;
   availability:string;
