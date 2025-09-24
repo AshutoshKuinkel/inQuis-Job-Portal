@@ -489,12 +489,9 @@ export const updateApplicationStatus = async (
       throw new CustomError("Job not found", 404);
     }
 
-    console.log(req.user._id.toString())
-    console.log(job.postedBy.toString())
-
-    // if (req.user._id.toString() !== job.postedBy.toString()) {
-    //   throw new CustomError("Unauthorized. Access Denied.", 403);
-    // }
+    if (req.user._id.toString() !== job.postedBy.toString()) {
+      throw new CustomError("Unauthorized. Access Denied.", 403);
+    }
 
     // Update application directly
     const application = await Application.findOneAndUpdate(
