@@ -1,4 +1,4 @@
-import { IoLocationOutline} from "react-icons/io5";
+import { IoLocationOutline } from "react-icons/io5";
 import { DollarSign } from "lucide-react";
 import { AiOutlineEye } from "react-icons/ai";
 import { IJob } from "../../types/job.types";
@@ -7,16 +7,17 @@ import { useQuery } from "@tanstack/react-query";
 import { viewApplicantsforJobAPI } from "../../api/employer.api";
 import DeleteJobButton from "./delete-job-button";
 import EditJobButton from "./edit-job-button";
+import { Link } from "react-router";
 
-interface IProps{
-  job:IJob
+interface IProps {
+  job: IJob;
 }
 
-const ManageJobCard:React.FC<IProps> = ({job}) => {
-  const {data,isLoading} = useQuery({
-    queryFn: ()=>viewApplicantsforJobAPI(job._id),
-    queryKey:['view_applicants_for_job_API',job._id]
-  })
+const ManageJobCard: React.FC<IProps> = ({ job }) => {
+  const { data, isLoading } = useQuery({
+    queryFn: () => viewApplicantsforJobAPI(job._id),
+    queryKey: ["view_applicants_for_job_API", job._id],
+  });
 
   return (
     <div>
@@ -35,16 +36,18 @@ const ManageJobCard:React.FC<IProps> = ({job}) => {
             </div>
 
             <div className="flex items-center gap-2">
-              <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 justify-center hover:cursor-pointer hover:bg-gray-200">
-                <AiOutlineEye size={20} />
-                <button className="hover:cursor-pointer">
-                  View Applications ({!isLoading && data.pagination.total})
-                </button>
-              </div>
+              <Link to={'/employer/applications'}>
+                <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 justify-center hover:cursor-pointer hover:bg-gray-200">
+                  <AiOutlineEye size={20} />
+                  <button className="hover:cursor-pointer">
+                    View Applications ({!isLoading && data.pagination.total})
+                  </button>
+                </div>
+              </Link>
 
-              <EditJobButton job={job}/>
+              <EditJobButton job={job} />
 
-              <DeleteJobButton job={job}/>
+              <DeleteJobButton job={job} />
             </div>
           </div>
         </div>
@@ -64,11 +67,14 @@ const ManageJobCard:React.FC<IProps> = ({job}) => {
 
         {/* Posted & Full time section */}
         <div className="text-[#6c7b7f] text-md mt-2">
-          <p>Posted {new Date(job.createdAt!).toLocaleDateString("en-US", {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          })}</p>
+          <p>
+            Posted{" "}
+            {new Date(job.createdAt!).toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })}
+          </p>
           <div className="flex items-baseline gap-1 mt-1 font-semibold">
             <p>●</p>
             <p>{job.jobType}</p>
@@ -91,36 +97,40 @@ const ManageJobCard:React.FC<IProps> = ({job}) => {
 
 export default ManageJobCard;
 
-
-
-
-
-
-{/* Card 2 */}
-              {/* <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8">
+{
+  /* Card 2 */
+}
+{
+  /* <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8">
                 <div className="flex flex-col space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-baseline space-x-3">
                       <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">
                         UX Designer
                       </h1>
-                      {/* Category Section */}
-              {/* <div className="w-24 text-center bg-[#2c3e50] rounded-lg py-1">
+                      {/* Category Section */
+}
+{
+  /* <div className="w-24 text-center bg-[#2c3e50] rounded-lg py-1">
                         <p className={`text-xs text-[#fff] font-semibold`}>
                           active
                         </p>
                       </div>
-                    </div> */}
-              {/* 
+                    </div> */
+}
+{
+  /* 
                     <div className="flex items-center gap-2">
                       <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 justify-center hover:cursor-pointer hover:bg-gray-200">
                         <AiOutlineEye size={20} />
                         <button className="hover:cursor-pointer">
                           View Applications (8)
                         </button>
-                      </div> */}
+                      </div> */
+}
 
-              {/* <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200">
+{
+  /* <div className="border border-[#E9EBED] p-2 rounded-lg text-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-gray-200">
                         <LiaEdit size={20} />
                         <button className="hover:cursor-pointer">Edit</button>
                       </div>
@@ -131,10 +141,14 @@ export default ManageJobCard;
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div> */
+}
 
-              {/* Location + Salary Section + Posted Section */}
-              {/* <div className="flex space-x-3 items-center text-[#6c7b7f] text-sm mt-2">
+{
+  /* Location + Salary Section + Posted Section */
+}
+{
+  /* <div className="flex space-x-3 items-center text-[#6c7b7f] text-sm mt-2">
                   <div className="flex space-x-1 items-center">
                     <IoLocationOutline />
                     <p>Remote</p>
@@ -144,19 +158,27 @@ export default ManageJobCard;
                     <DollarSign size={16} />
                     <p className="">$90000-120000</p>
                   </div>
-                </div> */}
+                </div> */
+}
 
-              {/* Posted & Full time section */}
-              {/* <div className="text-[#6c7b7f] text-md mt-2">
+{
+  /* Posted & Full time section */
+}
+{
+  /* <div className="text-[#6c7b7f] text-md mt-2">
                   <p>Posted 2025-01-08</p>
                   <div className="flex items-baseline gap-1 mt-1 font-semibold">
                     <p>●</p>
                     <p>Full Time</p>
                   </div>
-                </div> */}
+                </div> */
+}
 
-              {/* Description */}
-              {/* <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
+{
+  /* Description */
+}
+{
+  /* <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Quisquam exercitationem sint sunt sit, mollitia dolore aliquam
                   facere accusamus tempora dolor laborum corrupti fugit maxime
@@ -170,24 +192,36 @@ export default ManageJobCard;
                   quis perspiciatis est iste odit blanditiis reprehenderit
                   tempora sit provident accusantium deserunt, atque porro, illo
                   quod nam nisi quisquam excepturi!
-                </div> */}
+                </div> */
+}
 
-              {/* Number of Applications */}
-              {/* <div className="mt-6 text-[#6c7b7f]">
+{
+  /* Number of Applications */
+}
+{
+  /* <div className="mt-6 text-[#6c7b7f]">
                   <p>8 applications</p>
                 </div>
-              </div> */}
+              </div> */
+}
 
-              {/* Card 3 */}
-              {/* <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8">
+{
+  /* Card 3 */
+}
+{
+  /* <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8">
                 <div className="flex flex-col space-y-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-baseline space-x-3">
                       <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">
                         Marketing Manager
-                      </h1> */}
-              {/* Category Section */}
-              {/* <div className="w-24 text-center bg-[#d4183d] rounded-lg py-1">
+                      </h1> */
+}
+{
+  /* Category Section */
+}
+{
+  /* <div className="w-24 text-center bg-[#d4183d] rounded-lg py-1">
                         <p className={`text-xs text-[#fff] font-semibold`}>
                           closed
                         </p>
@@ -213,10 +247,14 @@ export default ManageJobCard;
                       </div>
                     </div>
                   </div>
-                </div> */}
+                </div> */
+}
 
-              {/* Location + Salary Section + Posted Section */}
-              {/* <div className="flex space-x-3 items-center text-[#6c7b7f] text-sm mt-2">
+{
+  /* Location + Salary Section + Posted Section */
+}
+{
+  /* <div className="flex space-x-3 items-center text-[#6c7b7f] text-sm mt-2">
                   <div className="flex space-x-1 items-center">
                     <IoLocationOutline />
                     <p>New York, NY</p>
@@ -226,19 +264,27 @@ export default ManageJobCard;
                     <DollarSign size={16} />
                     <p className="">$80000-100000</p>
                   </div>
-                </div> */}
+                </div> */
+}
 
-              {/* Posted & Full time section */}
-              {/* <div className="text-[#6c7b7f] text-md mt-2">
+{
+  /* Posted & Full time section */
+}
+{
+  /* <div className="text-[#6c7b7f] text-md mt-2">
                   <p>Posted 2025-01-10</p>
                   <div className="flex items-baseline gap-1 mt-1 font-semibold">
                     <p>●</p>
                     <p>Full Time</p>
                   </div>
-                </div> */}
+                </div> */
+}
 
-              {/* Description */}
-              {/* <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
+{
+  /* Description */
+}
+{
+  /* <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
                   Lorem ipsum dolor sit amet consectetur adipisicing elit.
                   Quisquam exercitationem sint sunt sit, mollitia dolore aliquam
                   facere accusamus tempora dolor laborum corrupti fugit maxime
@@ -252,10 +298,15 @@ export default ManageJobCard;
                   quis perspiciatis est iste odit blanditiis reprehenderit
                   tempora sit provident accusantium deserunt, atque porro, illo
                   quod nam nisi quisquam excepturi!
-                </div> */}
+                </div> */
+}
 
-              {/* Number of Applications */}
-              {/* <div className="mt-6 text-[#6c7b7f]">
+{
+  /* Number of Applications */
+}
+{
+  /* <div className="mt-6 text-[#6c7b7f]">
                   <p>15 applications</p>
                 </div>
-              </div> */}
+              </div> */
+}

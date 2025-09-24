@@ -3,12 +3,65 @@ import { FiPhone } from "react-icons/fi";
 import { IApplicationResponse } from "../../types/application.types";
 import { IoTimeOutline } from "react-icons/io5";
 import { Check, X } from "lucide-react";
+import { useMutation } from "@tanstack/react-query";
+import { updateStatusAPI } from "../../api/employer.api";
+import toast from "react-hot-toast";
 
 interface IProps {
   application: IApplicationResponse;
 }
 const ViewApplicantDetails: React.FC<IProps> = ({ application }) => {
   const [open, setOpen] = useState(false);
+
+  const applicationId = application._id;
+  const jobId = application.job?._id;
+
+  const { mutate,isPending } = useMutation({
+    mutationFn: ({
+      applicationId,
+      jobId,
+      status,
+    }: {
+      applicationId: string;
+      jobId: any;
+      status: "ACCEPTED" | "REJECTED";
+    }) => updateStatusAPI(applicationId, jobId, status),
+    mutationKey: ["change_Application_status_API", applicationId, jobId],
+    onSuccess: (response) => {
+      toast.success(response?.message ?? "Status updated", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+      setTimeout(() => window.location.reload(), 500);
+    },
+    onError: (error) => {
+      console.log(error);
+      toast.error(error?.message ?? "Something went wrong", {
+        style: {
+          border: " 1px solid #2c3e50",
+          padding: ".5rem",
+        },
+        iconTheme: {
+          primary: "#2c3e50",
+          secondary: "#FFFAEE",
+        },
+      });
+    },
+  });
+
+  const handleStatusChange = (status: "ACCEPTED" | "REJECTED") => {
+    mutate({
+      applicationId: application._id,
+      jobId: application.job?._id,
+      status,
+    });
+  };
 
   const handleOpen = () => {
     setOpen(true);
@@ -97,15 +150,26 @@ const ViewApplicantDetails: React.FC<IProps> = ({ application }) => {
                 >
                   Cancel
                 </button>
-                <div className="border border-[#E9EBED] p-2 rounded-lg text-[#fff] bg-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-[#3a4753]">
-                  <Check size={20} />
-                  <button className="hover:cursor-pointer">Accept</button>
-                </div>
 
-                <div className="border border-[#E9EBED] p-2 rounded-lg text-[#fff] bg-[#d4183d] hover:bg-[#cf2346] font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center hover:cursor-pointer">
-                  <X size={20} />
-                  <button className="hover:cursor-pointer">Reject</button>
-                </div>
+                {application.status === "PENDING" && (
+                  <div
+                    className="border border-[#E9EBED] p-2 rounded-lg text-[#fff] bg-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center hover:cursor-pointer hover:bg-[#3a4753]"
+                    onClick={() => handleStatusChange("ACCEPTED")}
+                  >
+                    <Check size={20} />
+                    <button className="hover:cursor-pointer">{isPending ? 'Accepting...' : 'Accept'}</button>
+                  </div>
+                )}
+
+                {application.status === "PENDING" && (
+                  <div
+                    className="border border-[#E9EBED] p-2 rounded-lg text-[#fff] bg-[#d4183d] hover:bg-[#cf2346] font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center hover:cursor-pointer"
+                    onClick={() => handleStatusChange("REJECTED")}
+                  >
+                    <X size={20} />
+                    <button className="hover:cursor-pointer">{isPending ? 'Rejecting...' : 'Reject'}</button>
+                  </div>
+                )}
               </div>
             </div>
           </div>
