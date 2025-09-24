@@ -354,6 +354,8 @@ const updateApplicationStatus = async (req, res, next) => {
         if (!job) {
             throw new error_handler_middleware_1.default("Job not found", 404);
         }
+        console.log(req.user._id.toString());
+        console.log(job.postedBy.toString());
         if (req.user._id.toString() !== job.postedBy.toString()) {
             throw new error_handler_middleware_1.default("Unauthorized. Access Denied.", 403);
         }
