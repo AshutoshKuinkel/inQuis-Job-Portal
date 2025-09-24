@@ -57,8 +57,6 @@ const ApplicationCards: React.FC<IProps> = ({ application }) => {
   });
 
   const handleStatusChange = (status: "ACCEPTED" | "REJECTED") => {
-    console.log(`Application Id: ${applicationId}`);
-    console.log(`job Id: ${jobId}`);
     mutate({
       applicationId: application._id,
       jobId: application.job?._id,
