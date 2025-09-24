@@ -66,6 +66,15 @@ export const viewAllApplicationsAPI = async(currentPage:number | null)=>{
   }
 }
 
+export const viewApplicationStats = async()=>{
+  try{
+    const response = await api.get(`jobs/myJobs/applicationStats`)
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}
+
 export const viewRecentApplicationsAPI = async()=>{
   try{
     const response = await api.get(`jobs/myJobs/recentApplications`)

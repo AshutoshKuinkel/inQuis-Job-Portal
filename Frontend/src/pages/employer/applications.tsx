@@ -3,7 +3,7 @@ import ApplicationCards from "../../components/employer/application-cards";
 import Sidebar from "../../components/employer/sidebar";
 import { withAuth } from "../../hoc/with-auth.hoc";
 import { Role } from "../../types/enum.types";
-import { viewAllApplicationsAPI } from "../../api/employer.api";
+import { viewAllApplicationsAPI, viewApplicationStats } from "../../api/employer.api";
 import { IApplicationResponse } from "../../types/application.types";
 import { useSearchParams } from "react-router";
 import { GoArrowLeft, GoArrowRight } from "react-icons/go";
@@ -16,6 +16,11 @@ const Applications = () => {
   const { data, isLoading } = useQuery({
     queryFn: () => viewAllApplicationsAPI(currentPage),
     queryKey: ["view_all_Applications_API", currentPage],
+  });
+
+  const {data:stats} = useQuery({
+    queryFn: viewApplicationStats,
+    queryKey: ["view_Application_Stats"],
   });
 
   const handlePage = (pageNumber: number) => {
@@ -40,15 +45,15 @@ const Applications = () => {
     );
   }
 
-  const pendingApplications = data?.data.filter(
+  const pendingApplications = stats?.data.filter(
     (application: IApplicationResponse) => application.status === "PENDING"
   );
 
-  const acceptedApplications = data?.data.filter(
+  const acceptedApplications = stats?.data.filter(
     (application:IApplicationResponse) => application.status === 'ACCEPTED'
   )
 
-    const rejectedApplications = data?.data.filter(
+    const rejectedApplications = stats?.data.filter(
     (application:IApplicationResponse) => application.status === 'REJECTED'
   )
 
@@ -77,17 +82,17 @@ const Applications = () => {
               <div className="bg-[#FBFBFC] p-8 rounded-lg min-w-[80vw] mb-8">
                 <div className="flex justify-evenly p-4">
                   <div className="flex flex-col items-center">
-                    <p className="text-2xl text-[#2c3e50] font-semibold">{pendingApplications.length}</p>
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{pendingApplications.length || 0}</p>
                     <p className="text-gray-500 text-sm">Pending review</p>
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="text-2xl text-[#2c3e50] font-semibold">{acceptedApplications.length}</p>
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{acceptedApplications.length || 0}</p>
                     <p className="text-gray-500 text-sm">Accepted</p>
                   </div>
 
                   <div className="flex flex-col items-center">
-                    <p className="text-2xl text-[#2c3e50] font-semibold">{rejectedApplications.length}</p>
+                    <p className="text-2xl text-[#2c3e50] font-semibold">{rejectedApplications.length || 0}</p>
                     <p className="text-gray-500 text-sm">Rejected</p>
                   </div>
                 </div>
