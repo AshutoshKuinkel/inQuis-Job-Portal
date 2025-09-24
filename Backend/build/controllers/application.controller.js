@@ -343,7 +343,7 @@ const getRecentApplications = async (req, res, next) => {
 exports.getRecentApplications = getRecentApplications;
 const updateApplicationStatus = async (req, res, next) => {
     try {
-        const { applicationId, jobId } = req.query;
+        const { applicationId, jobId } = req.params;
         const { status } = req.body;
         const user = req.user;
         if (!["ACCEPTED", "REJECTED"].includes(status)) {
