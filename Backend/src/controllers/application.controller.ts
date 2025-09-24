@@ -420,6 +420,38 @@ export const getAllApplications = async (
   }
 };
 
+export const getApplicationStats = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const employerId = req.user._id;
+
+    // Find all jobs posted by the employer
+    const jobs = await Job.find({ postedBy: employerId });
+
+    if (jobs.length === 0) {
+      throw new CustomError("No jobs found.", 404);
+    }
+
+    // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
+    //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.
+    const applications = await Application.find({
+      job: { $in: jobs.map((job) => job._id) },
+    })
+      .populate("job")
+
+
+    res.status(200).json({
+      message: `Applications fetched successfully.`,
+      data: applications
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
 export const getRecentApplications = async (
   req: Request,
   res: Response,

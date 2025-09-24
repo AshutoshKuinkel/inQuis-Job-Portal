@@ -1,6 +1,6 @@
 import { authenticate } from './../middlewares/auth.middleware';
 import express from 'express';
-import {apply,viewMyApplications,update,withdraw, viewApplicants,updateApplicationStatus, viewApplicationById, getAllApplications, getRecentApplications} from '../controllers/application.controller'
+import {apply,viewMyApplications,update,withdraw, viewApplicants,updateApplicationStatus, viewApplicationById, getAllApplications, getRecentApplications, getApplicationStats} from '../controllers/application.controller'
 import { seeker } from '../types/enum.types';
 import { employer } from '../types/enum.types';
 import { uploader } from '../middlewares/uploader.middleware';
@@ -16,6 +16,7 @@ router.delete('/withdrawApplication/:jobId',authenticate(seeker),withdraw)
 
 router.get('/applications/:jobId',authenticate(employer),viewApplicants)
 router.get('/myJobs/allApplications',authenticate(employer),getAllApplications)
+router.get('/myJobs/applicationStats',authenticate(employer),getApplicationStats)
 router.get('/myJobs/recentApplications',authenticate(employer),getRecentApplications)
 router.put('/updateStatus/:jobId/:applicationId',authenticate(employer),updateApplicationStatus)
 
