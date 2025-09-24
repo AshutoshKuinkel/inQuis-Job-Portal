@@ -356,9 +356,9 @@ const updateApplicationStatus = async (req, res, next) => {
         }
         console.log(req.user._id.toString());
         console.log(job.postedBy.toString());
-        if (req.user._id.toString() !== job.postedBy.toString()) {
-            throw new error_handler_middleware_1.default("Unauthorized. Access Denied.", 403);
-        }
+        // if (req.user._id.toString() !== job.postedBy.toString()) {
+        //   throw new CustomError("Unauthorized. Access Denied.", 403);
+        // }
         // Update application directly
         const application = await application_model_1.Application.findOneAndUpdate({ _id: applicationId, job: jobId }, // ensures the app belongs to the job
         { status }, { new: true } // return updated doc
