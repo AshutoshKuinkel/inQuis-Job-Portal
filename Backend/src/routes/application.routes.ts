@@ -17,6 +17,6 @@ router.delete('/withdrawApplication/:jobId',authenticate(seeker),withdraw)
 router.get('/applications/:jobId',authenticate(employer),viewApplicants)
 router.get('/myJobs/allApplications',authenticate(employer),getAllApplications)
 router.get('/myJobs/recentApplications',authenticate(employer),getRecentApplications)
-router.put('/applications/:jobId/:applicationId',authenticate(employer),updateApplicationStatus)
+router.put('/applications/updateStatus/:jobId/:applicationId',authenticate(employer),updateApplicationStatus)
 
 export default router;

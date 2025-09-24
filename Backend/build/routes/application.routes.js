@@ -19,5 +19,5 @@ router.delete('/withdrawApplication/:jobId', (0, auth_middleware_1.authenticate)
 router.get('/applications/:jobId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.viewApplicants);
 router.get('/myJobs/allApplications', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.getAllApplications);
 router.get('/myJobs/recentApplications', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.getRecentApplications);
-router.put('/applications/:jobId/:applicationId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.updateApplicationStatus);
+router.put('/applications/updateStatus/:jobId/:applicationId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.updateApplicationStatus);
 exports.default = router;
