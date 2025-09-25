@@ -5,6 +5,7 @@ import CustomError from "../middlewares/error-handler.middleware";
 import { comparePassword, hashPassword } from "../utils/bcrypt.utils";
 import { Role } from "../types/enum.types";
 import { generateAccessToken } from "../utils/jwt.utils";
+import { Employer } from '../models/employer-auth.model';
 
 
 
@@ -174,7 +175,7 @@ export const registerEmployer = async(req:Request,res:Response,next:NextFunction
 
 
     const hashedPassword = await hashPassword(password)
-    const user = await User.create({
+    const user = await Employer.create({
       email,
       password:hashedPassword,
       first_name,

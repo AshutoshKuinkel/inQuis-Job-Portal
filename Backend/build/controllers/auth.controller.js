@@ -9,6 +9,7 @@ const error_handler_middleware_1 = __importDefault(require("../middlewares/error
 const bcrypt_utils_1 = require("../utils/bcrypt.utils");
 const enum_types_1 = require("../types/enum.types");
 const jwt_utils_1 = require("../utils/jwt.utils");
+const employer_auth_model_1 = require("../models/employer-auth.model");
 const registerUser = async (req, res, next) => {
     try {
         const { email, password, first_name, last_name, seekerResume, companyName, role } = req.body;
@@ -151,7 +152,7 @@ const registerEmployer = async (req, res, next) => {
             throw new error_handler_middleware_1.default(`Last Name is required.`, 400);
         }
         const hashedPassword = await (0, bcrypt_utils_1.hashPassword)(password);
-        const user = await user_model_1.User.create({
+        const user = await employer_auth_model_1.Employer.create({
             email,
             password: hashedPassword,
             first_name,
