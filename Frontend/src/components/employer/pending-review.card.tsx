@@ -14,7 +14,7 @@ const PendingReviewsCard = () => {
   ) ?? [];
 
   return (
-    <div className="border border-[#E9EBED] xl:w-[25rem] flex flex-col p-6 text-lg gap-6 rounded-lg">
+    <div className="border border-[#E9EBED] flex flex-col p-6 text-lg gap-6 rounded-lg">
       <div className="flex items-center gap-2 text-[#2c3e50]">
         <Check size={22} />
         <p>Pending Reviews</p>

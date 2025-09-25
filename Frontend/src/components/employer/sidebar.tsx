@@ -1,16 +1,17 @@
-import Logo from '../../assets/logo'
+import Logo from '../../assets/logo';
 import { SidebarLinks } from '../../components/employer/sidebar-links';
 
 const Sidebar = () => {
   return (
-    <div className="col-span-1 border-r border-[#E9EBED] flex-flex-col items-start min-h-screen">
+    <div className="flex flex-col h-full">
       {/* Logo + text */}
-      <div className="flex flex-col items-start gap-1 pl-4 mt-3">
+      <div className="flex flex-col items-start gap-1 mb-8">
         <Logo />
-        <p className="text-gray-500 ">Employer</p>
+        <p className="text-gray-500">Employer</p>
       </div>
+
       {/* Icons + Buttons */}
-      <div className="mt-8">
+      <div className="flex flex-col space-y-4">
         <SidebarLinks />
       </div>
     </div>

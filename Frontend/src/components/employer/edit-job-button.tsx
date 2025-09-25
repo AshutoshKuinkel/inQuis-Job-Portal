@@ -37,14 +37,14 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
 
   const methods = useForm({
     defaultValues: {
-      title: job.title || '',
-      companyName: job.companyName || '',
-      description: job.description || '',
-      location: job.location || '',
-      salary: job.salary || '',
-      contactEmail: job.contactEmail || '',
-      jobType: job.jobType || '',
-      category: job.category.name || '',
+      title: job.title || "",
+      companyName: job.companyName || "",
+      description: job.description || "",
+      location: job.location || "",
+      salary: job.salary || "",
+      contactEmail: job.contactEmail || "",
+      jobType: job.jobType || "",
+      category: job.category.name || "",
       isFeatured: false,
     },
     resolver: yupResolver(updateJobSchema),
@@ -52,7 +52,7 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
   });
 
   const { mutate, isPending } = useMutation({
-    mutationFn: (data:any) => updateMyJobAPI(job._id,data),
+    mutationFn: (data: any) => updateMyJobAPI(job._id, data),
     mutationKey: ["update_my_job_API", job._id],
     onSuccess: (response) => {
       toast.success(response?.message ?? "Job Deleted", {
@@ -94,7 +94,7 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
   type CategoryKey = keyof typeof categoryMapping;
 
   const onSubmit = (data: any) => {
-    console.log(data)
+    console.log(data);
     const categoryId = categoryMapping[data.category as CategoryKey];
     if (categoryId) {
       data.category = categoryId;
@@ -110,7 +110,7 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
         },
       });
     }
-    console.log(data)
+    console.log(data);
     mutate(data);
   };
   return (
@@ -124,202 +124,166 @@ const EditJobButton: React.FC<IProps> = ({ job }) => {
       </div>
 
       {open && (
-        <div className="fixed inset-0 z-50 flex justify-center items-center ">
+        <div className="fixed inset-0 z-50 flex items-center justify-center px-4 sm:px-6 md:px-10">
           {/* Overlay */}
           <div
             className="absolute inset-0 bg-black opacity-60"
             onClick={handleClose}
           ></div>
-          <div className="rounded-lg p-5 flex flex-col gap-2 z-10 bg-gray-100">
-            <h1 className="text-[#2c3e50] font-semibold text-xl">
+
+          {/* Modal content */}
+          <div className="relative w-full max-w-[90vw] md:max-w-[60vw] max-h-[90vh] overflow-y-auto bg-gray-100 rounded-lg p-4 sm:p-6">
+            <h1 className="text-[#2c3e50] font-semibold text-lg sm:text-xl mb-4">
               Edit Job Posting
             </h1>
 
-            {/* form */}
-            <div>
-              <FormProvider {...methods}>
-                <form onSubmit={methods.handleSubmit(onSubmit)}>
-                  <div className="border border-[#E9EBED] w-full md:w-[60vw] p-8 rounded-lg">
-                    {/* Job Details Section */}
-                    <div>
-                      <p className="text-[#2C3E50] mb-3 font-semibold">
-                        Job Details
-                      </p>
-
-                      {/* Job Title and Location */}
-                      <div className="flex flex-col md:flex-row gap-4 mb-6">
-                        <div className="flex flex-col gap-1 w-full md:w-[48%]">
-                          <label className="text-[#2c3e50] text-sm font-semibold">
-                            Job Title
-                          </label>
-                          <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                            <input
-                              id="title"
-                              type="text"
-                              placeholder="e.g. Senior Frontend Developer"
-                              className="w-full rounded-md outline-none"
-                              autoComplete="off"
-                              {...methods.register("title")}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-1 w-full md:w-[48%]">
-                          <label className="text-[#2c3e50] text-sm font-semibold">
-                            Location
-                          </label>
-                          <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                            <input
-                              id="location"
-                              type="text"
-                              placeholder="e.g. San Francisco, CA or Remote"
-                              className="w-full rounded-md outline-none"
-                              autoComplete="off"
-                              {...methods.register("location")}
-                            />
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Salary Range and Job Type */}
-                      <div className="flex flex-col md:flex-row gap-4 mb-6">
-                        <div className="flex flex-col gap-1 w-full md:w-[48%]">
-                          <label className="text-[#2c3e50] text-sm font-semibold">
-                            Salary
-                          </label>
-                          <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                            <input
-                              id="salary"
-                              type="text"
-                              placeholder="e.g. $60,000 - $90,000 or $80,000"
-                              className="w-full rounded-md outline-none"
-                              autoComplete="off"
-                              {...methods.register("salary")}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-1 w-full md:w-[48%]">
-                          <label className="text-[#2c3e50] text-sm font-semibold">
-                            Job Type
-                          </label>
-                          <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                            <div className="text-gray-500 w-full">
-                              <select
-                                id=""
-                                className="outline-none w-full"
-                                {...methods.register("jobType")}
-                              >
-                                <option value="" disabled selected>
-                                  Select Job Type
-                                </option>
-                                <option value="Full-Time">Full-Time</option>
-                                <option value="Part-Time">Part-Time</option>
-                                <option value="Casual">Casual</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Contact Email + Category */}
-                      <div className="flex flex-col md:flex-row gap-4 mb-6">
-                        <div className="flex flex-col gap-1 w-full md:w-[48%]">
-                          <label className="text-[#2c3e50] text-sm font-semibold">
-                            Contact Email
-                          </label>
-                          <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                            <input
-                              id="contactEmail"
-                              type="text"
-                              placeholder="Email you would like to be informed abot your posting on..."
-                              className="w-full rounded-md outline-none"
-                              autoComplete="off"
-                              {...methods.register("contactEmail")}
-                            />
-                          </div>
-                        </div>
-
-                        <div className="flex flex-col gap-1 w-full md:w-[48%]">
-                          <label className="text-[#2c3e50] text-sm font-semibold">
-                            Category
-                          </label>
-                          <div className="flex items-center gap-2 px-2 py-2 w-full bg-[#F3F3F5] rounded-md shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                            <div className="text-gray-500 w-full">
-                              <select
-                                id="category"
-                                className="outline-none w-full"
-                                {...methods.register("category")}
-                              >
-                                <option value="" disabled selected>
-                                  Select Category that best fits your job
-                                </option>
-                                <option value="Design">Design</option>
-                                <option value="Technology">Technology</option>
-                                <option value="Marketing">Marketing</option>
-                                <option value="Sales">Sales</option>
-                                <option value="Mobile">Mobile</option>
-                                <option value="Security">Security</option>
-                                <option value="Healthcare">Healthcare</option>
-                                <option value="Engineering">Engineering</option>
-                              </select>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+            <FormProvider {...methods}>
+              <form
+                onSubmit={methods.handleSubmit(onSubmit)}
+                className="space-y-6"
+              >
+                {/* Container for Form Fields */}
+                <div className="space-y-6">
+                  {/* Job Title and Location */}
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex flex-col gap-1 w-full md:w-1/2">
+                      <label className="text-sm font-semibold text-[#2c3e50]">
+                        Job Title
+                      </label>
+                      <input
+                        id="title"
+                        type="text"
+                        className="w-full px-3 py-2 bg-[#F3F3F5] rounded-md shadow-md outline-none"
+                        placeholder="e.g. Senior Frontend Developer"
+                        {...methods.register("title")}
+                      />
                     </div>
-
-                    {/* Additional Information */}
-                    <div className="flex flex-col gap-6">
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[#2c3e50] text-sm font-semibold">
-                          Job Description
-                        </label>
-                        <div className="flex rounded-md gap-2 bg-[#F3F3F5] w-full px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                          <textarea
-                            id="description"
-                            placeholder="Describe the role, responsibilities, and what you're looking for in a candidate..."
-                            className="w-full rounded-md outline-none pb-10 placeholder:whitespace-normal"
-                            autoComplete="off"
-                            {...methods.register("description")}
-                          />
-                        </div>
-                      </div>
-
-                      <div className="flex flex-col gap-1">
-                        <label className="text-[#2c3e50] text-sm font-semibold">
-                          Company Name
-                        </label>
-                        <div className="flex rounded-md gap-2 bg-[#F3F3F5] w-full px-2 py-2 shadow-md focus-within:ring-2 focus-within:text-[#2c3e50] transition duration-150">
-                          <input
-                            id="companyName"
-                            placeholder="Enter the company name you want displayed on your posting"
-                            className="w-full rounded-md outline-none placeholder:whitespace-normal"
-                            autoComplete="off"
-                            {...methods.register("companyName")}
-                          />
-                        </div>
-                      </div>
+                    <div className="flex flex-col gap-1 w-full md:w-1/2">
+                      <label className="text-sm font-semibold text-[#2c3e50]">
+                        Location
+                      </label>
+                      <input
+                        id="location"
+                        type="text"
+                        className="w-full px-3 py-2 bg-[#F3F3F5] rounded-md shadow-md outline-none"
+                        placeholder="e.g. Remote or City, Country"
+                        {...methods.register("location")}
+                      />
                     </div>
                   </div>
 
-                  <div className="flex justify-end gap-3 mr-[.5rem] mt-3">
-                    <button
-                      className="border border-[#E9EBED] rounded-lg text-gray-500 font-semibold text-sm flex items-center space-x-2 p-2 justify-center hover:cursor-pointer hover:bg-gray-200"
-                      onClick={handleClose}
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      className=" rounded-lg font-semibold text-sm text-white flex items-center space-x-2  p-2 justify-center hover:cursor-pointer bg-[#2c3e50]"
-                      type="submit"
-                    >
-                      {isPending ? "Saving..." : "Save Changes"}
-                    </button>
+                  {/* Salary and Job Type */}
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex flex-col gap-1 w-full md:w-1/2">
+                      <label className="text-sm font-semibold text-[#2c3e50]">
+                        Salary
+                      </label>
+                      <input
+                        id="salary"
+                        type="text"
+                        className="w-full px-3 py-2 bg-[#F3F3F5] rounded-md shadow-md outline-none"
+                        placeholder="e.g. $80,000"
+                        {...methods.register("salary")}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 w-full md:w-1/2">
+                      <label className="text-sm font-semibold text-[#2c3e50]">
+                        Job Type
+                      </label>
+                      <select
+                        className="w-full px-3 py-2 bg-[#F3F3F5] rounded-md shadow-md outline-none"
+                        {...methods.register("jobType")}
+                      >
+                        <option value="" disabled>
+                          Select Job Type
+                        </option>
+                        <option value="Full-Time">Full-Time</option>
+                        <option value="Part-Time">Part-Time</option>
+                        <option value="Casual">Casual</option>
+                      </select>
+                    </div>
                   </div>
-                </form>
-              </FormProvider>
-            </div>
+
+                  {/* Contact Email and Category */}
+                  <div className="flex flex-col md:flex-row gap-4">
+                    <div className="flex flex-col gap-1 w-full md:w-1/2">
+                      <label className="text-sm font-semibold text-[#2c3e50]">
+                        Contact Email
+                      </label>
+                      <input
+                        id="contactEmail"
+                        type="email"
+                        className="w-full px-3 py-2 bg-[#F3F3F5] rounded-md shadow-md outline-none"
+                        placeholder="e.g. email@example.com"
+                        {...methods.register("contactEmail")}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-1 w-full md:w-1/2">
+                      <label className="text-sm font-semibold text-[#2c3e50]">
+                        Category
+                      </label>
+                      <select
+                        className="w-full px-3 py-2 bg-[#F3F3F5] rounded-md shadow-md outline-none"
+                        {...methods.register("category")}
+                      >
+                        <option value="" disabled>
+                          Select Category
+                        </option>
+                        <option value="Design">Design</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Marketing">Marketing</option>
+                        <option value="Sales">Sales</option>
+                        <option value="Mobile">Mobile</option>
+                        <option value="Security">Security</option>
+                        <option value="Healthcare">Healthcare</option>
+                        <option value="Engineering">Engineering</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  {/* Description */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-semibold text-[#2c3e50]">
+                      Job Description
+                    </label>
+                    <textarea
+                      className="w-full px-3 py-2 bg-[#F3F3F5] rounded-md shadow-md outline-none resize-none min-h-[100px]"
+                      placeholder="Describe the role, responsibilities, and expectations..."
+                      {...methods.register("description")}
+                    ></textarea>
+                  </div>
+
+                  {/* Company Name */}
+                  <div className="flex flex-col gap-1">
+                    <label className="text-sm font-semibold text-[#2c3e50]">
+                      Company Name
+                    </label>
+                    <input
+                      className="w-full px-3 py-2 bg-[#F3F3F5] rounded-md shadow-md outline-none"
+                      placeholder="Company name to display"
+                      {...methods.register("companyName")}
+                    />
+                  </div>
+                </div>
+
+                {/* Buttons */}
+                <div className="flex justify-end gap-3 mt-6">
+                  <button
+                    type="button"
+                    onClick={handleClose}
+                    className="border border-[#E9EBED] rounded-lg px-4 py-2 text-gray-500 font-semibold text-sm hover:bg-gray-200"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="bg-[#2c3e50] text-white font-semibold text-sm rounded-lg px-4 py-2 hover:bg-[#1f2d3a]"
+                  >
+                    {isPending ? "Saving..." : "Save Changes"}
+                  </button>
+                </div>
+              </form>
+            </FormProvider>
           </div>
         </div>
       )}
