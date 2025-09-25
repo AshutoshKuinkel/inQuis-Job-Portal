@@ -38,9 +38,11 @@ const ManageJobs = () => {
   };
 
   if (isLoading) {
-    return(<div className="flex justify-center items-center h-screen">
-      <Oval stroke="#2c3e50" height="64" width="64" />
-    </div>)
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Oval stroke="#2c3e50" height="64" width="64" />
+      </div>
+    );
   }
   return (
     <div className="h-screen">
@@ -74,13 +76,20 @@ const ManageJobs = () => {
           {/* Job Cards section */}
           <div className="pl-8 pr-8">
             <div className="flex flex-col gap-6">
-              {!isLoading &&
-                data.data?.map((job: IJob) => {
-                  return <ManageJobCard job={job} key={job._id} />;
-                })}
-              {/* Next Previous Buttons {Desktop} */}
-              {!isLoading && (
+              {!isLoading && data?.data?.length === 0 ? (
+                <p className="text-[#6C7B7F] text-center py-10">
+                  Nothing to see
+                </p>
+              ) : (
+                data?.data?.map((job: IJob) => (
+                  <ManageJobCard job={job} key={job._id} />
+                ))
+              )}
+
+              {/* Next / Previous Buttons */}
+              {!isLoading && data?.data?.length > 0 && (
                 <div className="flex justify-between items-center pb-10 p-3">
+                  {/* Previous Button */}
                   <div
                     className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
                       currentPage === 1
@@ -101,6 +110,7 @@ const ManageJobs = () => {
                     </button>
                   </div>
 
+                  {/* Next Button */}
                   <div
                     className={`flex items-center border border-[#2c3e50] p-2 space-x-2 rounded-lg text-center ${
                       data?.pagination?.total_pages &&

@@ -5,14 +5,13 @@ import TotalApplicationsCard from "../../components/employer/total-applications.
 import RecentApplicationCards from "../../components/employer/recent-application.cards";
 import ActiveJobsCard from "../../components/employer/active-jobs.card";
 import { useQuery } from "@tanstack/react-query";
-import {viewRecentApplicationsAPI } from "../../api/employer.api";
+import { viewRecentApplicationsAPI } from "../../api/employer.api";
 import { IApplicationResponse } from "../../types/application.types";
 import PendingReviewsCard from "../../components/employer/pending-review.card";
 
 const EmployerDashboard = () => {
-
   const { data, isPending } = useQuery({
-    queryFn:viewRecentApplicationsAPI,
+    queryFn: viewRecentApplicationsAPI,
     queryKey: ["view_recent_Applications_API"],
   });
 
@@ -40,24 +39,26 @@ const EmployerDashboard = () => {
 
             <TotalApplicationsCard />
 
-            <PendingReviewsCard/>
+            <PendingReviewsCard />
           </div>
 
           {/* Recent Applications */}
           <div className="p-8">
             <div className="border border-[#E9EBED] rounded-lg p-6">
               <p className="text-[#2c3e50] text-lg">Recent Applications</p>
-
               {/* Recent Application Cards */}
-              {!isPending &&
-                data.data.map((application: IApplicationResponse) => {
-                  return (
+              {!isPending ? (
+                data?.data?.length > 0 ? (
+                  data.data.map((application: IApplicationResponse) => (
                     <RecentApplicationCards
                       application={application}
                       key={application._id}
                     />
-                  );
-                })}
+                  ))
+                ) : (
+                  <p className="text-[#6C7B7F] mt-4">Nothing to see</p>
+                )
+              ) : null}
             </div>
           </div>
         </div>

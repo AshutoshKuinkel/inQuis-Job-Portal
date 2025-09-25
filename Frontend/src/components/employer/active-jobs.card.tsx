@@ -3,11 +3,13 @@ import { getMyJobsAPI } from "../../api/employer.api";
 import { LuBriefcase } from "react-icons/lu";
 
 const ActiveJobsCard = () => {
-  const currentPage = null
+  const currentPage = null;
   const { data, isLoading } = useQuery({
     queryFn: () => getMyJobsAPI(currentPage),
     queryKey: ["get_my_Jobs_API"],
   });
+
+  const totalJobs = data?.pagination?.total ?? 0;
 
   return (
     <div>
@@ -17,8 +19,8 @@ const ActiveJobsCard = () => {
           <p>Active Jobs</p>
         </div>
         <div>
-          <p className="text-4xl text-[#2c3e50] font-semibold">
-            {!isLoading && data.pagination.total}
+          <p className={`${isLoading ? "text-2xl" : "text-4xl"} text-[#2c3e50] font-semibold`}>
+            {isLoading ? "Loading..." : totalJobs}
           </p>
           <p className="text-sm text-[#6C7B7F]">Currently Posted</p>
         </div>
