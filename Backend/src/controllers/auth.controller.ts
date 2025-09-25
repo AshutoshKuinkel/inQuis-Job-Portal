@@ -5,7 +5,6 @@ import CustomError from "../middlewares/error-handler.middleware";
 import { comparePassword, hashPassword } from "../utils/bcrypt.utils";
 import { Role } from "../types/enum.types";
 import { generateAccessToken } from "../utils/jwt.utils";
-import { Employer } from '../models/employer-auth.model';
 
 
 
@@ -152,7 +151,7 @@ export const profile = async(req:Request,res:Response,next:NextFunction)=>{
 
 export const registerEmployer = async(req:Request,res:Response,next:NextFunction)=>{
   try{
-    const {email,password,first_name,last_name,role} = req.body
+    const {email,password,first_name,last_name} = req.body
 
     if(!email){
       throw new CustomError(`Email is required.`,400)
@@ -175,12 +174,12 @@ export const registerEmployer = async(req:Request,res:Response,next:NextFunction
 
 
     const hashedPassword = await hashPassword(password)
-    const user = await Employer.create({
+    const user = await User.create({
       email,
       password:hashedPassword,
       first_name,
       last_name,
-      role: role === Role.EMPLOYER ? Role.EMPLOYER : undefined,
+      role: Role.EMPLOYER,
     })
     await user.save()
 

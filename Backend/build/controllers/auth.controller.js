@@ -9,7 +9,6 @@ const error_handler_middleware_1 = __importDefault(require("../middlewares/error
 const bcrypt_utils_1 = require("../utils/bcrypt.utils");
 const enum_types_1 = require("../types/enum.types");
 const jwt_utils_1 = require("../utils/jwt.utils");
-const employer_auth_model_1 = require("../models/employer-auth.model");
 const registerUser = async (req, res, next) => {
     try {
         const { email, password, first_name, last_name, seekerResume, companyName, role } = req.body;
@@ -132,7 +131,7 @@ const profile = async (req, res, next) => {
 exports.profile = profile;
 const registerEmployer = async (req, res, next) => {
     try {
-        const { email, password, first_name, last_name, role } = req.body;
+        const { email, password, first_name, last_name } = req.body;
         if (!email) {
             throw new error_handler_middleware_1.default(`Email is required.`, 400);
         }
@@ -152,12 +151,12 @@ const registerEmployer = async (req, res, next) => {
             throw new error_handler_middleware_1.default(`Last Name is required.`, 400);
         }
         const hashedPassword = await (0, bcrypt_utils_1.hashPassword)(password);
-        const user = await employer_auth_model_1.Employer.create({
+        const user = await user_model_1.User.create({
             email,
             password: hashedPassword,
             first_name,
             last_name,
-            role: role === enum_types_1.Role.EMPLOYER ? enum_types_1.Role.EMPLOYER : undefined,
+            role: enum_types_1.Role.EMPLOYER,
         });
         await user.save();
         const userObj = user.toObject();
