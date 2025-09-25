@@ -123,29 +123,31 @@ const Applications = () => {
         </div>
 
         {/* Stats Section */}
-        <div className="flex gap-5 flex-wrap mb-6">
-          <div className="flex flex-col items-center justify-center w-full">
-            <div className="bg-[#FBFBFC] p-8 rounded-lg w-full md:w-[80vw]">
-              <div className="flex justify-evenly p-4">
-                <div className="flex flex-col items-center">
+        <div className="flex gap-5 flex-wrap mb-6 justify-center">
+          <div className="flex flex-col w-full items-center">
+            <div className="bg-[#FBFBFC] p-4 sm:p-8 rounded-lg w-full max-w-[95vw] md:w-[80vw]">
+              <div className="flex flex-wrap justify-center items-center gap-10 sm:gap-20 md:gap-24 lg:gap-48 xl:gap-72 p-4">
+                <div className="flex flex-col items-center min-w-[80px]">
                   <p className="text-2xl text-[#2c3e50] font-semibold">
                     {pendingApplications?.length ?? 0}
                   </p>
-                  <p className="text-gray-500 text-sm">Pending review</p>
+                  <p className="text-gray-500 text-sm text-center">
+                    Pending review
+                  </p>
                 </div>
 
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center min-w-[80px]">
                   <p className="text-2xl text-[#2c3e50] font-semibold">
                     {acceptedApplications?.length ?? 0}
                   </p>
-                  <p className="text-gray-500 text-sm">Accepted</p>
+                  <p className="text-gray-500 text-sm text-center">Accepted</p>
                 </div>
 
-                <div className="flex flex-col items-center">
+                <div className="flex flex-col items-center min-w-[80px]">
                   <p className="text-2xl text-[#2c3e50] font-semibold">
                     {rejectedApplications?.length ?? 0}
                   </p>
-                  <p className="text-gray-500 text-sm">Rejected</p>
+                  <p className="text-gray-500 text-sm text-center">Rejected</p>
                 </div>
               </div>
             </div>
@@ -153,7 +155,7 @@ const Applications = () => {
         </div>
 
         {/* Applications List */}
-        <div className="flex flex-wrap gap-5">
+        <div className="flex flex-row flex-wrap gap-5 justify-center">
           {!isLoading && data?.data?.length === 0 ? (
             <p className="text-[#6C7B7F] text-lg p-4 flex items-center justify-center w-full">
               Nothing to see

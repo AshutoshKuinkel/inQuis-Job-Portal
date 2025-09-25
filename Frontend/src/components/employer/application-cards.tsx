@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Check, X, Mail, Calendar, FileText } from "lucide-react";
 import { IApplicationResponse } from "../../types/application.types";
 import ViewApplicantDetails from "./view-applicant-details";
@@ -10,6 +10,18 @@ interface IProps {
   application: IApplicationResponse;
 }
 const ApplicationCards: React.FC<IProps> = ({ application }) => {
+  const [mobileView, setMobileView] = useState(false);
+
+  useEffect(() => {
+    const handleScreenWidth = () => {
+      setMobileView(window.innerWidth < 640);
+    };
+
+    window.addEventListener("resize", handleScreenWidth);
+    handleScreenWidth();
+
+    return () => window.removeEventListener("resize", handleScreenWidth);
+  }, []);
 
   const applicationId = application._id;
   const jobId = application.job?._id;
@@ -65,20 +77,20 @@ const ApplicationCards: React.FC<IProps> = ({ application }) => {
       status,
     });
   };
-  
+
   return (
     <div className="">
       {/* Card 1 */}
-      <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8 w-[40vw]">
+      <div className="border p-6 rounded-xl border-[#E9EBED] border-l-8 w-[90vw] md:w-[65vw] 2xl:w-[35vw]">
         <div className="flex flex-col space-y-3">
-          <div className="flex items-center justify-between">
-            <div className="flex items-baseline space-x-3">
-              <h1 className="text-xl text-[#2c3e50] font-bold line-clamp-1">
+          <div className="flex items-center justify-between gap-2">
+            <div className="flex items-baseline space-x-3 md:space-x-1 lg:space-x-3">
+              <h1 className="text-sm sm:text-xl text-[#2c3e50] font-bold line-clamp-1">
                 {`${application.firstName} ${application.lastName}`}
               </h1>
               {/* Category Section */}
               <div
-                className={`w-24 text-center ${
+                className={`w-22 sm:w-24 text-center ${
                   application.status === "PENDING"
                     ? "bg-gray-200"
                     : application.status === "ACCEPTED"
@@ -97,53 +109,58 @@ const ApplicationCards: React.FC<IProps> = ({ application }) => {
                 </p>
               </div>
             </div>
+            {!mobileView && (
+              <div className="flex flex-col items-center gap-2">
+                <div className="flex items-center gap-1 lg:gap-2">
+                  <ViewApplicantDetails application={application} />
 
-            <div className="flex flex-col items-center gap-2">
-              <div className="flex items-center gap-2">
-                <ViewApplicantDetails application={application} />
+                  {application.status === "PENDING" && (
+                    <div
+                      className={`border border-[#E9EBED] p-2 rounded-lg text-white bg-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center ${
+                        isPending
+                          ? "opacity-50 cursor-not-allowed"
+                          : "hover:cursor-pointer hover:bg-[#3a4753]"
+                      }`}
+                      onClick={() =>
+                        !isPending && handleStatusChange("ACCEPTED")
+                      }
+                    >
+                      <Check size={20} />
+                      <button disabled={isPending}>
+                        {isPending ? "Accepting..." : "Accept"}
+                      </button>
+                    </div>
+                  )}
 
-                {application.status === "PENDING" && (
-                  <div
-                    className={`border border-[#E9EBED] p-2 rounded-lg text-white bg-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center ${
-                      isPending
-                        ? "opacity-50 cursor-not-allowed"
-                        : "hover:cursor-pointer hover:bg-[#3a4753]"
-                    }`}
-                    onClick={() => !isPending && handleStatusChange("ACCEPTED")}
-                  >
-                    <Check size={20} />
-                    <button disabled={isPending}>
-                      {isPending ? "Accepting..." : "Accept"}
-                    </button>
-                  </div>
-                )}
-
-                {application.status === "PENDING" && (
-                  <div
-                    className={`border border-[#E9EBED] p-2 rounded-lg text-white bg-[#d4183d] font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center ${
-                      isPending
-                        ? "opacity-50 cursor-not-allowed"
-                        : "hover:cursor-pointer hover:bg-[#cf2346]"
-                    }`}
-                    onClick={() => !isPending && handleStatusChange("REJECTED")}
-                  >
-                    <X size={20} />
-                    <button disabled={isPending}>
-                      {isPending ? "Rejecting..." : "Reject"}
-                    </button>
-                  </div>
-                )}
-              </div>
-
-              {/* View Resume Button */}
-              {
-                <div onClick={fetchResume}>
-                  <button className="bg-gray-100 hover:cursor-pointer hover:bg-gray-200 py-2 rounded-lg text-[#2c3e50] font-semibold text-sm w-2xs">
-                    View resume
-                  </button>
+                  {application.status === "PENDING" && (
+                    <div
+                      className={`border border-[#E9EBED] p-2 rounded-lg text-white bg-[#d4183d] font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center ${
+                        isPending
+                          ? "opacity-50 cursor-not-allowed"
+                          : "hover:cursor-pointer hover:bg-[#cf2346]"
+                      }`}
+                      onClick={() =>
+                        !isPending && handleStatusChange("REJECTED")
+                      }
+                    >
+                      <X size={20} />
+                      <button disabled={isPending}>
+                        {isPending ? "Rejecting..." : "Reject"}
+                      </button>
+                    </div>
+                  )}
                 </div>
-              }
-            </div>
+
+                {/* View Resume Button */}
+                {
+                  <div onClick={fetchResume}>
+                    <button className="bg-gray-100 hover:cursor-pointer hover:bg-gray-200 py-2 rounded-lg text-[#2c3e50] font-semibold text-sm sm:w-2xs md:w-3xs xl:w-2xs">
+                      View resume
+                    </button>
+                  </div>
+                }
+              </div>
+            )}
           </div>
         </div>
 
@@ -180,6 +197,54 @@ const ApplicationCards: React.FC<IProps> = ({ application }) => {
         <div className="mt-4 line-clamp-2 text-[#6c7b7f]">
           {application.coverLetter}
         </div>
+        {mobileView && (
+          <div className="flex flex-col items-center gap-2 mt-2">
+            <div className="flex items-center gap-2">
+              <ViewApplicantDetails application={application} />
+
+              {application.status === "PENDING" && (
+                <div
+                  className={`border border-[#E9EBED] p-2 rounded-lg text-white bg-[#2c3e50] font-semibold text-sm flex items-center space-x-2 max-w-24 justify-center ${
+                    isPending
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:cursor-pointer hover:bg-[#3a4753]"
+                  }`}
+                  onClick={() => !isPending && handleStatusChange("ACCEPTED")}
+                >
+                  <Check size={20} />
+                  <button disabled={isPending}>
+                    {isPending ? "Accepting..." : "Accept"}
+                  </button>
+                </div>
+              )}
+
+              {application.status === "PENDING" && (
+                <div
+                  className={`border border-[#E9EBED] p-2 rounded-lg text-white bg-[#d4183d] font-semibold text-sm flex items-center space-x-2 max-w-36 justify-center ${
+                    isPending
+                      ? "opacity-50 cursor-not-allowed"
+                      : "hover:cursor-pointer hover:bg-[#cf2346]"
+                  }`}
+                  onClick={() => !isPending && handleStatusChange("REJECTED")}
+                >
+                  <X size={20} />
+                  <button disabled={isPending}>
+                    {isPending ? "Rejecting..." : "Reject"}
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* View Resume Button */}
+            {
+              <div onClick={fetchResume}>
+                <button className="bg-gray-100 hover:cursor-pointer hover:bg-gray-200 py-2 rounded-lg text-[#2c3e50] font-semibold text-sm w-[80vw] sm:w-2xs">
+                  View resume
+                </button>
+              </div>
+            }
+          </div>
+        )}
       </div>
     </div>
   );
