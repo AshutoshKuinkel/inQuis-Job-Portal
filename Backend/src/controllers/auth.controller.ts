@@ -146,3 +146,52 @@ export const profile = async(req:Request,res:Response,next:NextFunction)=>{
     next(err)
   }
 }
+
+
+
+export const registerEmployer = async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const {email,password,first_name,last_name,role} = req.body
+
+    if(!email){
+      throw new CustomError(`Email is required.`,400)
+    }
+    if(3 > email.length || email.length > 50){
+      throw new CustomError(`Please enter an email address between 3 & 50 characters.`,400)
+    }
+    if(!password){
+      throw new CustomError(`Password is required.`,400)
+    }
+    if(8>password.length){
+      throw new CustomError(`Please enter a password greater than 8 characters.`,400)
+    }
+    if(!first_name){
+      throw new CustomError(`First Name is required.`,400)
+    }
+    if(!last_name){
+      throw new CustomError(`Last Name is required.`,400)
+    }
+
+
+    const hashedPassword = await hashPassword(password)
+    const user = await User.create({
+      email,
+      password:hashedPassword,
+      first_name,
+      last_name,
+      role: role === Role.EMPLOYER ? Role.EMPLOYER : undefined,
+    })
+    await user.save()
+
+    const userObj = user.toObject()
+    const {password:pass,...secureUser} = userObj
+
+    res.status(201).json({
+      message:`User successfully registered.`,
+      data:secureUser
+    })
+
+  }catch(err){
+    next(err)
+  }
+}

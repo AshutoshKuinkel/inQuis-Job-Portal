@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.profile = exports.logout = exports.login = exports.registerUser = void 0;
+exports.registerEmployer = exports.profile = exports.logout = exports.login = exports.registerUser = void 0;
 const user_model_1 = require("../models/user.model");
 const error_handler_middleware_1 = __importDefault(require("../middlewares/error-handler.middleware"));
 const bcrypt_utils_1 = require("../utils/bcrypt.utils");
@@ -129,3 +129,45 @@ const profile = async (req, res, next) => {
     }
 };
 exports.profile = profile;
+const registerEmployer = async (req, res, next) => {
+    try {
+        const { email, password, first_name, last_name, role } = req.body;
+        if (!email) {
+            throw new error_handler_middleware_1.default(`Email is required.`, 400);
+        }
+        if (3 > email.length || email.length > 50) {
+            throw new error_handler_middleware_1.default(`Please enter an email address between 3 & 50 characters.`, 400);
+        }
+        if (!password) {
+            throw new error_handler_middleware_1.default(`Password is required.`, 400);
+        }
+        if (8 > password.length) {
+            throw new error_handler_middleware_1.default(`Please enter a password greater than 8 characters.`, 400);
+        }
+        if (!first_name) {
+            throw new error_handler_middleware_1.default(`First Name is required.`, 400);
+        }
+        if (!last_name) {
+            throw new error_handler_middleware_1.default(`Last Name is required.`, 400);
+        }
+        const hashedPassword = await (0, bcrypt_utils_1.hashPassword)(password);
+        const user = await user_model_1.User.create({
+            email,
+            password: hashedPassword,
+            first_name,
+            last_name,
+            role: role === enum_types_1.Role.EMPLOYER ? enum_types_1.Role.EMPLOYER : undefined,
+        });
+        await user.save();
+        const userObj = user.toObject();
+        const { password: pass, ...secureUser } = userObj;
+        res.status(201).json({
+            message: `User successfully registered.`,
+            data: secureUser
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.registerEmployer = registerEmployer;
