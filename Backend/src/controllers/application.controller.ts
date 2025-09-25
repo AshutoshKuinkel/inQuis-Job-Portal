@@ -349,11 +349,7 @@ export const viewApplicants = async (
 
     const job = await Job.findById(jobId);
 
-    if (!job) {
-      throw new CustomError(`Job not found`, 404);
-    }
-
-    if (req.user._id.toString() !== job.postedBy.toString()) {
+    if (req.user._id.toString() !== job!.postedBy.toString()) {
       throw new CustomError(`Unauthorized. Access Denied.`, 403);
     }
 
@@ -391,10 +387,6 @@ export const getAllApplications = async (
     // Find all jobs posted by the employer
     const jobs = await Job.find({ postedBy: employerId });
 
-    if (jobs.length === 0) {
-      throw new CustomError("No jobs found.", 404);
-    }
-
     // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
     //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.
     const applications = await Application.find({
@@ -431,10 +423,6 @@ export const getApplicationStats = async (
     // Find all jobs posted by the employer
     const jobs = await Job.find({ postedBy: employerId });
 
-    if (jobs.length === 0) {
-      throw new CustomError("No jobs found.", 404);
-    }
-
     // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
     //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.
     const applications = await Application.find({
@@ -467,10 +455,6 @@ export const getRecentApplications = async (
 
     // Find all jobs posted by the employer
     const jobs = await Job.find({ postedBy: employerId });
-
-    if (jobs.length === 0) {
-      throw new CustomError("No jobs found.", 404);
-    }
 
     // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
     //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.

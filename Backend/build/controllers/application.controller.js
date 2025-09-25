@@ -248,9 +248,6 @@ const viewApplicants = async (req, res, next) => {
         const limit = Number(perPage) || 5;
         const skip = Number(page - 1) * limit;
         const job = await job_model_1.Job.findById(jobId);
-        if (!job) {
-            throw new error_handler_middleware_1.default(`Job not found`, 404);
-        }
         if (req.user._id.toString() !== job.postedBy.toString()) {
             throw new error_handler_middleware_1.default(`Unauthorized. Access Denied.`, 403);
         }
@@ -279,9 +276,6 @@ const getAllApplications = async (req, res, next) => {
         const skip = (page - 1) * limit;
         // Find all jobs posted by the employer
         const jobs = await job_model_1.Job.find({ postedBy: employerId });
-        if (jobs.length === 0) {
-            throw new error_handler_middleware_1.default("No jobs found.", 404);
-        }
         // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
         //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.
         const applications = await application_model_1.Application.find({
@@ -310,9 +304,6 @@ const getApplicationStats = async (req, res, next) => {
         const employerId = req.user._id;
         // Find all jobs posted by the employer
         const jobs = await job_model_1.Job.find({ postedBy: employerId });
-        if (jobs.length === 0) {
-            throw new error_handler_middleware_1.default("No jobs found.", 404);
-        }
         // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
         //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.
         const applications = await application_model_1.Application.find({
@@ -338,9 +329,6 @@ const getRecentApplications = async (req, res, next) => {
         const skip = (page - 1) * limit;
         // Find all jobs posted by the employer
         const jobs = await job_model_1.Job.find({ postedBy: employerId });
-        if (jobs.length === 0) {
-            throw new error_handler_middleware_1.default("No jobs found.", 404);
-        }
         // The { $in: jobs.map((job) => job._id) } is going through each job posted by the employer and passing the id...
         //E.g if employer has 3 jobs, it's saying all jobs {$in:['jobId1','jobId2','jobId3']}.
         const applications = await application_model_1.Application.find({
