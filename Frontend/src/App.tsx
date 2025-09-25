@@ -20,6 +20,7 @@ import ManageJobs from './pages/employer/manage-jobs'
 import CreateJob from './pages/employer/PostJob'
 import Applications from './pages/employer/applications'
 import Profile from './pages/employer/profile'
+import EmployerRegistrationForm from "./pages/employer-registration-form";
 // import Alert from "./components/application/withdraw-alert";
 
 const App = () => {
@@ -49,6 +50,7 @@ const App = () => {
             <Route path="" element={<HomePage />} />
 
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/employer/register" element={<EmployerRegistrationForm/>} />
 
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/jobs/:id" element={<JobPage />} />

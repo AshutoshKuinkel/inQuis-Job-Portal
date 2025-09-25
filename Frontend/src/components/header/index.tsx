@@ -98,16 +98,16 @@ const Header = () => {
 
             {/* About us */}
             <Link
-              to={"/about"}
+              to={"/myDashboard"}
               className="hover:cursor-pointer"
               onClick={handleLinkClick}
             >
-              About Us
+              Employer Dashboard
             </Link>
 
             {/* Register as Employer */}
             <Link
-              to={"/employer/createJob"}
+              to={"/employer/register"}
               className="hover:cursor-pointer"
               onClick={handleLinkClick}
             >

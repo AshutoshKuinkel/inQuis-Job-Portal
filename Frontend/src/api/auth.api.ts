@@ -26,6 +26,17 @@ export const signupAPI = async(data:ISignupData)=>{
   }
 }
 
+export const employerSignupAPI = async(data:ISignupData)=>{
+  try{
+    console.log(API_URL)
+    const response = await api.post('/signup/employer',data)
+    console.log(response)
+    return response.data
+  }catch(err:any){
+    throw err.response.data
+  }
+}
+
 
 export const logoutAPI = async()=>{
   try{

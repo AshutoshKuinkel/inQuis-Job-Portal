@@ -11,7 +11,7 @@ const links:{label:string,link:string}[] = [
   },
   {
     label:'Register as Employer',
-    link:'/employer/createJob',
+    link:'/employer/register',
   },
 ]
 

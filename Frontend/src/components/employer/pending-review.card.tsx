@@ -13,7 +13,6 @@ const PendingReviewsCard = () => {
   const pendingReviews = stats?.data.filter(
     (application:IApplicationResponse)=> application.status === 'PENDING'
   )
-  console.log(pendingReviews)
   return (
     <div className="border border-[#E9EBED] xl:w-[25rem] flex flex-col p-6 text-lg gap-6 rounded-lg">
       <div className="flex items-center gap-2 text-[#2c3e50]">
