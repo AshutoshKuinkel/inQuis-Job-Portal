@@ -121,7 +121,7 @@ const DetailCard: React.FC<IProps> = ({ jobId }) => {
         </button>
 
         <button className="border border-[#2c3e50] p-2 rounded-lg hover:bg-[#ECEEF2] hover:cursor-pointer">
-          Generate AI Resume for Job
+          Assess My Resume
         </button>
       </div>
 
