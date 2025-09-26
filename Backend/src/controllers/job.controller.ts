@@ -1,3 +1,7 @@
+import fs from 'fs';
+import FormData from 'form-data';
+import axios from 'axios';
+import multer from 'multer';
 import { Request, Response, NextFunction } from "express";
 import CustomError from "../middlewares/error-handler.middleware";
 import { Job } from "../models/job.model";
@@ -416,3 +420,39 @@ export const getJobById = async (
     next(err);
   }
 };
+
+
+
+
+//resume scorer:
+export const resumeScorer = async(req:Request,res:Response,next:NextFunction)=>{
+  try{
+    const jobId = req.params.jobId;
+    const filePath = req.file?.path;
+
+    if (!filePath) {
+      throw new CustomError(`No resume file found`,404)
+    }
+
+    const job = await Job.findById(jobId)
+    if(!job){
+      throw new CustomError(`Job not found`,404)
+    }
+
+    const form = new FormData()
+    form.append('resume_file',fs.createReadStream(filePath))
+    form.append('job_description',job.description)
+
+    const fastAPIResponse = await axios.post('http://127.0.0.1:8000/similarity',form,{
+      headers:form.getHeaders()
+    })
+
+    fs.unlinkSync(filePath)
+
+    res.status(200).json({
+      message: `Resume score: ${fastAPIResponse.data.score}%`
+    })
+  }catch(err){
+    next(err)
+  }
+}
