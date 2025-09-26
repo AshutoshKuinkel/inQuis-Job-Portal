@@ -31,4 +31,4 @@ async def score_resume(
   resume_vector = model.encode(resume_text,convert_to_tensor=True)
   description_vector = model.encode(job_description,convert_to_tensor=True)
   score = util.pytorch_cos_sim(resume_vector,description_vector).item()
-  return {f"Resume Score against Job Description: {score: .2f}"}
+  return {"score": round(score, 2)*100}
