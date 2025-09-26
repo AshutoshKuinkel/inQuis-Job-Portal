@@ -450,7 +450,8 @@ export const resumeScorer = async(req:Request,res:Response,next:NextFunction)=>{
     fs.unlinkSync(filePath)
 
     res.status(200).json({
-      message: `Resume score: ${fastAPIResponse.data.score}%`
+      message: `Resume score: ${fastAPIResponse.data.score}%`,
+      tips: `Here are some reccomendations to improve your resume: ${fastAPIResponse.data.tips}`
     })
   }catch(err){
     next(err)
