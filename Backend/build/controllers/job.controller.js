@@ -333,7 +333,7 @@ const resumeScorer = async (req, res, next) => {
         const form = new form_data_1.default();
         form.append('resume_file', fs_1.default.createReadStream(filePath));
         form.append('job_description', job.description);
-        const fastAPIResponse = await axios_1.default.post('http://127.0.0.1:8000/similarity', form, {
+        const fastAPIResponse = await axios_1.default.post('https://AKuinkel-demo-app.hf.space/similarity', form, {
             headers: form.getHeaders()
         });
         fs_1.default.unlinkSync(filePath);

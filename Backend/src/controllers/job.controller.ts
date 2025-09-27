@@ -443,7 +443,7 @@ export const resumeScorer = async(req:Request,res:Response,next:NextFunction)=>{
     form.append('resume_file',fs.createReadStream(filePath))
     form.append('job_description',job.description)
 
-    const fastAPIResponse = await axios.post('http://127.0.0.1:8000/similarity',form,{
+    const fastAPIResponse = await axios.post('https://AKuinkel-demo-app.hf.space/similarity',form,{
       headers:form.getHeaders()
     })
 
