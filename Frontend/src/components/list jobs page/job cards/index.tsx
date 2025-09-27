@@ -118,7 +118,7 @@ const JobDisplay = () => {
               <div>
                 <div
                   onClick={redirectBack}
-                  className="flex items-center justify-center w-24 bg-[#EBEBEB] rounded-md p-2 mb-2"
+                  className="flex items-center justify-center w-24 bg-[#EBEBEB] rounded-md p-2 mb-2 space-x-2 ml-2"
                 >
                   <FaArrowLeftLong className="text-[#2c3e50]" />
                   <button className=" text-[#2c3e50] sm:px-3 rounded-md hover:cursor-pointer">

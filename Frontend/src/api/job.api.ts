@@ -32,3 +32,14 @@ export const getJobBYIdAPI = async(id:string,currentPage:any,query:string,locati
     throw err.response.data
   }
 }
+
+export const assessResumeAPI = async(jobId:string,formdata:any)=>{
+  try{
+    const response = await api.post(`employer/assessResume/${jobId}`,formdata)
+    return response.data
+  }catch(err:any){
+    console.log(err)
+    throw err.response.data
+  }
+}
+

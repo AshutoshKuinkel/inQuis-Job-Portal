@@ -21,6 +21,7 @@ import CreateJob from './pages/employer/PostJob'
 import Applications from './pages/employer/applications'
 import Profile from './pages/employer/profile'
 import EmployerRegistrationForm from "./pages/employer-registration-form";
+import AssessResumePage from "./pages/assess-resume";
 // import Alert from "./components/application/withdraw-alert";
 
 const App = () => {
@@ -51,6 +52,7 @@ const App = () => {
 
             <Route path="/about" element={<AboutPage />} />
             <Route path="/employer/register" element={<EmployerRegistrationForm/>} />
+            <Route path="/assessResume/:jobId" element={<AssessResumePage/>} />
 
             <Route path="/jobs" element={<JobPage />} />
             <Route path="/jobs/:id" element={<JobPage />} />
