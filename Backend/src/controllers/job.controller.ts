@@ -275,7 +275,7 @@ export const listJobs = async (
             $regex: query,
             $options: "i",
           },
-        },
+        }, 
 
         {
           description: {
