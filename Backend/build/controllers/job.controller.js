@@ -3,7 +3,10 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getJobById = exports.getJobByCategory = exports.listJobs = exports.deleteJob = exports.updateJob = exports.getAllJobs = exports.readJob = exports.createJob = void 0;
+exports.resumeScorer = exports.getJobById = exports.getJobByCategory = exports.listJobs = exports.deleteJob = exports.updateJob = exports.getAllJobs = exports.readJob = exports.createJob = void 0;
+const fs_1 = __importDefault(require("fs"));
+const form_data_1 = __importDefault(require("form-data"));
+const axios_1 = __importDefault(require("axios"));
 const error_handler_middleware_1 = __importDefault(require("../middlewares/error-handler.middleware"));
 const job_model_1 = require("../models/job.model");
 const pagination_utils_1 = require("../utils/pagination.utils");
@@ -315,3 +318,32 @@ const getJobById = async (req, res, next) => {
     }
 };
 exports.getJobById = getJobById;
+//resume scorer:
+const resumeScorer = async (req, res, next) => {
+    try {
+        const jobId = req.params.jobId;
+        const filePath = req.file?.path;
+        if (!filePath) {
+            throw new error_handler_middleware_1.default(`No resume file found`, 404);
+        }
+        const job = await job_model_1.Job.findById(jobId);
+        if (!job) {
+            throw new error_handler_middleware_1.default(`Job not found`, 404);
+        }
+        const form = new form_data_1.default();
+        form.append('resume_file', fs_1.default.createReadStream(filePath));
+        form.append('job_description', job.description);
+        const fastAPIResponse = await axios_1.default.post('http://127.0.0.1:8000/similarity', form, {
+            headers: form.getHeaders()
+        });
+        fs_1.default.unlinkSync(filePath);
+        res.status(200).json({
+            message: `Resume score: ${fastAPIResponse.data.score}%`,
+            tips: `Here are some reccomendations to improve your resume: ${fastAPIResponse.data.tips}`
+        });
+    }
+    catch (err) {
+        next(err);
+    }
+};
+exports.resumeScorer = resumeScorer;
