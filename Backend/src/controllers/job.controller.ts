@@ -1,7 +1,7 @@
-import fs from 'fs';
-import FormData from 'form-data';
-import axios from 'axios';
-import multer from 'multer';
+import fs from "fs";
+import FormData from "form-data";
+import axios from "axios";
+import multer from "multer";
 import { Request, Response, NextFunction } from "express";
 import CustomError from "../middlewares/error-handler.middleware";
 import { Job } from "../models/job.model";
@@ -114,7 +114,7 @@ export const readJob = async (
   }
 };
 
-//pagination successfully added. 
+//pagination successfully added.
 export const getAllJobs = async (
   req: Request,
   res: Response,
@@ -122,7 +122,7 @@ export const getAllJobs = async (
 ) => {
   try {
     const id = req.user._id;
-    const { currentPage} = req.query;
+    const { currentPage } = req.query;
 
     const page = Number(currentPage) || 1;
     const limit = 3;
@@ -183,8 +183,8 @@ export const updateJob = async (
       salary,
       jobType,
       contactEmail,
-      category
-    } = req.body; 
+      category,
+    } = req.body;
 
     const updatedJob = await Job.findByIdAndUpdate(
       jobId,
@@ -196,7 +196,7 @@ export const updateJob = async (
         salary: salary,
         contactEmail: contactEmail,
         jobType: jobType,
-        category: category
+        category: category,
       },
       { new: true, runValidators: true }
     ).populate("category");
@@ -275,7 +275,7 @@ export const listJobs = async (
             $regex: query,
             $options: "i",
           },
-        }, 
+        },
 
         {
           description: {
@@ -421,39 +421,44 @@ export const getJobById = async (
   }
 };
 
-
-
-
 //resume scorer:
-export const resumeScorer = async(req:Request,res:Response,next:NextFunction)=>{
-  try{
+export const resumeScorer = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
     const jobId = req.params.jobId;
     const filePath = req.file?.path;
 
     if (!filePath) {
-      throw new CustomError(`No resume file found`,404)
+      throw new CustomError(`No resume file found`, 404);
     }
 
-    const job = await Job.findById(jobId)
-    if(!job){
-      throw new CustomError(`Job not found`,404)
+    const job = await Job.findById(jobId);
+    if (!job) {
+      throw new CustomError(`Job not found`, 404);
     }
 
-    const form = new FormData()
-    form.append('resume_file',fs.createReadStream(filePath))
-    form.append('job_description',job.description)
+    const form = new FormData();
+    form.append("resume_file", fs.createReadStream(filePath));
+    form.append("job_description", job.description);
 
-    const fastAPIResponse = await axios.post('https://AKuinkel-demo-app.hf.space/similarity',form,{
-      headers:form.getHeaders()
-    })
+    const fastAPIResponse = await axios.post(
+      "https://AKuinkel-demo-app.hf.space/similarity",
+      form,
+      {
+        headers: form.getHeaders(),
+      }
+    );
 
-    fs.unlinkSync(filePath)
+    fs.unlinkSync(filePath);
 
     res.status(200).json({
-      message: `Resume score: ${fastAPIResponse.data.score}%`,
-      tips: `Here are some reccomendations to improve your resume: ${fastAPIResponse.data.tips}`
-    })
-  }catch(err){
-    next(err)
+      score: fastAPIResponse.data.score,
+      tips: fastAPIResponse.data.tips.split("\n").filter(Boolean),
+    });
+  } catch (err) {
+    next(err);
   }
-}
+};

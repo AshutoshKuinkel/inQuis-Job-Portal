@@ -90,7 +90,7 @@ const readJob = async (req, res, next) => {
     }
 };
 exports.readJob = readJob;
-//pagination successfully added. 
+//pagination successfully added.
 const getAllJobs = async (req, res, next) => {
     try {
         const id = req.user._id;
@@ -133,7 +133,7 @@ const updateJob = async (req, res, next) => {
         if (!req.body || Object.keys(req.body).length === 0) {
             throw new error_handler_middleware_1.default("Nothing to update.", 400);
         }
-        const { title, companyName, description, location, salary, jobType, contactEmail, category } = req.body;
+        const { title, companyName, description, location, salary, jobType, contactEmail, category, } = req.body;
         const updatedJob = await job_model_1.Job.findByIdAndUpdate(jobId, {
             title: title,
             companyName: companyName,
@@ -142,7 +142,7 @@ const updateJob = async (req, res, next) => {
             salary: salary,
             contactEmail: contactEmail,
             jobType: jobType,
-            category: category
+            category: category,
         }, { new: true, runValidators: true }).populate("category");
         res.status(200).json({
             message: `Job Successfully updated.`,
@@ -331,15 +331,15 @@ const resumeScorer = async (req, res, next) => {
             throw new error_handler_middleware_1.default(`Job not found`, 404);
         }
         const form = new form_data_1.default();
-        form.append('resume_file', fs_1.default.createReadStream(filePath));
-        form.append('job_description', job.description);
-        const fastAPIResponse = await axios_1.default.post('https://AKuinkel-demo-app.hf.space/similarity', form, {
-            headers: form.getHeaders()
+        form.append("resume_file", fs_1.default.createReadStream(filePath));
+        form.append("job_description", job.description);
+        const fastAPIResponse = await axios_1.default.post("https://AKuinkel-demo-app.hf.space/similarity", form, {
+            headers: form.getHeaders(),
         });
         fs_1.default.unlinkSync(filePath);
         res.status(200).json({
-            message: `Resume score: ${fastAPIResponse.data.score}%`,
-            tips: `Here are some reccomendations to improve your resume: ${fastAPIResponse.data.tips}`
+            score: fastAPIResponse.data.score,
+            tips: fastAPIResponse.data.tips.split("\n").filter(Boolean),
         });
     }
     catch (err) {
