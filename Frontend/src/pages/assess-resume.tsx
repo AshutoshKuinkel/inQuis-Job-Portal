@@ -7,6 +7,7 @@ import { withAuth } from "../hoc/with-auth.hoc";
 import { Role } from "../types/enum.types";
 import toast from "react-hot-toast";
 
+
 const AssessResumePage = () => {
   const params = useParams();
   const jobId = params.jobId;
@@ -46,7 +47,7 @@ const AssessResumePage = () => {
   return (
     <div>
       <FormProvider {...methods}>
-        <form className="h-screen" onSubmit={methods.handleSubmit(onSubmit)}>
+        <form className="flex flex-col min-h-screen pb-10" onSubmit={methods.handleSubmit(onSubmit)}>
           {/* Resume */}
           <p className="text-gray-500 text-center mt-4 text-2xl p-3">
             Upload Resume to see your resume score & get reccomendations.
@@ -58,7 +59,7 @@ const AssessResumePage = () => {
           {/* Submit application button */}
           <div className="flex items-center justify-center">
             <button className="border bg-[#2c3e50] text-white w-[80vw] xl:w-[60vw] font-bold py-2 rounded-md hover:bg-[#3a4753] hover:cursor-pointer disabled:bg-[#3a4753] disabled:cursor-not-allowed">
-              {isPending ? "Fetching your results" : "See my Score"}
+              {isPending ? "Fetching your results..." : "See my Score"}
             </button>
           </div>
 
@@ -83,19 +84,19 @@ const AssessResumePage = () => {
           </div>
 
           {/* Reccomendations box */}
-          <div className="flex mx-auto mt-6 rounded-md border border-[#E9EBED] w-[80vw] xl:w-[60vw] p-4">
+          <div className="flex grow mx-auto mt-6 rounded-md border border-[#E9EBED] w-[80vw] xl:w-[60vw] p-4">
             <div>
               <p className="text-2xl text-gray-600">
                 Here are some reccomendations to improve your resume:
               </p>
               {Array.isArray(data?.tips) ? (
-                <ul className="list-disc ml-6 mt-4 text-gray-500">
+                <ul className="space-y-4 ml-6 mt-4 text-gray-500">
                   {data.tips.map((tip: string, idx: number) => (
                     <li key={idx}>{tip}</li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-lg mt-4 pb-10 text-gray-500">{data?.tips}</p>
+                <p className="text-lg mt-4 text-gray-500  whitespace-pre-line">{data?.tips}</p>
               )}
             </div>
           </div>
