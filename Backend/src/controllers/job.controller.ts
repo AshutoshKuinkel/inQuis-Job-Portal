@@ -456,7 +456,7 @@ export const resumeScorer = async (
 
     res.status(200).json({
       score: fastAPIResponse.data.score,
-      tips: fastAPIResponse.data.tips.split("\n").filter(Boolean),
+      tips: fastAPIResponse.data.tips
     });
   } catch (err) {
     next(err);

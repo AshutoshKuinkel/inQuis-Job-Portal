@@ -339,7 +339,7 @@ const resumeScorer = async (req, res, next) => {
         fs_1.default.unlinkSync(filePath);
         res.status(200).json({
             score: fastAPIResponse.data.score,
-            tips: fastAPIResponse.data.tips.split("\n").filter(Boolean),
+            tips: fastAPIResponse.data.tips
         });
     }
     catch (err) {
