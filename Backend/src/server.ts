@@ -25,7 +25,7 @@ app.use(cookieParser());
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (allowed_origins.includes(origin)) {
+      if (!origin || allowed_origins.includes(origin)) {
         callback(null, true);
       } else {
         callback(new CustomError("Blocked by CORS error", 422));

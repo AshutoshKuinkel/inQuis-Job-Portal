@@ -56,7 +56,7 @@ app.use((0, helmet_1.default)());
 app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)({
     origin: (origin, callback) => {
-        if (allowed_origins.includes(origin)) {
+        if (!origin || allowed_origins.includes(origin)) {
             callback(null, true);
         }
         else {
