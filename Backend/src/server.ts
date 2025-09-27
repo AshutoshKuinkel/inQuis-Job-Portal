@@ -24,7 +24,13 @@ app.use(helmet());
 app.use(cookieParser());
 app.use(
   cors({
-    origin: process.env.FRONT_END_LOCAL_URL,
+    origin: (origin, callback) => {
+      if (allowed_origins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new CustomError("Blocked by CORS error", 422));
+      }
+    },
     credentials: true,
   })
 );
