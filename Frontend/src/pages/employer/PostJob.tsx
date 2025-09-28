@@ -51,11 +51,17 @@ const CreateJob = () => {
     mutationFn: createJobAPI,
     mutationKey: ["create_job_API"],
     onSuccess: (response) => {
-      toast.success(response?.message ?? "Job Successfully Posted", {
-        style: { border: "1px solid #2c3e50", padding: ".5rem" },
-        iconTheme: { primary: "#2c3e50", secondary: "#FFFAEE" },
-      });
-      setTimeout(() => window.location.reload(), 500);
+      if (response?.url) {
+        // Redirect user to Stripe Checkout
+        window.location.href = response.url;
+      } else {
+        toast.error("Payment session could not be created.");
+      }
+      // toast.success(response?.message ?? "Job Successfully Posted", {
+      //   style: { border: "1px solid #2c3e50", padding: ".5rem" },
+      //   iconTheme: { primary: "#2c3e50", secondary: "#FFFAEE" },
+      // });
+      // setTimeout(() => window.location.reload(), 500);
     },
     onError: (error) => {
       console.log(error);
