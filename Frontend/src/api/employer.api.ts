@@ -41,7 +41,7 @@ export const viewApplicantsforJobAPI = async(jobId:string)=>{
 
 export const deleteMyJobsAPI = async(jobId:string)=>{
   try{
-    const response = await api.get(`/employer/myJob/delete/${jobId}`)
+    const response = await api.delete(`/employer/myJob/delete/${jobId}`)
     return response.data
   }catch(err:any){
     throw err.response.data
