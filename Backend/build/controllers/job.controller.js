@@ -72,7 +72,7 @@ const createJob = async (req, res, next) => {
                 contactEmail,
                 category,
             },
-            success_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL}/employer/createJob`,
+            success_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL}/employer/manageJobs`,
             cancel_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL}/employer/createJob`,
         });
         // let job = await Job.create({
