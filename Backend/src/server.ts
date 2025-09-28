@@ -8,6 +8,7 @@ import CustomError, {
 import cookieParser from "cookie-parser";
 import helmet from "helmet";
 import cors from "cors";
+import webhookRoutes from './routes/webhook.routes'
 
 const PORT = process.env.PORT;
 const DB_URI = process.env.DB_URI ?? "";
@@ -49,7 +50,6 @@ import listJobRoutes from "./routes/List-jobs.routes";
 import applicationRoutes from "./routes/application.routes";
 import categoryRoutes from "./routes/category.routes";
 import featuredJobRoutes from "./routes/featured-job.routes";
-import webhookRoutes from './routes/webhook.routes'
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({

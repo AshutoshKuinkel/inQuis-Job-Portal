@@ -44,6 +44,7 @@ const error_handler_middleware_1 = __importStar(require("./middlewares/error-han
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const helmet_1 = __importDefault(require("helmet"));
 const cors_1 = __importDefault(require("cors"));
+const webhook_routes_1 = __importDefault(require("./routes/webhook.routes"));
 const PORT = process.env.PORT;
 const DB_URI = process.env.DB_URI ?? "";
 (0, db_config_1.ConnectDatabase)(DB_URI);
@@ -78,7 +79,6 @@ const List_jobs_routes_1 = __importDefault(require("./routes/List-jobs.routes"))
 const application_routes_1 = __importDefault(require("./routes/application.routes"));
 const category_routes_1 = __importDefault(require("./routes/category.routes"));
 const featured_job_routes_1 = __importDefault(require("./routes/featured-job.routes"));
-const webhook_routes_1 = __importDefault(require("./routes/webhook.routes"));
 app.get("/", (req, res) => {
     res.status(200).json({
         message: "InQuis Job Portal",
