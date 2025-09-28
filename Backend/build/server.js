@@ -65,6 +65,7 @@ app.use((0, cors_1.default)({
     },
     credentials: true,
 }));
+app.use("", webhook_routes_1.default);
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 //serving uploads as static files:
@@ -91,7 +92,6 @@ app.use("/jobs", application_routes_1.default);
 app.use("", List_jobs_routes_1.default);
 app.use("", category_routes_1.default);
 app.use("", featured_job_routes_1.default);
-app.use("", webhook_routes_1.default);
 app.all("/{*all}", (req, res) => {
     const message = `Cannot ${req.method} @ ${req.originalUrl}`;
     throw new error_handler_middleware_1.default(message, 404);

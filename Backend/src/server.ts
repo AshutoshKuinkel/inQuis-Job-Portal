@@ -34,6 +34,7 @@ app.use(
     credentials: true,
   })
 );
+app.use("", webhookRoutes);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -64,7 +65,6 @@ app.use("/jobs", applicationRoutes);
 app.use("", listJobRoutes);
 app.use("", categoryRoutes);
 app.use("", featuredJobRoutes);
-app.use("", webhookRoutes);
 
 app.all("/{*all}", (req: Request, res: Response) => {
   const message = `Cannot ${req.method} @ ${req.originalUrl}`;
