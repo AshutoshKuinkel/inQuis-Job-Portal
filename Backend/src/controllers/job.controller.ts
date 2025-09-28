@@ -87,8 +87,8 @@ export const createJob = async (
         contactEmail,
         category,
       },
-      success_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL }/jobs/success`,
-      cancel_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL }/jobs/cancel`,
+      success_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL }/employer/createJob`,
+      cancel_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL }/employer/createJob`,
     });
 
     // let job = await Job.create({
