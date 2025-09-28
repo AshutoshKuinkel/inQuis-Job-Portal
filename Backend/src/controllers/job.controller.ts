@@ -7,6 +7,7 @@ import CustomError from "../middlewares/error-handler.middleware";
 import { Job } from "../models/job.model";
 import { getPagination } from "../utils/pagination.utils";
 import { Category } from "../models/category.model";
+import { stripe } from "../config/stripe.config";
 
 export const createJob = async (
   req: Request,
@@ -58,7 +59,83 @@ export const createJob = async (
       throw new CustomError(`Category not found`, 400);
     }
 
-    let job = await Job.create({
+    // Creating a stripe checkout session
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ["card"],
+      mode: "payment",
+      line_items: [
+        {
+          price_data: {
+            currency: "usd",
+            product_data: {
+              name: `Job Posting: ${title}`,
+              description: `Company: ${companyName}`,
+            },
+            unit_amount: 75
+          },
+          quantity: 1,
+        },
+      ],
+      metadata: {
+        userId: id.toString(),
+        title,
+        companyName,
+        description,
+        location,
+        salary,
+        jobType,
+        contactEmail,
+        category,
+      },
+      success_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL }/jobs/success`,
+      cancel_url: `${process.env.FRONT_END_LOCAL_URL || process.env.FRONT_END_LIVE_URL }/jobs/cancel`,
+    });
+
+    // let job = await Job.create({
+    //   title,
+    //   companyName,
+    //   description,
+    //   location,
+    //   salary,
+    //   jobType,
+    //   contactEmail,
+    //   postedBy,
+    //   category,
+    //   isFeatured,
+    // });
+
+    // job = await job.populate("category");
+
+    // res.status(201).json({
+    //   message: `New Job Successfully Posted.`,
+    //   data: job,
+    // });
+    res.status(200).json({ url: session.url });
+  } catch (err) {
+    next(err);
+  }
+};
+
+//web hook to create job only after successful payment.
+export const stripeWebhook = async (req: Request, res: Response) => {
+  let event;
+  try {
+    const sig = req.headers["stripe-signature"] as string;
+    event = stripe.webhooks.constructEvent(
+      req.body,
+      sig,
+      process.env.STRIPE_WEBHOOK_SECRET!
+    );
+  } catch (err: any) {
+    console.error("Webhook signature verification failed:", err.message);
+    return res.status(400).send(`Webhook Error: ${err.message}`);
+  }
+
+  if (event.type === "checkout.session.completed") {
+    const session = event.data.object as any;
+
+    const {
+      userId,
       title,
       companyName,
       description,
@@ -66,20 +143,27 @@ export const createJob = async (
       salary,
       jobType,
       contactEmail,
-      postedBy,
       category,
-      isFeatured,
+    } = session.metadata;
+
+    //Only create the users job after payment success
+    const job = await Job.create({
+      title,
+      companyName,
+      description,
+      location,
+      salary,
+      jobType,
+      contactEmail,
+      postedBy: userId,
+      category,
+      isFeatured: false,
     });
 
-    job = await job.populate("category");
-
-    res.status(201).json({
-      message: `New Job Successfully Posted.`,
-      data: job,
-    });
-  } catch (err) {
-    next(err);
+    console.log("Job created:", job._id);
   }
+
+  res.json({ received: true });
 };
 
 export const readJob = async (

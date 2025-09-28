@@ -48,6 +48,7 @@ import listJobRoutes from "./routes/List-jobs.routes";
 import applicationRoutes from "./routes/application.routes";
 import categoryRoutes from "./routes/category.routes";
 import featuredJobRoutes from "./routes/featured-job.routes";
+import webhookRoutes from './routes/webhook.routes'
 
 app.get("/", (req: Request, res: Response) => {
   res.status(200).json({
@@ -63,6 +64,7 @@ app.use("/jobs", applicationRoutes);
 app.use("", listJobRoutes);
 app.use("", categoryRoutes);
 app.use("", featuredJobRoutes);
+app.use("", webhookRoutes);
 
 app.all("/{*all}", (req: Request, res: Response) => {
   const message = `Cannot ${req.method} @ ${req.originalUrl}`;
