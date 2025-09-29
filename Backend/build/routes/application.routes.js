@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const auth_middleware_1 = require("./../middlewares/auth.middleware");
+const express_1 = __importDefault(require("express"));
+const application_controller_1 = require("../controllers/application.controller");
+const enum_types_1 = require("../types/enum.types");
+const enum_types_2 = require("../types/enum.types");
+const uploader_middleware_1 = require("../middlewares/uploader.middleware");
+const router = express_1.default.Router();
+const upload = (0, uploader_middleware_1.uploader)();
+router.get('/myApplications', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), application_controller_1.viewMyApplications);
+router.get('/myApplications/:id', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), application_controller_1.viewApplicationById);
+router.post('/apply/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), upload.fields([{ name: 'resume', maxCount: 1 }]), application_controller_1.apply);
+router.put('/updateApplication/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), upload.fields([{ name: 'resume', maxCount: 1 }]), application_controller_1.update);
+router.delete('/withdrawApplication/:jobId', (0, auth_middleware_1.authenticate)(enum_types_1.seeker), application_controller_1.withdraw);
+router.get('/applications/:jobId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.viewApplicants);
+router.get('/myJobs/allApplications', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.getAllApplications);
+router.get('/myJobs/applicationStats', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.getApplicationStats);
+router.get('/myJobs/recentApplications', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.getRecentApplications);
+router.put('/updateStatus/:jobId/:applicationId', (0, auth_middleware_1.authenticate)(enum_types_2.employer), application_controller_1.updateApplicationStatus);
+exports.default = router;
