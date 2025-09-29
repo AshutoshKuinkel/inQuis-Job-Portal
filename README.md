@@ -4,6 +4,7 @@ A full-stack job portal designed to seamlessly connect job seekers and employers
 Job seekers can apply for jobs, upload resumes, and receive a resume match score based on job descriptions using **Sentence Transformers**, along with email notifications for application status updates.  
 Employers can pay a small fee via an integrated payment system to post jobs, manage postings, view applicants, and accept or reject applications.
 
+{**Adding more Features & fixing responsive display issues on some devices**}
 ---
 
 ## 🚀 Features
