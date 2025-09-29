@@ -5,6 +5,8 @@ Job seekers can apply for jobs, upload resumes, and receive a resume match score
 Employers can pay a small fee via an integrated payment system to post jobs, manage postings, view applicants, and accept or reject applications.
 
 {**Adding more Features & fixing responsive display issues on some devices**}
+
+
 ---
 
 ## 🚀 Features
