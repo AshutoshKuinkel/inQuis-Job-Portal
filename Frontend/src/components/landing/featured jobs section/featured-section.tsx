@@ -31,7 +31,7 @@ const FeaturedSection = () => {
       </div>
 
       {/* Card Section */}
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 ">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 items-stretch">
         {isLoading ? (
           <div className="flex justify-center items-center col-span-full h-[300px]">
             <Oval stroke="#2c3e50" height="64" width="64" />
