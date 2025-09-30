@@ -6,6 +6,7 @@ Employers can pay a small fee via an integrated payment system to post jobs, man
 
 {**Adding more Features & fixing responsive display issues on some devices**}
 
+{**Deployed for free on render, backend may take ~50s to fetch data on startup**}
 
 ---
 
