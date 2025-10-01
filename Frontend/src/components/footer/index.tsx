@@ -17,10 +17,10 @@ const Footer = () => {
           <div>
             <h2 className="font-bold">For Job Seekers</h2>
             <div className="flex flex-col gap-3 mt-3 text-xs hover:cursor-pointer">
-              <span>Browse Jobs</span>
-              <span>Update Profile</span>
-              <span>View Profile</span>
-              <span>Resume builder</span>
+              <a href="/jobs"><span>Browse Jobs</span></a>
+              <a href="/profile"><span>Update Profile</span></a>
+              <a href="/profile"><span>View Profile</span></a>
+              <a href="/jobs"><span>Resume Scorer</span></a>
             </div>
           </div>
 
@@ -28,10 +28,10 @@ const Footer = () => {
           <div>
             <h2 className="font-bold">For Employers</h2>
             <div className="flex flex-col gap-3 mt-3 text-xs hover:cursor-pointer">
-              <span>Dashboard</span>
-              <span>Post a Job</span>
-              <span>My Jobs</span>
-              <span>Selection tool</span>
+              <a href="/myDashboard"><span>Dashboard</span></a>
+              <a href="/employer/createJob"><span>Post a Job</span></a>
+              <a href="/employer/manageJobs"><span>My Jobs</span></a>
+              <a href="/employer/applications"><span>View Applications</span></a>
             </div>
           </div>
 
