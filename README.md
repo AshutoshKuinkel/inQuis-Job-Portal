@@ -94,7 +94,7 @@ Below are screenshots showcasing key features of the inQuis Job Portal:
 *Landing page of the inQuis Job Portal*
 
 ![Dashboard Screenshot](assets/screenshots/dashboard.png)  
-*User dashboard for managing jobs and applications*
+*Employer dashboard for managing jobs and applications*
 
 ![Scoring Screenshot](assets/screenshots/scoring.png)  
 *Resume scoring interface with AI-powered assessment*
