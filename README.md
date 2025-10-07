@@ -1,4 +1,4 @@
-# 📝 inQuis Job Portal
+# inQuis Job Portal
 
 A full-stack job portal designed to seamlessly connect job seekers and employers.  
 Job seekers can apply for jobs, upload resumes, and receive a resume match score based on job descriptions using **Sentence Transformers**, along with email notifications for application status updates.  
@@ -12,21 +12,21 @@ Employers can pay a small fee via an integrated payment system to post jobs, man
 
 ## 🚀 Features
 
-- 🧑‍💼 **Candidate Features**:
+-  **Candidate Features**:
   - User registration, login, and profile management
-- 💼 **Recruiter Features**:
+-  **Recruiter Features**:
   - Job creation, management, and application tracking
-- 📄 **Resume Handling**:
+-  **Resume Handling**:
   - Resume upload with AI-powered assessment
-- 💳 **Payment Integration**:
+-  **Payment Integration**:
   - Stripe-powered job posting payments
-- 📧 **Notifications**:
+-  **Notifications**:
   - Email updates via Brevo
-- 🌐 **Media Storage**:
+-  **Media Storage**:
   - Cloudinary for storing media assets
-- 🔐 **Security**:
+-  **Security**:
   - Authentication and authorization using JWT
-- 📊 **Dashboard**:
+-  **Dashboard**:
   - Centralized management for jobs and applications
 
 ---
@@ -109,14 +109,14 @@ Below are screenshots showcasing key features of the inQuis Job Portal:
 
 ## ⚙️ Installation & Setup
 
-### 1️⃣ Clone the Repository
+### Clone the Repository
 
 ```bash
 git clone https://github.com/AshutoshKuinkel/inQuis-Job-Portal.git
 cd inQuis-Job-Portal
 ```
 
-### 2️⃣ Install Dependencies
+### Install Dependencies
 
 **Backend**:
 ```bash
@@ -136,7 +136,7 @@ cd ../python
 pip install -r requirements.txt
 ```
 
-### 3️⃣ Configure Environment Variables
+### Configure Environment Variables
 
 Create `.env` files in the `backend/` and `frontend/` directories using the provided `.env.example` as a reference.
 
@@ -152,7 +152,7 @@ CLOUDINARY_API_SECRET=your_cloud_api_secret
 BREVO_API_KEY=your_brevo_api_key
 ```
 
-### 4️⃣ Run the Project Locally
+### Run the Project Locally
 
 **Backend**:
 ```bash
@@ -174,7 +174,7 @@ python main.py
 
 ---
 
-## 🧪 Running Tests
+## Running Tests
 
 **Backend Tests**:
 ```bash
@@ -223,7 +223,7 @@ This project is licensed under the MIT License. See the [LICENSE](./LICENSE) fil
 
 ---
 
-## 🙌 Acknowledgements
+## Acknowledgements
 
 - [React Docs](https://react.dev/)
 - [Express Docs](https://expressjs.com/)
